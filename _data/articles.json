@@ -1,0 +1,14 @@
+[
+    {
+        "title": "Securing REST APIs",
+        "description": "REST APIs can be secured using OAuth 2.0 protocol, in this article let us see how we can secure REST APIs using Auth0 cloud authorization service",
+        "author": "Arun Chandrasekaran",
+        "publishedOn": "2021-01-01"
+    },
+    {
+        "title": "Securing Machine to Machie API Calls",
+        "description": "When one sytem wants to interact another system using REST APIs, how can we secure this interaction is the question. in this article we will explore OAuth 2.0 Client Credentials flow to secure machine to machine API call",
+        "author": "Arun Chandrasekaran",
+        "publishedOn": "2021-01-02"
+    }
+]
