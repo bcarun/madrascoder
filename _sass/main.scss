@@ -1,0 +1,252 @@
+$mobile-resolution-max: 640px;
+$tablet-resolution-max: 960px;
+
+:root {
+  --primary-color: #226df8;
+  --background-color: #ffffff;
+  --on-background-color: #2d3543;
+  --surface-color: #ffffff;
+  --on-surface-color: #2d3543;
+  --footer-color: #f9f9f9;
+  --on-footer-color: #969aa5;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+[theme="dark"] {
+  --primary-color: rgba(60, 79, 250, 0.87);
+  --background-color: rgb(18, 18, 18);
+  --on-background-color: rgba(255, 255, 255, 0.87);
+  --surface-color: rgba(47, 47, 47);
+  --on-surface-color: rgba(255, 255, 255, 0.6);
+  --footer-color: rgb(55, 55, 55);
+  --on-footer-color: rgb(99, 99, 99);
+  --shadow-color: rgba(255, 255, 255, 0.08);
+}
+
+$primary-color: var(--primary-color);
+$background-color: var(--background-color);
+$on-background-color: var(--on-background-color);
+$surface-color: var(--surface-color);
+$on-surface-color: var(--on-surface-color);
+$footer-color: var(--footer-color);
+$on-footer-color: var(--on-footer-color);
+$shadow-color: var(--shadow-color);
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  font-family: "Lora", serif;
+  background-color: $background-color;
+
+  body {
+    margin: 0;
+  }
+
+  nav,
+  main,
+  footer {
+    padding: 0.5rem 5rem;
+
+    @media (max-width: $mobile-resolution-max) {
+      padding: 0.5rem 1.5rem;
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+
+// Navigation Bar
+nav {
+  box-shadow: 0 2px 4px $shadow-color;
+
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    li a {
+      display: block;
+      padding: 0.1rem 1rem;
+    }
+
+    .logo a {
+      color: $primary-color;
+      font-size: x-large;
+      font-weight: bold;
+      i {
+        margin-right: 1rem;
+      }
+    }
+
+    .item a,
+    .toggle a {
+      color: $on-background-color;
+
+      &:hover,
+      &.active {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .item {
+    width: 100%;
+    text-align: center;
+    display: none;
+  }
+
+  .active .item {
+    display: block;
+  }
+}
+
+@media all and (min-width: $tablet-resolution-max) {
+  .menu {
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    justify-content: center;
+
+    .logo {
+      flex: 1;
+      display: block;
+      width: auto;
+    }
+
+    .item {
+      display: block;
+      width: auto;
+    }
+
+    .toggle {
+      display: none;
+    }
+  }
+}
+
+// Main Content
+section {
+  // Section Header
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+
+    h2 {
+      margin-right: auto;
+      color: $on-background-color;
+    }
+
+    a {
+      color: $on-background-color;
+
+      &:hover,
+      &.active {
+        color: $primary-color;
+      }
+    }
+  }
+
+  // Cards
+  .card-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 auto;
+
+    .card-container {
+      background-color: $surface-color;
+      box-shadow: 0 2px 4px $shadow-color;
+      box-sizing: border-box;
+      margin: 0.5rem 0.5rem;
+
+      &:hover {
+        box-shadow: 0 2px 28px $shadow-color;
+      }
+
+      a {
+        img {
+          display: block;
+          border: 0;
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+        }
+
+        .card-content {
+          padding: 1rem;
+
+          .card-title {
+            color: $primary-color;
+          }
+
+          .card-description {
+            color: $on-surface-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $mobile-resolution-max) {
+  .card-container {
+    max-width: calc(50% - 2rem);
+  }
+}
+
+@media screen and (min-width: $tablet-resolution-max) {
+  .card-container {
+    max-width: calc(25% - 2rem);
+  }
+}
+
+// Footer
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    flex: 1;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: $footer-color;
+    align-items: center;
+
+    @media (max-width: $tablet-resolution-max) {
+      flex-direction: column;
+    }
+
+    .legal,
+    .social {
+      ul li {
+        list-style-type: none;
+        display: inline-block;
+        margin: 0.25rem 0.75rem;
+
+        a {
+          color: $on-footer-color;
+
+          &:hover,
+          &.active {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
