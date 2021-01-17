@@ -10,142 +10,32 @@
     <section>
       <header class="section-header">
         <h2>Articles</h2>
-        <a href="#">Show More <i class="fas fa-arrow-right"></i></a>
+        <a href="{{ '/articles' | relative_url }}">Show More <i class="fas fa-arrow-right"></i></a>
       </header>
       <ul class="card-list">
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/1.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Finibus Bonorum et Malorum</h3>
-                <p class="card-description">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/2.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Excepteur sint</h3>
-                <p class="card-description">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                  totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                  sunt explicabo.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/3.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Duis aute irure</h3>
-                <p class="card-description">
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                  deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                  provident.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/4.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Quis autem vel eum</h3>
-                <p class="card-description">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-                  magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
+        {% assign sortedPages = site.pages | date_sort %}
+        {% for page in sortedPages %} {% if page.category == 'article' %} {% if page.featured %}
+        {% include card-container.html %}
+        {% endif %}{% endif %}{% endfor %}
       </ul>
     </section>
     <!-- Section: Tutorials -->
     <section>
       <header class="section-header">
         <h2>Tutorials</h2>
-        <a href="#">Show More <i class="fas fa-arrow-right"></i></a>
+        <a href="{{ '/tutorials' | relative_url }}">Show More <i class="fas fa-arrow-right"></i></a>
       </header>
       <ul class="card-list">
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/1.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Finibus Bonorum et Malorum</h3>
-                <p class="card-description">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/2.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Excepteur sint</h3>
-                <p class="card-description">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                  totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                  sunt explicabo.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/3.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Duis aute irure</h3>
-                <p class="card-description">
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                  deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                  provident.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
-        <li class="card-container">
-          <article>
-            <a href="#">
-              <img src="{{'/assets/media/4.jpg' | relative_url }}" alt="">
-              <div class="card-content">
-                <h3 class="card-title">Quis autem vel eum</h3>
-                <p class="card-description">
-                  Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-                  magni dolores eos qui ratione voluptatem sequi nesciunt.
-                </p>
-              </div>
-            </a>
-          </article>
-        </li>
+        {% assign sortedPages = site.pages | date_sort %}
+        {% for page in sortedPages %} {% if page.category == 'tutorial' %} {% if page.featured %}
+        {% include card-container.html %}
+        {% endif %}{% endif %}{% endfor %}
       </ul>
     </section>
     {{ content }}
   </main>
   {% include footer.html %}
-  <script src="scripts.js"></script>
+  <script src="{{ 'assets/scripts.js' | relative_url }}"></script>
 </body>
 
 </html>

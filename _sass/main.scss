@@ -13,7 +13,7 @@ $tablet-resolution-max: 960px;
 }
 
 [theme="dark"] {
-  --primary-color: rgba(60, 79, 250, 0.87);
+  --primary-color: rgba(126, 138, 247, 0.87);
   --background-color: rgb(18, 18, 18);
   --on-background-color: rgba(255, 255, 255, 0.87);
   --surface-color: rgba(47, 47, 47);
@@ -161,14 +161,14 @@ section {
   .card-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin: 0 auto;
 
     .card-container {
       background-color: $surface-color;
       box-shadow: 0 2px 4px $shadow-color;
       box-sizing: border-box;
-      margin: 0.5rem 0.5rem;
+      margin: 1rem 1rem 2rem 1rem;
 
       &:hover {
         box-shadow: 0 2px 28px $shadow-color;
@@ -192,6 +192,11 @@ section {
 
           .card-description {
             color: $on-surface-color;
+          }
+
+          .card-date {
+            color: $primary-color;
+            font-size: 0.75rem;
           }
         }
       }
@@ -219,6 +224,15 @@ body {
 
   .content {
     flex: 1;
+
+    img {
+      display: block;
+      border: 0;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      padding-top: 1rem;
+    }
   }
 
   footer {

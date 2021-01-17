@@ -1,0 +1,14 @@
+<li class="card-container">
+    <article>
+        <a href="{{ page.url | relative_url }}">
+            <img src="{{ page.image | relative_url }}" alt="">
+            <div class="card-content">
+                <h3 class="card-title">{{ page.title }}</h3>
+                <p class="card-description">
+                    {{ page.description }}
+                </p>
+                <p class="card-date">{{ page.date | date: '%B %d, %Y' }}</p>
+            </div>
+        </a>
+    </article>
+</li>

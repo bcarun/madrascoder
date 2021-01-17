@@ -1,0 +1,15 @@
+---
+layout: default
+title: Articles
+---
+<section>
+    <header class="section-header">
+        <h2>Articles</h2>
+    </header>
+    <ul class="card-list">
+        {% assign sortedPages = site.pages | date_sort %}
+        {% for page in sortedPages %}{% if page.category == 'article' %}
+        {% include card-container.html %}
+        {% endif %}{% endfor %}
+    </ul>
+</section>
