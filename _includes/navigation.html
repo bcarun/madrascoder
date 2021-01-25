@@ -1,13 +1,13 @@
 <nav>
     <ul class="menu">
         <li class="logo">
-            <a href="#">Madras Coder</a>
+            <a href="{{ site.url | relative_url }}">Madras Coder</a>
         </li>
         <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
-        <li class="item"><a href="#">Home</a></li>
-        <li class="item"><a href="#">Articles</a></li>
-        <li class="item"><a href="#">Tutorials</a></li>
-        <li class="item"><a href="#">About</a></li>
+        <li class="item"><a href="{{ site.url | relative_url }}">Home</a></li>
+        <li class="item"><a href="{{ '/articles' | relative_url }}">Articles</a></li>
+        <li class="item"><a href="{{ '/tutorials' | relative_url }}">Tutorials</a></li>
+        <li class="item"><a href="{{ '/about.html' | relative_url }}">About</a></li>
         <li class="item">
             <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
         </li>
