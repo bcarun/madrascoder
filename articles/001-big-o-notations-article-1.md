@@ -4,7 +4,7 @@ title: Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms
 description: >
   Big O notations help us to represent an algorithm or a program’s efficiency. In this article, we will see 3 basic Big O notations O(1), O(n) and O(log n) with simple explanations and examples with code snippets.
 category: article
-image: assets/media/001-big-o-notations-article-1/clock-title-picture.jpg
+image: assets/media/articles/001-big-o-notations-article-1/clock-title-picture.jpg
 tags:
   - Algorithms
 date: 2021-01-17
@@ -94,13 +94,13 @@ int[] split2 = {9,10,11,12,13,14,15,16};
 
 Number 16 is greater than the greatest element in the <code>split1</code>, hence the number to search will only be <code>split2</code>. Continue this splitting until the end of cards or the card to search is found like in the below image.
 
-![Binary Search Representation](/assets/media/001-big-o-notations-article-1/binary-search.jpg)
+![Binary Search Representation](/assets/media/articles/001-big-o-notations-article-1/binary-search.jpg)
 
 Looking at the above image, we understand that we need atmost 4 steps (for a pack containing 16 cards) to find the card with given number.
 
 This can be written as in below image,
 
-![Binary Search Number Representation](/assets/media/001-big-o-notations-article-1/number-representation.png)
+![Binary Search Number Representation](/assets/media/articles/001-big-o-notations-article-1/number-representation.png)
 
 In math, <code>n = 2<sup>x</sup></code> can be written as <code>log<sub>2</sub> n = x</code>. (Refer Binary Logarithm)
 
