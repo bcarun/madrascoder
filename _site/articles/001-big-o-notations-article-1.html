@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Madras Coder</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <script src="/assets/scripts.js"></script>
+</head>
+
+<body>
+    <nav>
+    <ul class="menu">
+        <li class="logo">
+            <a href="http://localhost:4000">Madras Coder</a>
+        </li>
+        <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
+        <li class="item"><a href="http://localhost:4000">Home</a></li>
+        <li class="item"><a href="/articles">Articles</a></li>
+        <li class="item"><a href="/tutorials">Tutorials</a></li>
+        <li class="item"><a href="/about.html">About</a></li>
+        <li class="item">
+            <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
+        </li>
+    </ul>
+</nav>
+    <main class="article-content">
+        <img src="/assets/media/articles/001-big-o-notations-article-1/clock-title-picture.jpg" title="Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms" />
+        <p>January 17, 2021</p>
+        <h1>Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms</h1>
+        <p>Big O notations help us to represent an algorithm or a program’s efficiency. In this article, we will see 3 basic Big O notations O(1), O(n) and O(log n) with simple explanations and examples with code snippets.
+</p>
+        <hr />
+
+<p>Before jumping to learn about Big O notations, lets get some basics.</p>
+
+<h3 id="what-is-an-algorithm">What is an Algorithm?</h3>
+
+<p>Algorithms are methods used to complete a certain operation or solve a problem. There is more than one algorithm to solve a given problem. If there is more than one algorithm to solve a problem, how can we find, which is better or more efficient? This is where Big O notations are helpful.</p>
+
+<p>Big O notations help us to represent an algorithm or a program’s efficiency. As per wikipedia <a href="https://en.wikipedia.org/wiki/Big_O_notation">Big O notation</a> is used to classify algorithms according to how their run time or space (memory) requirements grow as the input size grows. In order to represent the efficiency of an algorithm, Big O notations — such as O(n), O(1), O(log n) — are used.</p>
+
+<h3 id="what-does-o1-on-and-olog-n-mean">What does O(1) O(n) and O(log n) mean?</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Big O Notation</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(n)</td>
+      <td>Linear time operation</td>
+    </tr>
+    <tr>
+      <td>O(1)</td>
+      <td>Constant time operation</td>
+    </tr>
+    <tr>
+      <td>O(log n)</td>
+      <td>Logarithmic time operation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In order to understand Big O notation, we need to understand constant time operations, linear time operations, and logarithmic time operations.</p>
+
+<hr />
+
+<h3 id="on-linear-time-operation">O(n): Linear Time Operation</h3>
+
+<p>Imagine there is a box containing cards with numbers printed on them (like 1, 2, 3, 4, … 16) and we are asked find if a card with number 6 is in that box. What do we need to do?</p>
+
+<p>Pick one card at a time and check if the card we picked has number 6 (the number to search). If the card we picked matches the number to be searched, then we are done. Otherwise, we need to pick another card from the box. This way of picking one card at a time and verifying if it matches until all the n cards are checked is called <strong>‘Linear Time Operation’</strong>.</p>
+
+<p>If we are lucky, the card we search can be the first card we pick. But, if we are not lucky, we need to check till the last card to find the match. Thus worst case, we need to check all the n cards to find the match. Because we are checking for a match one by one and worst case we need to search till the last card (n<sup>th</sup> card), we call this as <strong>‘Linear Time Operation’</strong> and it is represented as O(n).</p>
+
+<p>Below code snippet demostrates ‘Linear Time Operation’.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">11</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">13</span><span class="o">,</span><span class="mi">14</span><span class="o">,</span><span class="mi">15</span><span class="o">,</span><span class="mi">16</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">10</span><span class="o">};</span>
+<span class="kt">int</span> <span class="n">numberToSearch</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
+<span class="err">​</span>
+<span class="kt">int</span> <span class="nf">find</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberToSearch</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">numberToSearch</span><span class="o">)</span>
+      <span class="k">return</span> <span class="n">i</span><span class="o">;</span> <span class="c1">// FOUND</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="c1">// NOT FOUND</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="o1-constant-time-operation">O(1): Constant Time Operation</h3>
+
+<p>Imagine we are given a box of cards with numbers (1, 2, 3, 4, … 16) and outside the box it’s printed that the box contains 16 cards. If some ask you how many cards are there in the box, you can say 16 looking at the total number prited outside the box. If another person asks you the same question next day, you can answer again just by looking at the printed value outside the box, even if you get another box with 100 numbers in it and if it has a label saying the box contains 100 numbers. This is called <strong>‘Constant Time Operation’</strong>. It is represented as O(1).</p>
+
+<p>Below code snippet demostrates ‘Constant Time Operation’.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">11</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">13</span><span class="o">,</span><span class="mi">14</span><span class="o">,</span><span class="mi">15</span><span class="o">,</span><span class="mi">16</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">10</span><span class="o">};</span>
+<span class="err">​</span>
+<span class="kt">int</span> <span class="nf">findSize</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">numbers</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="olog-n-logarithmic-time-operation">O(log n): Logarithmic Time Operation</h3>
+
+<p>Imagine we have a box of cards with numbers (1, 2, 3, 4, … 16) and all the cards are in order. You are asked to find a card with number 16 from the box. Please note, here cards are in order starting 1..n. Let’s split the cards into two parts. A total of 16 numbers is divided into two sets each containing eight numbers. if the number to search is greater than 8, then its on the right side of the split. See the below code snippet to see how the input (pack of cards) is split into 2 halfs.</p>
+
+<p>Below code snippet demostrates spliting of input in ‘Logarithmic Time Operation’.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="mi">11</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">13</span><span class="o">,</span><span class="mi">14</span><span class="o">,</span><span class="mi">15</span><span class="o">,</span><span class="mi">16</span><span class="o">};</span>
+<span class="kt">int</span> <span class="n">numberToSearch</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
+<span class="err">​</span>
+<span class="kt">int</span> <span class="n">median</span> <span class="o">=</span> <span class="mi">16</span><span class="o">/</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">8</span><span class="o">;</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">split1</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">};</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="n">split2</span> <span class="o">=</span> <span class="o">{</span><span class="mi">9</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="mi">11</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">13</span><span class="o">,</span><span class="mi">14</span><span class="o">,</span><span class="mi">15</span><span class="o">,</span><span class="mi">16</span><span class="o">};</span>
+</code></pre></div></div>
+
+<p>Number 16 is greater than the greatest element in the <code>split1</code>, hence the number to search will only be <code>split2</code>. Continue this splitting until the end of cards or the card to search is found like in the below image.</p>
+
+<p><img src="/assets/media/articles/001-big-o-notations-article-1/binary-search.jpg" alt="Binary Search Representation" /></p>
+
+<p>Looking at the above image, we understand that we need atmost 4 steps (for a pack containing 16 cards) to find the card with given number.</p>
+
+<p>This can be written as in below image,</p>
+
+<p><img src="/assets/media/articles/001-big-o-notations-article-1/number-representation.png" alt="Binary Search Number Representation" /></p>
+
+<p>In math, <code>n = 2<sup>x</sup></code> can be written as <code>log<sub>2</sub> n = x</code>. (Refer Binary Logarithm)</p>
+
+<p>Hence, <code>16 = 2<sup>4</sup></code> can be written as <code>log<sub>2</sub> 16 = 4</code>.</p>
+
+<p>This can be written as <code>log<sub>2</sub> n</code>, or simply <code>O(log n)</code>, where n is the number of elements/items to search.</p>
+
+<p>Thus, four steps are required to find a number in a box containing 16 cards splitting the box into two parts every step (this is called <a href="https://en.wikipedia.org/wiki/Binary_search_algorithm">Binary Search Algorithm</a>).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">find</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numberToSearch</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+<span class="err">​</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;=</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="o">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">numberToSearch</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">numbers</span><span class="o">[</span><span class="n">mid</span><span class="o">]){</span>
+          <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">numberToSearch</span> <span class="o">&amp;</span><span class="n">gt</span><span class="o">;</span> <span class="n">numbers</span><span class="o">[</span><span class="n">mid</span><span class="o">])</span> <span class="o">{</span>
+          <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">else</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="n">mid</span><span class="o">;</span> <span class="c1">// NUMBER FOUND</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="c1">// NUMBER NOT FOUND</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Another example:</strong></p>
+
+<p>If for example, we have 64 cards, then maximum number of steps to find a number can be derived as below,</p>
+
+<p><code>64</code> can be written as <code>2<sup>6</sup></code>,</p>
+
+<p><code>2<sup>6</sup></code> can be written as <code>log<sub>2</sub> 64 = 6</code>.</p>
+
+<p>Hence maximum of 6 steps is required to find a given number in a array of 64 numbers.</p>
+
+<hr />
+
+<h3 id="references--further-reading">References &amp; Further reading</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Time_complexity#Linear_time">Time Complexity</a></p>
+
+    </main>
+    <footer>
+    <section class="legal">
+        <ul>
+            <li><a href="#"><i class="far fa-copyright"></i> Madras Coder</a></li>
+            <li><a href="#">SiteMap</a></li>
+            <li><a href="#">Credits</a></li>
+        </ul>
+    </section>
+    <section class="social">
+        <ul>
+            <li>
+                <a href="https://www.twitter.com/bcarun" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://stackoverflow.com/users/story/1535606" target="_blank">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/bcarun" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/bcarun/" target="_blank">
+                    <i class="fab fa-linkedin-in fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</footer>
+    <script src="/assets/scripts.js"></script>
+</body>
+
+</html>
