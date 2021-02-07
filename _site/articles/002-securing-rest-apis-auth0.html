@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 </head>
 
@@ -39,11 +41,382 @@
 </nav>
     <main class="article-content">
         <img src="/assets/media/articles/002-securing-rest-apis-auth0/lock-securing-rest-auth0-title.jpg" title="Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0" />
-        <p>Coming Soon</p>
+        <p>February 07, 2021</p>
         <h1>Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0</h1>
-        <p>This article explains step by step instructions to secure REST API using OAuth 2.0 protocol + Spring Security 5 + Auth 0 (Cloud Authorization Service)
+        <p>Step by step instructions to secure REST API using OAuth 2.0 protocol + Spring Security 5 + Auth0 (Identity as a Service - Platform)
 </p>
-        
+        <p>In this article, we will do the following steps</p>
+
+<ol>
+  <li><strong>Auth0 Configuration to secure a REST API</strong></li>
+  <li><strong>Create a Spring Boot application with required dependencies</strong></li>
+  <li><strong>Create and Secure REST APIs</strong></li>
+  <li><strong>Test REST API with and without Security</strong></li>
+</ol>
+
+<p><em>In this article, words ‘<strong>OAuth 2.0</strong>’ and ‘<strong>Auth0</strong>’ is used a lot. <strong>OAuth 2.0</strong> is the protocol to secure REST API and <strong>Auth0</strong> is an Identity as a Service platform. Please make sure you don’t get confused while reading.</em></p>
+
+<hr />
+
+<h3 id="auth0-configuration-to-secure-rest-api">Auth0 Configuration to Secure REST API</h3>
+
+<p><em>If you want to follow along this article, you may need to signup for a free account at <a href="https://auth0.com/#!">Auth0</a>.</em></p>
+
+<p><strong>Login to Auth0</strong> → navigate to left hand side menu and select <strong>API</strong> → and click <strong>Create API</strong> <sup>( 1 )</sup></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-1.png" alt="Create API Security Configuration in Auth0" /></p>
+
+<p>Enter API <strong>name</strong> <sup>( 1 )</sup> and <strong>identifier</strong> <sup>( 2 )</sup> and click on <strong>Create API</strong> <sup>( 3 )</sup></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-2.png" alt="New API Create Form in Auth0" /></p>
+
+<p>After successful API Configuration, select <strong>Settings</strong> <sup>( 1 )</sup></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-3.png" alt="API Settings Page in Auth0" /></p>
+
+<p>In the <strong>Settings</strong>, select <strong>Enable RBAC</strong> <sup>( 1 )</sup>, <strong>Allow Skipping User Consent</strong> <sup>( 2 )</sup> and <strong>Save</strong> <sup>( 3 )</sup></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-4.png" alt="API Settings Page in Auth0" /></p>
+
+<p>Select <strong>Permissions</strong> <sup>( 1 )</sup> → and <strong>Add</strong> permissions <sup>( 2 )</sup> <sup>( 3 )</sup></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-6.png" alt="API Settings Page in Auth0" /></p>
+
+<p><strong>Permission Name Convention</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;api-short-name&gt;</span>:<span class="nt">&lt;permission-type&gt;</span>:<span class="nt">&lt;resource-name&gt;</span>
+</code></pre></div></div>
+<p><strong>Note 1:</strong> I recommended to prefix API short name before each permission name to avoid collition. In Auth0, multiple APIs permissions/scopes are consolidated under one claim in JWT.</p>
+
+<p><strong>Note 2:</strong> Do not have any space in permissions name. In Auth0 permissions and scope means the same. Each scope is separated by space in JWT ‘scope claim’, having a scope in permission name may not work as expected as each split will be considered as a separate scope.</p>
+
+<hr />
+
+<h3 id="create-a-spring-boot-web-application">Create a Spring Boot Web Application</h3>
+
+<p>You may use <a href="https://start.spring.io/">Spring Initializr</a> or a maven project with below said dependencies <sup>( 1 )</sup> <sup>( 2 )</sup> to generate a Spring Boot application. We will use this application to configure security and test API.</p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-test-api-step-0.png" alt="Spring Initializr" /></p>
+
+<p>Incase you just want the maven dependencies, here it is…</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-oauth2-resource-server<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h4 id="get-jwks-uri">Get JWKS URI</h4>
+
+<p>Now that we have the Spring Boot Project, lets us configure OAuth 2.0 Resource Server’s JWK Set URI</p>
+
+<p>To get the JWK Set URI, you may use the following URL and look for <code>jwks_uri</code> key in response.</p>
+
+<p><code>https://{oauth-provider-hostname}/.well-known/openid-configuration</code></p>
+
+<p>In my case the URL is,  (DO NOT USE THIS)
+<code>https://bcarun.auth0.com/.well-known/openid-configuration</code></p>
+
+<p><strong>Alternate way is,</strong><br />
+Select <strong>Quickstart</strong> <sup>( 1 )</sup>, <strong>Node.js</strong> <sup>( 2 )</sup> and Copy <strong>jwksUri</strong> <sup>( 3 )</sup></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-5.png" alt="Find jwks uri in Auth0" /></p>
+
+<p><strong>Note:</strong> You may copy <strong>your</strong> Auth0 API Configuration’s JWKS URI and set it in <strong>application.properties</strong> as stated below</p>
+
+<p>application.properties</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Remember to use your APIs jwk set uri
+</span><span class="py">spring.security.oauth2.resourceserver.jwt.jwk-set-uri</span><span class="p">=</span><span class="s">https://bcarun.auth0.com/.well-known/jwks.json</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="create-and-secure-rest-apis">Create and Secure REST APIs</h3>
+
+<p>Configure Web Security using WebSecurityConfigurerAdapter.java</p>
+
+<p>OAuth2SecurityConfigurer.java</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.http.SessionCreationPolicy</span><span class="o">;</span>
+
+<span class="nd">@EnableWebSecurity</span>
+<span class="nd">@EnableGlobalMethodSecurity</span><span class="o">(</span><span class="n">prePostEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OAuth2SecurityConfigurer</span> <span class="kd">extends</span> <span class="nc">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="nc">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+
+    <span class="c1">//@formatter:off</span>
+    <span class="n">http</span><span class="o">.</span><span class="na">sessionManagement</span><span class="o">().</span><span class="na">sessionCreationPolicy</span><span class="o">(</span><span class="nc">SessionCreationPolicy</span><span class="o">.</span><span class="na">STATELESS</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">headers</span><span class="o">().</span><span class="na">frameOptions</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">"/actuator/health"</span><span class="o">)</span> <span class="c1">// Health URI</span>
+          <span class="o">.</span><span class="na">permitAll</span><span class="o">()</span> <span class="c1">// Permitted without security</span>
+        <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">anyRequest</span><span class="o">()</span> <span class="c1">// Any other URI</span>
+          <span class="o">.</span><span class="na">authenticated</span><span class="o">()</span> <span class="c1">// Any other URIs are secured</span>
+        <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">oauth2ResourceServer</span><span class="o">()</span> <span class="c1">// App is secured using OAuth 2.0 Protocol (Resource Server)</span>
+          <span class="o">.</span><span class="na">jwt</span><span class="o">();</span> <span class="c1">// App uses JWT (Json Web Token)</span>
+    <span class="c1">//@formatter:on</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="create-rest-api-and-secure-it-using-the-permissions-configured-in-auth0">Create REST API and Secure it Using the Permissions Configured in Auth0</h4>
+
+<p>Employee.java</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Getter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Setter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.ToString</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.experimental.Accessors</span><span class="o">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@Accessors</span><span class="o">(</span><span class="n">chain</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="nd">@ToString</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">LocalDate</span> <span class="n">joiningDate</span><span class="o">;</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>EmployeeService.java</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
+
+<span class="nd">@Slf4j</span>
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeService</span> <span class="o">{</span>
+
+  <span class="kd">public</span> <span class="nc">Long</span> <span class="nf">create</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Save new employee {}"</span><span class="o">,</span> <span class="n">employee</span><span class="o">);</span>
+    <span class="k">return</span> <span class="mi">1L</span><span class="o">;</span> <span class="c1">// Test Purpose</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="nc">Employee</span> <span class="nf">getById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="c1">// Test Purpose</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Employee</span><span class="o">().</span><span class="na">setId</span><span class="o">(</span><span class="mi">1L</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">setFirstName</span><span class="o">(</span><span class="s">"Joseph"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">setLastName</span><span class="o">(</span><span class="s">"Alex"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">setJoiningDate</span><span class="o">(</span><span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>EmployeeRestApi.java</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.access.prepost.PreAuthorize</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.context.SecurityContextHolder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.ServletUriComponentsBuilder</span><span class="o">;</span>
+
+<span class="nd">@Slf4j</span>
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/v1/employees"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeRestApi</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">EmployeeRestApi</span><span class="o">(</span><span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeService</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@PostMapping</span>
+  <span class="nd">@PreAuthorize</span><span class="o">(</span><span class="s">"hasAuthority('SCOPE_mcapi:create:employee')"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">createEmployee</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">SecurityContextHolder</span><span class="o">.</span><span class="na">getContext</span><span class="o">();</span>
+    <span class="nc">Long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="no">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span><span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">)</span>
+  <span class="nd">@PreAuthorize</span><span class="o">(</span><span class="s">"hasAuthority('SCOPE_mcapi:read:employee')"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">getEmployeeById</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Note 1:</strong> <code>@PreAuthorize("hasAuthority('SCOPE_mcapi:create:employee')")</code> annotation allows the call only if the token contains scope ‘mcapi:create:employee’.</p>
+
+<p><strong>Note 2:</strong> <code>SCOPE</code> prefix is automatically set by Spring Security for all the values in JWT Scope claim.</p>
+
+<h4 id="project-structure">Project Structure</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  secure-rest-api tree
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── madrascoder
+│   │   │           └── securerestapi
+│   │   │               ├── Employee.java
+│   │   │               ├── EmployeeRestApi.java
+│   │   │               ├── EmployeeService.java
+│   │   │               ├── OAuth2SecurityConfigurer.java
+│   │   │               └── Startup.java
+│   │   └── resources
+│   │       ├── application.properties
+│   └── <span class="nb">test</span>
+│       └── java
+|
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="test-rest-api">Test REST API</h3>
+
+<h4 id="test-without-authorization-bearer-token-http-header">Test without ‘Authorization: Bearer {token}’ HTTP Header</h4>
+
+<p>HTTP REQUEST</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ curl <span class="nt">-i</span> <span class="nt">--request</span> GET <span class="s1">'http://localhost:8080/v1/employees'</span>
+</code></pre></div></div>
+
+<p>HTTP RESPONSE (FAILURE)</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 401
+WWW-Authenticate: Bearer
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1<span class="p">;</span> <span class="nv">mode</span><span class="o">=</span>block
+Cache-Control: no-cache, no-store, max-age<span class="o">=</span>0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Length: 0
+Date: Sun, 07 Feb 2021 03:32:30 GMT
+</code></pre></div></div>
+<hr />
+
+<h4 id="test-with-authorization-bearer-token-http-header-and-the-token-contains-required-scopepermission">Test with ‘Authorization: Bearer {token} HTTP Header and the Token Contains required Scope/Permission</h4>
+
+<p><strong>Permissions Setup Required Before Testing</strong></p>
+
+<p>Navigate to <strong>API</strong> → <strong>madras-coder-application(Test Application)</strong> to grant permissions to call madras-coder-api.</p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-7.png" alt="Navigate to test application" /></p>
+
+<p><strong>Grant Permissions to Test Application</strong></p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/auth0-create-api-step-8.png" alt="Navigate to test application API" /></p>
+
+<p><strong>Note:</strong> In Auth0 <strong>madras-coder-api</strong> is API and <strong>madras-coder-application(Test Application)</strong> is the client app that will get the JWT token to call the API.</p>
+
+<hr />
+
+<p><strong>GET TOKEN</strong></p>
+
+<p>Navigate to <strong>API</strong> <sup>( 1 )</sup> → madras-coder-api → <strong>Test</strong> tab <sup>( 2 )</sup> → <strong>cURL</strong> → <strong>madras-coder-api(Test Application)</strong> → Response → <strong>Copy Token</strong> <sup>( 3 )</sup></p>
+
+<p>For every API configuration created in Auth0, a API Test Client application is created by default. Using the test application we can get the JWT Token.</p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/spring-test-api-step-1.png" alt="Get JWT Token for testing" /></p>
+
+<p><strong>Alternate way is,</strong> get the caller application client_id, client_secret and API audience/identifer, replace them in below curl request and try executing the curl command. Get the access_token value from response and use it as value of Bearer token.</p>
+
+<p>TOKEN REQUEST</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">--request</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> REPLACE-WITH-AUTH0-ISSUER-URL <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{"client_id":"REPLACE-WITH-TEST-APPLICATION-CLIENT-ID","client_secret":"REPLACE-WITH-TEST-APPLICATION-CLIENT-SECRET","audience":"REPLACE-WITH-API-IDENTIFER","grant_type":"client_credentials"}'</span>
+</code></pre></div></div>
+
+<p>TOKEN RESPONSE</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFVSTNNamc1TVVGQk1FRTVOelk1UWtaRE16UXlNa1F4UVVJMVJqVTRSVFl4UmpJNE5EUTJSZyJ9.eyJpc3MiOiJodHRwczovL2JjYXJ1bi5hdXRoMC5jb20vIiwic3ViIjoiMlVlWWFqUDFpMjBLYk5hWTBqZ0Z6NERwYmtBM21mSlVAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vd3d3Lm1hZHJhc2Vjb2Rlci5jb20vYXBpIiwiaWF0IjoxNjEyNjgyNTEzLCJleHAiOjE2MTI3Njg5MTMsImF6cCI6IjJVZVlhalAxaTIwS2JOYVkwamdGejREcGJrQTNtZkpVIiwic2NvcGUiOiJtY2FwaTpjcmVhdGU6ZW1wbG95ZWUgbWNhcGk6cmVhZDplbXBsb3llZSIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.qFOPXNiMeTn4_NK5TMAroHq-Xs7bUMxrYf0RgignEAGX2c_96LQHNFoQrt6uCvVSWP2DhL4HS_BwexDdJ751IDJSMriAGUDkYzyXkRd5ebXgzs1BIG_S8iUw9hk1aOmUd9nxIRVDPWAA14KFwaPsv6uwIDJ4g4lRe0Wnb9GtikMerx_Z4ySWfHL9F8uSUTW3Q7wb-F1s-qnSZxNYPrPdlOKgQEsrzSTUO5Z74YyYlANR3J0NfdFef1XwfGhftxsWAazDMGDej3gYf9Zlx5GBxIExOWR8QET0_lXJjXLRnNgHnBa2KNFP1Ef-DlFcAs8MzP9HO3iCrlGH7cy3UJCrTg"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Get the access_token value from response and use it as value for Bearer token for below request.</p>
+
+<p><strong>Test with Authorization Header having Access Token (Bearer Token)</strong></p>
+
+<p>HTTP REQUEST</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ curl <span class="nt">-i</span> <span class="nt">--request</span> POST <span class="s1">'http://localhost:8080/v1/employees'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFVSTNNamc1TVVGQk1FRTVOelk1UWtaRE16UXlNa1F4UVVJMVJqVTRSVFl4UmpJNE5EUTJSZyJ9.eyJpc3MiOiJodHRwczovL2JjYXJ1bi5hdXRoMC5jb20vIiwic3ViIjoiMlVlWWFqUDFpMjBLYk5hWTBqZ0Z6NERwYmtBM21mSlVAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vd3d3Lm1hZHJhc2Vjb2Rlci5jb20vYXBpIiwiaWF0IjoxNjEyNjgyNTEzLCJleHAiOjE2MTI3Njg5MTMsImF6cCI6IjJVZVlhalAxaTIwS2JOYVkwamdGejREcGJrQTNtZkpVIiwic2NvcGUiOiJtY2FwaTpjcmVhdGU6ZW1wbG95ZWUgbWNhcGk6cmVhZDplbXBsb3llZSIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.qFOPXNiMeTn4_NK5TMAroHq-Xs7bUMxrYf0RgignEAGX2c_96LQHNFoQrt6uCvVSWP2DhL4HS_BwexDdJ751IDJSMriAGUDkYzyXkRd5ebXgzs1BIG_S8iUw9hk1aOmUd9nxIRVDPWAA14KFwaPsv6uwIDJ4g4lRe0Wnb9GtikMerx_Z4ySWfHL9F8uSUTW3Q7wb-F1s-qnSZxNYPrPdlOKgQEsrzSTUO5Z74YyYlANR3J0NfdFef1XwfGhftxsWAazDMGDej3gYf9Zlx5GBxIExOWR8QET0_lXJjXLRnNgHnBa2KNFP1Ef-DlFcAs8MzP9HO3iCrlGH7cy3UJCrTg'</span> <span class="se">\</span>
+<span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<span class="nt">--data-raw</span> <span class="s1">'{
+    "firstName" : "Joseph",
+    "lastName": "Alex",
+    "joiningDate" : "2021-01-01"
+}'</span>
+</code></pre></div></div>
+
+<p>HTTP RESPONSE (SUCCESS)</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 201
+Location: http://localhost:8080/v1/employees/1
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1<span class="p">;</span> <span class="nv">mode</span><span class="o">=</span>block
+Cache-Control: no-cache, no-store, max-age<span class="o">=</span>0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Length: 0
+Date: Sun, 07 Feb 2021 07:32:40 GMT
+</code></pre></div></div>
+
+<hr />
+
+<p><strong>Appendix</strong><br />
+<strong>To inspect the JWT/access_token,</strong> you may copy paste <sup>( 1 )</sup> the token value in JWT.io and look at the contents <sup>( 2 )</sup>. This is very helpful in troubleshooting.</p>
+
+<p><img src="/assets/media/articles/002-securing-rest-apis-auth0/spring-test-api-step-2.png" alt="JWT Token inspection" /></p>
+
+<hr />
+
+<h3 id="references--further-reading">References &amp; Further Reading</h3>
+
+<p><a href="https://oauth.net/2/">OAuth 2.0</a></p>
+
+<p><a href="https://jwt.io/">JWT</a></p>
+
+<p><a href="https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#oauth2resourceserver">Spring Security OAuth 2.0 Resource Server</a></p>
 
     </main>
     <footer>

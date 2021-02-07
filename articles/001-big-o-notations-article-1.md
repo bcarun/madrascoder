@@ -11,7 +11,7 @@ date: 2021-01-17
 featured: true
 ---
 
----
+<hr>
 
 Before jumping to learn about Big O notations, lets get some basics.
 
@@ -31,7 +31,7 @@ Big O notations help us to represent an algorithm or a program's efficiency. As 
 
 In order to understand Big O notation, we need to understand constant time operations, linear time operations, and logarithmic time operations.
 
----
+<hr>
 
 ### O(n): Linear Time Operation
 
@@ -57,7 +57,7 @@ int find(int numberToSearch, int[] numbers) {
 }
 ```
 
----
+<hr>
 
 ### O(1): Constant Time Operation
 
@@ -74,7 +74,7 @@ int findSize(int[] numbers) {
 }
 ```
 
----
+<hr>
 
 ### O(log n): Logarithmic Time Operation
 
@@ -141,7 +141,7 @@ If for example, we have 64 cards, then maximum number of steps to find a number 
 
 Hence maximum of 6 steps is required to find a given number in a array of 64 numbers.
 
----
+<hr>
 
 ### References & Further reading
 
