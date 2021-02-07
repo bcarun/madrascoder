@@ -95,7 +95,7 @@ body .article-content p code, body .tutorial-content p code { font-size: 1.25rem
 
 body .article-content h1, body .article-content h2, body .article-content h3, body .article-content h4, body .article-content h5, body .article-content h6, body .tutorial-content h1, body .tutorial-content h2, body .tutorial-content h3, body .tutorial-content h4, body .tutorial-content h5, body .tutorial-content h6 { color: var(--on-background-color); }
 
-body .article-content li, body .tutorial-content li { color: var(--on-surface-color); line-height: 1.5rem; }
+body .article-content li, body .tutorial-content li { color: var(--on-surface-color); line-height: 2rem; }
 
 body footer { display: flex; justify-content: space-between; background-color: var(--footer-color); align-items: center; }
 

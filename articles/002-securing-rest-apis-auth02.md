@@ -77,7 +77,7 @@ Select **Permissions** <sup>( 1 )</sup> {{ site.right-arrow }} and **Add** permi
 <api-short-name>:<permission-type>:<resource-name>
 ```
 
-**Note 1:** In Auth0, multiple APIs permissions/scopes are consolidated under one claim in JWT. I recommended to come up with a short name for the API and use it as prefix for each permission name to avoid collition.
+**Note 1:** In Auth0, multiple APIs permissions/scopes are consolidated under one claim in JWT. I recommended to come up with a short name for the API and use it as prefix for each permission name to avoid collition. 
 
 **Note 2:** Do not have any space in permissions name. In Auth0 permissions and scope means the same. Each scope is separated by space in JWT 'scope claim', having a space in permission/scope name may not work as expected as each split will be considered as a separate scope.
 
@@ -137,7 +137,7 @@ application.properties
 spring.security.oauth2.resourceserver.jwt.jwk-set-uri=https://bcarun.auth0.com/.well-known/jwks.json
 ```
 
-With this **jwk-set-uri property** and below said 'WebSecurityConfigurerAdapter', REST APIs in Spring Boot application require **Bearer token** in **Authorization** header for all secure REST APIs.
+With this 'spring.security.oauth2.resourceserver.jwt.jwk-set-uri' property and below said 'WebSecurityConfigurerAdapter', REST APIs in Spring Boot application require **Bearer token** in **Authorization** header for all secure REST APIs.
 
 <hr>
 
