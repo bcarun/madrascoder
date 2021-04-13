@@ -37,7 +37,7 @@ $shadow-color: var(--shadow-color);
 }
 
 html {
-  font-size: 1.25rem;
+  font-size: 1.10rem;
   font-family: "Roboto Slab", serif;
   font-weight: lighter;
   background-color: $background-color;
@@ -267,9 +267,30 @@ body {
       max-width: 90vw;
     }
 
+    // Added to display blockquote
+    blockquote {
+      background: #f9f9f9;
+      border-left: 10px solid #ccc;
+      margin: 1.5em 10px;
+      padding: 0.5em 10px;
+      quotes: "\201C""\201D""\2018""\2019";
+      font-style: italic;
+    }
+    blockquote:before {
+      color: #ccc;
+      content: open-quote;
+      font-size: 4em;
+      line-height: 0.1em;
+      margin-right: 0.25em;
+      vertical-align: -0.4em;
+    }
+    blockquote p {
+      display: inline;
+    }
+
     code {
-      font-size: 0.8rem;
-      line-height: 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.25rem;
     }
 
     table,
@@ -297,7 +318,7 @@ body {
 
       // To display variable names as <code> tag in paragraph
       code {
-        font-size: 1.25rem;
+        font-size: 1rem;
         font-weight: bold;
       }
     }

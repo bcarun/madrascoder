@@ -8,6 +8,6 @@ image: /assets/media/articles/004-propagating-spring-security-context/samuel-sia
 tags:
   - Java
   - Spring
-date: Coming Soon
+date:
 featured: true
 ---

@@ -49,7 +49,7 @@ int[] numbers = {11,12,13,14,15,16,1,2,3,4,5,6,7,8,9,10};
 int numberToSearch = 16;
 ​
 int find(int numberToSearch, int[] numbers) {
-  for (int i = 0; i &lt; n; i++) {
+  for (int i = 0; i < n; i++) {
     if (numbers[i] = numberToSearch)
       return i; // FOUND
   }
@@ -115,12 +115,12 @@ int find(int[] numbers, int numberToSearch) {
     int left = 0;
     int right = numbers.length - 1;
 ​
-    while (left &lt;= right) {
+    while (left <= right) {
       int mid = left + (right - left) / 2;
-      if (numberToSearch &lt; numbers[mid]){
+      if (numberToSearch < numbers[mid]){
           right = mid - 1;
       }
-      else if (numberToSearch &gt; numbers[mid]) {
+      else if (numberToSearch > numbers[mid]) {
           left = mid + 1;
       }
       else {

@@ -10,19 +10,19 @@ tags:
   - Spring
   - Cucumber
   - BDD
-date: Coming Soon
+date:
 featured: true
 ---
 
 ## Contents
 
-    1. Setup and Run Spring Boot + Cucumber Project
-    2. Different styles of writing feature files
-    3. Implementing feature files for Create use cases
-    4. Saving data between step definitions
-    5. Implementing feature files for Update use cases
-    6. Propagating data between step definitions
-    7. Implementing feature files for Validation use cases
-    8. Implementing feature files for Get use cases
-    9. Generating report and publishing it in a Spring Boot Application
-    10.	Process of creating and maintaining feature files in Agile Team
+[1. Setup and Run Spring Boot + Cucumber Project]({% link tutorials/001-pragmatic-cucumber/01-getting-started.md %})
+2. Different styles of writing feature files
+3. Implementing feature files for Create use cases
+4. Saving data between step definitions
+5. Implementing feature files for Update use cases
+6. Propagating data between step definitions
+7. Implementing feature files for Validation use cases
+8. Implementing feature files for Get use cases
+9. Generating report and publishing it in a Spring Boot Application
+10. Process of creating and maintaining feature files in Agile Team
