@@ -16,8 +16,8 @@ featured: true
 
 ## Contents
 
-[1. Setup and Run Spring Boot + Cucumber Project]({% link tutorials/001-pragmatic-cucumber/01-getting-started.md %})
-2. Different styles of writing feature files
+[1. Setup and Run Spring Boot + Cucumber Project]({% link tutorials/001-pragmatic-cucumber/01-getting-started.md %})  
+[2. Different patterns of creating feature files]({% link tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.md %})
 3. Implementing feature files for Create use cases
 4. Saving data between step definitions
 5. Implementing feature files for Update use cases

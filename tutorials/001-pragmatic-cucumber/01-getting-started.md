@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 1
 title: Getting Started with Cucumber, Java and Spring Boot
 description: >
-  In this chapter, let us setup Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go. This is one chapter where our example will be a non real life use case. Examples in all other chapters will have more pragmatic and close to real life use cases.
+  In this chapter, let us setup Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg
@@ -13,9 +13,8 @@ tags:
   - Cucumber
   - BDD
 date:
-featured: true
+featured: false
 ---
-
 ### 1. Prerequisites
 
 For this tutorial, let us used the following 
@@ -299,14 +298,27 @@ You may right click on `1000-sum-of-numbers.feature` under resources and choose 
 
 <hr>
 
+### Conclusion
+
+In this chapter, we create a Spring Boot application, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.
+
+<hr>
+
 ### References
 
 To read more about Gherkin, you may refer [https://cucumber.io/docs/gherkin/reference/](https://cucumber.io/docs/gherkin/reference/){:target="_blank"}
 
 Using Cucumber Plugin in intellij IDE, you may refer [https://www.jetbrains.com/help/idea/cucumber-support.html](https://www.jetbrains.com/help/idea/cucumber-support.html){:target="_blank"}
 
+<hr>
 
 ### Credits
 
 Photo by <a href="https://unsplash.com/@bradencollum?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Braden Collum</a> on <a href="https://unsplash.com/s/photos/start?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-  
+
+<hr>
+
+[Previous Chapter]({% link tutorials/001-pragmatic-cucumber/index.md %}) | 
+[Scroll Up to Top]({% link tutorials/001-pragmatic-cucumber/01-getting-started.md %}) | 
+[Table of Contents]({% link tutorials/001-pragmatic-cucumber/index.md %}) |
+[Next Chapter]({% link tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.md %})
