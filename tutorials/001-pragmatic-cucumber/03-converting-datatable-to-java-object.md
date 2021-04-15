@@ -1,9 +1,9 @@
 ---
 layout: tutorial
-chapter: 2
-title: Convert DataTable to Java Object
+chapter: 3
+title: How to Convert a DataTable into a Java Object
 description: >
-  You may think this chapter as continuation of 'Different patterns of creating Cucumber Feature files' chapter with more real use case.
+  This chapter is continuation of 'Different patterns of creating Cucumber Feature files' with more real use case.
   
   In this chapter, let us see 3 patterns to represent complex objects in feature files. In a real use case, we may need to convert the DataTable to a JSON so that we can use that as payload to call REST API from step definition. If we can convert DataTable to a Java Object, we can easily convert that to a JSON.
 
@@ -21,10 +21,10 @@ featured: false
 Let's imagine we are working on a HR Software and we need to implement the following requirement/user story.
     
 **As a** HR Staff,  
-**I want to** to store a new employee details,  
+**I want to** to save a new employee details,  
 **So that** I can refer to the details in the system when needed.  
 
-In order to implement this requirement/user story, let us create a feature files using the patterns we learnt earlier.
+In order to implement this requirement/user story, let us create a feature file using the patterns we learnt earlier.
 
 Let us assume the following fields represents basic details of an employee,
 
@@ -164,6 +164,7 @@ So, let us try another approach.
 ### Pattern: Map<Key, Value> DataTable
 
 **Feature File**
+
 ```cucumber
 Feature: Create Employee
   Scenario: Create employee with basic details
@@ -228,6 +229,8 @@ In the next pattern, let's do spreadsheet like DataTable.
 
 ### Pattern: Spreadsheet DataTable
 
+**Feature File**
+
 ```cucumber
 Feature: Create Employee
 
@@ -245,7 +248,7 @@ Feature: Create Employee
 
 **IMPORTANT NOTE:** Header row in the data table contains the camelCase field names of Employee.java. This makes life easy for Cucumber to automatically convert the DataTable into a Employee Object. This is one of the convention that is going to help us a lot.
 
-> If needed, we can make the the Header row as Title Case, we can write a few lines of code to convert it to field names if we follow some convention.
+> If needed, we can make the the Header row as Title Case, we can write a few lines of code to convert it to Java field names if we follow some convention.
 
 **Prerequisite for Step Definitions**
 
@@ -280,7 +283,7 @@ public class DataTransformer {
 }
 ```
 
-Also, set the following property in application.properties. This helps converting ISO 8601 Date and Time formats to java.time.* classes.
+Also, set the following property in `application.properties`. This helps converting ISO 8601 Date and Time formats to java.time.* classes.
 
 ```properties
 spring.jackson.serialization.write-dates-as-timestamps=false
@@ -323,7 +326,10 @@ Look at the above step definition file, compare it with other patterns stated ab
 
 There is one draw back here, if the object has more fields, viewing DataTable may require scrolling horizontally. It may difficult in the chapter code snippet component but not if you are using a wide screen monitor. This is the trade off and it is worth it.
 
-**Quick Tip:** You may use below strategy to create DataTable header row. Remember to replace `Employee.class` with your respective class.
+<hr>
+### Quick Tip
+
+You may use below strategy to create DataTable header row. Remember to replace `Employee.class` with your respective class.
 
 ```java
   public static void main(String[] args) {
@@ -350,7 +356,9 @@ In this chapter, we saw 3 patterns
 
 My recommendation is to use the **Spreadsheet DataTable Pattern** when ever you need  to represent a complex object in feature file.
 
-> You may be wondering, how can I representing hierarchical information in feature files. In the future chapter, I will introduce that  when handling `One Employee can have Many Address` use case.
+> You may be wondering, how can to represent hierarchical information in feature file using **Spreadsheet DataTable Pattern**. In the future chapter, I will introduce that when handling `One Employee can have Many Address` use case.
+
+In the next chapter, let's apply **Spreadsheet DataTable Pattern** to test the REST API to 'create employee'.
 
 <hr>
 
@@ -369,5 +377,5 @@ Photo by <a href="https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medi
 [Previous Chapter]({% link tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.md %}) | 
 [Scroll Up to Top]({% link tutorials/001-pragmatic-cucumber/03-converting-datatable-to-java-object.md %}) | 
 [Table of Contents]({% link tutorials/001-pragmatic-cucumber/index.md %}) |
-[Next Chapter]({% link tutorials/001-pragmatic-cucumber/03-converting-datatable-to-java-object.md %})
+[Next Chapter]({% link tutorials/001-pragmatic-cucumber/04-implementing-create-resource.md %})
 
