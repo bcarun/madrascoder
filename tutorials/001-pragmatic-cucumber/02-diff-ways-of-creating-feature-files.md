@@ -26,7 +26,7 @@ Imagine we are building a Calculator product and it has **Addition** feature. No
 
 ### Pattern 1: All Fields/Inputs in One Step
 
-In the below stated feature file, you may notice that the 2 numbers **sum** are stated in a single `Given` step.
+In the below stated feature file, you may notice that the 2 numbers (inputs) to calculate the **sum** are stated in a single `Given` step.
 
 **Feature File**
 
@@ -68,13 +68,13 @@ public class AdditionStepDefinitions {
 
 **Note:** This approach is more straight forward, it is very easy for a Product Owner to understand. But if you want to turn this scenario to support sum of 3, 4, 5 numbers, this style may not suite well.
 
-**Learning:** One thing you can learn in this pattern is, you can capture any value from a step and use it for testing like how we captured 2 integers from {int} placeholder.
+**Learning:** One thing you can learn in this pattern is, you can capture any value as arguments from a step and use it for testing like how we captured 2 integers from {int} placeholder in above said step definition code.
 
 <hr>
 
 ### Pattern 2: One Step Per Field/Input
 
-In the below stated Feature file, 2 numbers required for addition are stated in 2 different steps.
+In the below stated feature file, 2 numbers (inputs) required to calculate the **sum** are stated as 2 different steps.
 
 **Feature File**
 
@@ -167,7 +167,7 @@ In the coming chapters, we will introduce some more reusable step definition pat
 
 ### Pattern 3: List DataTable
 
-In the below stated Feature file, inputs or list of numbers is represented in a Grid called DataTable.
+In the below stated Feature file, inputs or list of numbers to calculate the **sum** are represented in a Grid separated using pipe symbol, this grid is called as DataTable in Cucumber.
 
 **Feature File**
 
@@ -235,9 +235,9 @@ public class AdditionStepDefinitions {
 
 **Note:** Cucumber can automatically convert DataTable to List as stated in above step definition code.
 
-> Some product owners like using these Grids or DataTables as they are very similar to spreadsheets look and feel. If your product owner is of this type, then using DataTable is best for you.
+> Some product owners like using these Grids or DataTables as they are very similar to spreadsheets look and feel which they are very familiar. If your product owner is of this type, then using DataTable is best for you.
 
-**Learning:** One thing that you can learn in this pattern is, you can use DataTable to gather all inputs in one shot and Cucumber automatically converts them to List<T> or List<Map<K, V>>.
+**Learning:** One thing that you can learn in this pattern is, you can use DataTable to gather all inputs in one shot and Cucumber automatically converts them to `List<T>` or `List<Map<K, V>>` for you.
 
 <hr>
 
@@ -263,7 +263,7 @@ Feature: Addition
       | 50          | 60           | 110    |
 ```
 
-Creating `Feature` file with a lot of `Scenario` is one way. Creating feature file with one `Scenario Outline` and executing the Scenario once for each example test case is another approach. `Scenario Outline` always require `Examples`.
+Creating `Feature` file with a lots of `Scenario` is one way. Creating feature file with one `Scenario Outline` and executing the Scenario once for each example test case is another approach. One important point here is, `Scenario Outline` always require `Examples`.
 
 **Note 1:** Look at `<firstNumber>`, `<secondNumber>`, `<result>`, these are variables or placeholders and it will be replaced with values from the `Examples` DataTable.
 
@@ -379,7 +379,7 @@ public class AdditionStepDefinitions {
 
 **Note:** DataTable has 2 columns, first column correspond to the `Key` of the `Map` and second column is the `Value` of the `Map`, hence the method `userWantsToSumTheFollowingNumbers(Map<String, Integer> numbersMap)` argument is a `Map`.
 
-**Learning:** One thing that you can learn in this pattern is, you can use DataTable in any step of the scenario or example.
+**Learning:** One thing that you can learn in this pattern is, you can use DataTable in any step of the scenario, scenario outline or example.
 
 <hr>
 
@@ -389,7 +389,7 @@ Now that you learnt creating Feature file and corresponding step definition, the
 
 >Feature files are executable specifications.
 
-There are 2 pieces to the puzzle, specification and making it executable. As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance and this can be achieved by making developer and product owner work together to create feature files.
+There are 2 pieces to the puzzle, one is **specification** and other is **making it executable**. As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.
 
 **In the next chapter,** we will see how we can represent a Java Object as DataTable and convert a DataTable into a Java Object in step definitions.
 

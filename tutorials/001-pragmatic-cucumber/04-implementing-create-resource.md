@@ -1,9 +1,9 @@
 ---
 layout: tutorial
 chapter: 2
-title: Implement BDD to Test a 'Create API' Use Case
+title: Use BDD to Create and Test an API
 description: >
-  In this chapter let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create the Employee API, create feature file, step definitions. We will be using RestAssured library to call the REST API from the step definition methods to test 'Create Employee API'.
+  In this chapter let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg
@@ -24,9 +24,9 @@ Let's create feature file, step definitions and an API for the following require
 
 <hr>
 
-### Step 0: Maven Dependencies
+### Step 1: Maven Dependencies
 
-#### 0.1 Add following maven dependencies to pom.xml
+#### 1.1 Add following maven dependencies to pom.xml
 
 ```xml
 <!--
@@ -49,7 +49,7 @@ This is part of Spring Boot Dependencies, hence version is not needed
 </dependency>
 ```
 
-#### 0.2 Add following maven plugin to pom.xml
+#### 1.2 Add following maven plugin to pom.xml
 
 Plugins here use annotation processor to generate code. 
 
@@ -82,7 +82,7 @@ Plugins here use annotation processor to generate code.
 </plugin>
 ```
 
-#### 0.3 Add following property to application.properties
+#### 1.3 Add following property to application.properties
 
 This helps converting ISO 8601 Date and Time formats to java.time.* classes. 
 
@@ -91,7 +91,7 @@ spring.jackson.serialization.write-dates-as-timestamps=false
 ```
 <hr>
 
-### Step 1: Create Feature File 
+### Step 2: Create Feature File 
 
 Path: `src/test/resources/com/madrascoder/cucumberbooksample/1100-create-employee.feature`
 
@@ -101,7 +101,7 @@ Feature: Create Employee
   Scenario: Create employee with basic details
     Given user wants to create employee with following details
 
-      | firstName | lastName | email               | joiningDate | jobTitle                   | employeeNumber | employeeStatus | employmentType |
+      | firstName | lastName | email               | dateOfDate | jobTitle                   | employeeNumber | employeeStatus | employmentType |
       | Effie     | Slee     | eslee@blueocean.com | 2014-03-01  | Physical Therapy Assistant | E101           | Active         | Full-Time      |
 
     When user saves a new employee
@@ -110,7 +110,7 @@ Feature: Create Employee
 ```
 <hr>
 
-### Step 2: Create DataTransformer
+### Step 3: Create DataTransformer
 
 DataTransformer (The Magic Class) helps to convert DataTable to respective DTO or Collection of DTOs and vice versa.
 
@@ -147,7 +147,7 @@ public class DataTransformer {
 
 <hr>
 
-### Step 3: Create EmployeeStepDefinitions.java
+### Step 4: Create EmployeeStepDefinitions.java
 
 Path: `src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions/EmployeeStepDefinitions.java`
 
@@ -167,7 +167,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 public class EmployeeStepDefinitions {
 
   // By default, all step definitions are Spring Beans
-  // You may autowire Spring Beans and Properties in Cucumber StepDefinition class
+  // You may autowire Spring Beans and Properties in StepDefinition class
   @LocalServerPort
   private int port;
 
@@ -207,13 +207,13 @@ public class EmployeeStepDefinitions {
   }
 }
 ```
-We are done with all changes needed under src/test/*. If you try to run the test using `mvn clean verify`, it will fail as the Create Employee API is not yet created.
+We are done with all changes needed under src/test/*. If you try to run the test using `mvn clean verify`, it will fail as the Create Employee API is not yet implemented. In the next step, lets create the API to pass the test.
 
 <hr>
 
-### Step 4: Create Employee API
+### Step 5: Create Employee API
 
-#### 4.1 Create Employee Class (DTO) with basic attributes,
+#### 5.1 Create Employee Class (DTO) with basic attributes,
 
 Path: `src/main/java/com/madrascoder/cucumberbooksample/dto/Employee.java`
 
@@ -232,7 +232,8 @@ public class Employee {
   private String firstName;
   private String lastName;
   private String email;
-  private LocalDate joiningDate;
+  private LocalDate dateOfDate;
+  private boolean remoteWorker;
   private String jobTitle;
   private String employeeNumber;
   private String employmentStatus;
@@ -240,7 +241,7 @@ public class Employee {
 }
 ```
 
-#### 4.2 Create EmployeeEntity Class (JPA Managed Object)
+#### 5.2 Create EmployeeEntity Class (JPA Managed Object)
 
 Path: `src/main/java/com/madrascoder/cucumberbooksample/entity/EmployeeEntity.java`
 
@@ -266,7 +267,8 @@ public class EmployeeEntity {
   private String firstName;
   private String lastName;
   private String email;
-  private LocalDate joiningDate;
+  private LocalDate dateOfDate;
+  private boolean remoteWorker;
   private String jobTitle;
   private String employeeNumber;
   private String employmentStatus;
@@ -274,7 +276,7 @@ public class EmployeeEntity {
 }
 ```
 
-#### 4.3 Create EmployeeMapper Interface
+#### 5.3 Create EmployeeMapper Interface
 
 'MapStruct' library (dependency added earlier), this library uses AnnotationProcessor to generate the respective convertor method implementations for the interface and also declares the auto generated class as a Spring Bean.
 
@@ -303,7 +305,7 @@ public interface EmployeeMapper {
 
 Look for the auto generated class under compiler output directory target/generated-sources/annotations.
 
-#### 4.4 Create EmployeeRepository Interface
+#### 5.4 Create EmployeeRepository Interface
 
 Path: `src/main/java/com/madrascoder/cucumberbooksample/repository/EmployeeRepository.java`
 
@@ -317,7 +319,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
 
 ```
 
-#### 4.5 Create EmployeeService Class
+#### 5.5 Create EmployeeService Class
 
 Path: `src/main/java/com/madrascoder/cucumberbooksample/service/EmployeeService.java`
 
@@ -357,7 +359,7 @@ public class EmployeeService {
 }
 ```
 
-#### 4.6 Create Controller Advice & Respective Message Class for REST API Error Handling
+#### 5.6 Create Controller Advice & Respective Message Class for REST API Error Handling
 
 Path: `src/main/java/com/madrascoder/cucumberbooksample/restapi/DefaultRestControllerAdvice.java`
 
@@ -421,7 +423,7 @@ public class DefaultRestControllerAdvice {
 }
 ```
 
-#### 4.7 Create EmployeeRestController Class
+#### 5.7 Create EmployeeRestController Class
 
 Path: `src/main/java/com/madrascoder/cucumberbooksample/restapi/EmployeeRestController.java`
 
@@ -473,7 +475,7 @@ Look at the location header in HTTP Response.
 
 <hr>
 
-### Step 5: Run the Test
+### Step 6: Run the Test
 
 ```shell
 mvn clean verify
@@ -526,11 +528,13 @@ Connection: keep-alive
 ...
 ```
 
+<hr>
+
 ### Conclusion
 
 There is a lot we have learnt so far. This chapter is the first step towards doing BDD in a real projects. Every minute you spend reading and trying the steps so far will definitely save a lots of hours for you and your team when you start implementing BDD in your team.
 
-In this chapter, we had fields to save the state of Employee object, HTTP/REST Response to be used in subsequent step definition methods. In future, we may have some common step definitions to check the success and failure in a different step definition class, having state in each step definition will make it had to reuse step definition methods. Hence, in the next chapter let's learn how abstract sharing state between step definition methods in different classes.
+In the next chapter, lets learn how to create feature files to represent all validation use cases and test those validations. This is also a common use case when it comes to creating an API. Come on, lets learn that in next chapter.
 
 <hr>
 
@@ -549,5 +553,5 @@ Photo by <a href="https://unsplash.com/@kylejglenn?utm_source=unsplash&utm_mediu
 [Previous Chapter]({% link tutorials/001-pragmatic-cucumber/03-converting-datatable-to-java-object.md %}) | 
 [Scroll Up to Top]({% link tutorials/001-pragmatic-cucumber/04-implementing-create-resource.md %}) | 
 [Table of Contents]({% link tutorials/001-pragmatic-cucumber/index.md %}) |
-[Next Chapter]({% link tutorials/001-pragmatic-cucumber/05-sharing-state-between-steps.md %})
+[Next Chapter]({% link tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.md %})
 

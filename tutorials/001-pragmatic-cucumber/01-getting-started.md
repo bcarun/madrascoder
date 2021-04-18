@@ -17,7 +17,7 @@ featured: false
 ---
 ### 1. Prerequisites
 
-For this tutorial, let us used the following 
+For this tutorial, let us use the following 
 
 **1. Java 11 LTS**  
 **2. Cucumber 6.8.1**  
@@ -95,13 +95,26 @@ state between cucumber step execution
 
 <hr>
 
-### 4. Rename CucumberBookSampleApplicationTests.java as CucumberSpringContextConfiguration.java
+### 4. Setup CucumberSpringContextConfiguration.java
 
 When you generate Spring Boot Project, it automatically creates a class under test directory to run all tests. In case of Cucumber, we don't want to use this class to trigger tests, let us use this class to configure spring context for executing spring boot application tests, hence we are renaming it to 'CucumberSpringContextConfiguration.java'
 
 Navigate to following directory `src/test/java/com/madrascoder/cucumberbooksample/`
 
 Rename CucumberBookSampleApplicationTests.java to `CucumberSpringContextConfiguration.java`
+
+Add `@CucumberContextConfiguration` annotation and set `RANDOM_PORT` as stated below,
+
+```java
+import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@CucumberContextConfiguration
+public class CucumberSpringContextConfiguration {}
+
+```
 
 <hr>
 
@@ -138,15 +151,15 @@ cucumber.publish.enabled=false
 cucumber.plugin=pretty,html:target/classes/static/features/index.html
 ```
 
-For other properties, you may refer to [https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options](https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options){:target="_blank"}
+For other available Cucumber properties, you may refer to [https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options](https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options){:target="_blank"}
 
 <hr>
 
 ### 7. Let's create our first feature file
 
-Navigate to `src/test/resources/com/madrascoder/cucumberbooksample/`
+Navigate to (**Test Resources**) `src/test/resources/com/madrascoder/cucumberbooksample/`
 
-**Note:** Remember, you have to create multiple directories and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is `src/test/resources` directory and `src/test/java`.
+**Note:** Remember, you have to create multiple directories and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is `src/test/resources` directory and **not** `src/test/java`.
 
 Create a file named `1000-sum-of-numbers.feature` with the following feature.
 
@@ -161,15 +174,15 @@ Feature: Addition
 
 **Note:** Package structure of step definition Java classes under `src/test/java` should match with the directory structure of feature files in `src/test/resources` as Cucumber looks for feature files there. 
 
-Feature file is created using something called Gherkin. This is one of the way to represent the requirement or executable specifications of the software. A file that contains a feature of the software product is called a feature file. Important keywords here are `Feature`, `Scenario`, `Given`, `And`, `When`, `Then`.
+Feature file is created using something called Gherkin. This is one of the ways to represent the requirement or executable specifications of the software. A file that contains a feature of the software product is called a feature file. Important keywords here are `Feature`, `Scenario`, `Given`, `And`, `When`, `Then`, `Scenario Outline`, `Examples`.
 
-**Feature:** Every feature file contains a feature. A feature may contain one or more Scenario's.
+**Feature:** Every feature file contains a feature of the software product. A feature may contain one or more Scenarios.
 
-**Scenario:** It is nothing but a representation of test case or behavior of the software.
+**Scenario:** It is nothing but a representation of test case or behavior of the software using Given, When, Then Gherkin words.
 
-**Given, When, And, Then:** These are the steps in the test case or scenario. Each Given/When/And/Then step will have a corresponding Java method in a class called `*StepDefinition.java`. Name of the class can be anything but the methods should be annotated with `@Given` or `@And` or `@When` or `@Then`. When a feature file scenario is executed, cucumber matches the text after Given, And, When, Then with the value of the `@Given/@When/@Then` annotations. If the pattern matches, corresponding method is executed. Hence, there can be only one matching method per step in feature file.
+**Given, When, And, Then:** These are the steps in the test case or scenario. Each Given/When/And/Then step will have a corresponding Java method in a class called `*StepDefinitions.java`. Name of the class can be anything but the methods should be annotated with `@Given` or `@And` or `@When` or `@Then`. When a feature file or scenario is run, Cucumber finds the matching step definition method for each step and executes the same. StepDefinition methods are annotated with `@Given/@When/@Then` annotations. In a nutshell, if the pattern of the step matches with the value of the `@Given/@When/@Then` annotation, corresponding method is executed. Hence, there can be only one matching method per step in feature file.
 
-> By now, your mind may be thinking that creating one method per step may need a lot of code and it sounds crazy. But, don't worry there are smart ways to create one method and reuse for multiple steps using something called expressions. We will learn all those in the following chapters.
+> By now, your mind may be thinking that creating one method per step may need a lot of code and it sounds crazy. But, don't worry there are smart ways to create one step definition method and reuse it for multiple steps using something called Cucumber Expressions. We will learn all those in the coming chapters.
 
 <hr>
 
@@ -177,11 +190,9 @@ Feature file is created using something called Gherkin. This is one of the way t
 
 You may use your IDE to generate step definitions skeleton code if you have Cucumber and Gherkin plugins in intellij.
 
-Else, you may manually create a file named `AdditionStepDefinitions.java` under `src/test/resources/com/madrascoder/cucumberbooksample/stepdefinitions`.
+Else, you may manually create a file named `AdditionStepDefinitions.java` under (**Test Source**) `src/test/java/com.madrascoder.cucumberbooksample.stepdefinitions` package.
 
 ```java
-package com.madrascoder.cucumberbooksample.stepdefinitions;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.cucumber.java.en.And;
@@ -217,13 +228,13 @@ public class AdditionStepDefinitions {
 }
 ```
 
-Annotations `@Given`, `@And`, `@When`, `@Then` are synonymous, they can be used interchangable. Important part is the value of these annotation. These values corresponds to the steps in feature file. You may have noticed `{int}` in annotation values. We will learn more about expressions `{int}`, `{string}` etc., in future chapter. For now, imagine the text at location of `{int}` in feature file will be automatically converted to `int` and supplied as argument to the corresponding method.
+Annotations `@Given`, `@And`, `@When`, `@Then` are synonymous, they can be used interchangeably. Important part is the value of these annotation. These values corresponds to the steps in feature file. You may have noticed `{int}` in annotation values. We will learn more about expressions `{int}`, `{string}` etc., in future chapters. For now, imagine the text at location of `{int}` in feature file will be automatically converted to `int` and supplied as argument to the corresponding method.
 
 <hr>
 
 ### 9. Project Structure
 
-If you had followed along all the steps from the beginning, you may have the following project structure. Take few minutes to compare your project with what is stated below, this way you run the Cucumber test in next step, it will work as expected.
+If you had done all the steps from the beginning, you may have the following project structure. Take few minutes to compare your project with what is stated below, this way when you run the Cucumber test in next step, it will work as expected.
 
 ```shell
 ➜  cucumber-book-sample tree

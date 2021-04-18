@@ -18,7 +18,7 @@ date:
 featured: false
 ---
 
-Let's imagine we are working on a HR Software and we need to implement the following requirement/user story.
+Let's imagine we are working on creating a HR Software and we need to implement the following requirement/user story.
     
 **As a** HR Staff,  
 **I want to** to save a new employee details,  
@@ -26,7 +26,7 @@ Let's imagine we are working on a HR Software and we need to implement the follo
 
 In order to implement this requirement/user story, let us create a feature file using the patterns we learnt earlier.
 
-Let us assume the following fields represents basic details of an employee,
+Let us assume the following fields represents the basic details of an employee,
 
 ```java
 import java.time.LocalDate;
@@ -39,11 +39,15 @@ import lombok.ToString;
 @ToString
 public class Employee {
   private Long id;
+
   private String firstName;
   private String lastName;
   private String email;
-  private LocalDate joiningDate;
+
+  private LocalDate dateOfDate;
+  private boolean remoteWorker;
   private String jobTitle;
+  
   private String employeeNumber;
   private String employmentStatus;
   private String employmentType;
@@ -57,7 +61,8 @@ And the sample JSON representation is,
   "firstName": "Effie",
   "lastName": "Slee",
   "email": "eslee0@blueocean.com",
-  "joiningDate": "2014-03-01T07:36:18Z",
+  "dateOfDate": "2000-01-01",
+  "remoteWorker": false,
   "jobTitle": "Physical Therapy Assistant",
   "employeeNumber": 101,
   "employeeStatus": "Active",
@@ -77,7 +82,8 @@ Feature: Create Employee
     Given employee first name is 'Effie'
     And employee last name is 'Slee'
     And employee email is 'eslee0@blueocean.com'
-    And employee joining date is '2014-03-01'
+    And employee date of birth is '2000-01-01'
+    And employee remote worker flag is 'false'
     And employee job title is 'Physical Therapy Assistant'
     And employee number is 'E101'
     And employment status is 'Active'
@@ -117,10 +123,15 @@ public class EmployeeStepDefinitions {
     employee.setEmail(email);
   }
 
-  @And("employee joining date is {string}")
-  public void employeeJoiningDateIs(String joiningDateStr) {
-    LocalDate joiningDate = LocalDate.parse(joiningDateStr);
-    employee.setJoiningDate(joiningDate);
+  @And("employee date of birth is {string}")
+  public void employeeJoiningDateIs(String dateOfDateStr) {
+    LocalDate dateOfDate = LocalDate.parse(dateOfDateStr);
+    employee.setDateOfDate(joiningDate);
+  }
+
+  @And("employee remote worker flag is {boolean}")
+  public void employeeRemoteWorkerFlagIs(boolean remoteWorker) {
+    employee.setRemoteWorker(remoteWorker);
   }
 
   @And("employee job title is {string}")
@@ -172,7 +183,8 @@ Feature: Create Employee
       | firstName        | Effie                      |
       | lastName         | Slee                       |
       | email            | eslee@blueocean.com        | 
-      | joiningDate      | 2014-03-01                 |
+      | dateOfDate       | 2000-01-01                 |
+      | remoteWorker     | false                      |
       | jobTitle         | Physical Therapy Assistant |
       | employeeNumber   | E101                       |
       | employmentStatus | Active                     |
@@ -237,8 +249,8 @@ Feature: Create Employee
   Scenario: Create employee with basic details
     Given user wants to create employee with following details
 
-      | firstName | lastName | email               | joiningDate | jobTitle                   | employeeNumber | employeeStatus | employmentType |
-      | Effie     | Slee     | eslee@blueocean.com | 2014-03-01  | Physical Therapy Assistant | E101           | Active         | Full-Time      |
+      | firstName | lastName | email               | dateOfDate  | remoteWorker | jobTitle                   | employeeNumber | employeeStatus | employmentType |
+      | Effie     | Slee     | eslee@blueocean.com | 2000-01-01  | false        | Physical Therapy Assistant | E101           | Active         | Full-Time      |
 
     When user saves a new employee
 
@@ -265,8 +277,10 @@ import java.lang.reflect.Type;
 
 public class DataTransformer {
 
-  // Set spring.jackson.serialization.write-dates-as-timestamps=false in application.properties
-  // This is required to convert ISO 8601 Date String to LocalDate and many other java.time package use cases
+  // Set spring.jackson.serialization.write-dates-as-timestamps=false 
+  // in application.properties
+  // This is required to convert ISO 8601 Date String to LocalDate and 
+  // many other java.time package use cases
   private final ObjectMapper objectMapper;
 
   // Spring will auto wire the ObjectMapper
@@ -278,7 +292,8 @@ public class DataTransformer {
   @DefaultDataTableEntryTransformer
   @DefaultDataTableCellTransformer
   public Object transformer(Object fromValue, Type toValueType) {
-    return objectMapper.convertValue(fromValue, objectMapper.constructType(toValueType));
+    return objectMapper.convertValue(fromValue, 
+                  objectMapper.constructType(toValueType));
   }
 }
 ```
@@ -322,9 +337,9 @@ public class EmployeeStepDefinitions {
 }
 ```
 
-Look at the above step definition file, compare it with other patterns stated above. You will know how `DataTransformer.java` and Using **Spreadsheet DataTable Pattern** made life easy.
+Look at the above step definition file, compare it with other patterns stated above. You will know how `DataTransformer.java` and **Spreadsheet DataTable Pattern** together made life easy.
 
-There is one draw back here, if the object has more fields, viewing DataTable may require scrolling horizontally. It may difficult in the chapter code snippet component but not if you are using a wide screen monitor. This is the trade off and it is worth it.
+There is one draw back here, if the object has more fields, viewing DataTable may require scrolling horizontally. If you are using a wide screen monitor, it can be avoided to some extent. Considering the fact that its easier for Product Owner to understand and developer to create step definitions, having to do the horizontal scroll is the trade off and it is worth it.
 
 <hr>
 ### Quick Tip
