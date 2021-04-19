@@ -270,11 +270,11 @@ For more information on `MapStruct` you may refer [https://mapstruct.org/](https
 
 ### Credits
 
-Photo by <a href="https://unsplash.com/@isalenis?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Isabel Lenis</a> on <a href="https://unsplash.com/s/photos/sharing?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Photo by <a href="https://unsplash.com/@isalenis?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Isabel Lenis</a> on <a href="https://unsplash.com/s/photos/sharing?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a>
   
 <hr>
 
-[Previous Chapter]({% link tutorials/001-pragmatic-cucumber/04-implementing-create-resource.md %}) | 
+[Previous Chapter]({% link tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.md %}) | 
 [Scroll Up to Top]({% link tutorials/001-pragmatic-cucumber/06-sharing-state-between-steps.md %}) | 
 [Table of Contents]({% link tutorials/001-pragmatic-cucumber/index.md %}) |
-[Next Chapter]({% link tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.md %})
+[Next Chapter]({% link tutorials/001-pragmatic-cucumber/07-common-step-definitions-class.md %})

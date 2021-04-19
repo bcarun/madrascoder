@@ -343,6 +343,16 @@ body {
       color: $on-surface-color;
       line-height: 2rem;
     }
+
+    a, a:visited, a:hover, a:active {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover,
+      &.active {
+        color: $primary-color;
+      }
+    }
   }
 
   footer {

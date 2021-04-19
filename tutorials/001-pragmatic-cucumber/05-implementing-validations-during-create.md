@@ -25,7 +25,7 @@ Let's imagine we have to perform the following validations before saving an empl
 | firstName     | Required       | First name is a required field    |
 | lastName      | Required       | Last name is a required field     |
 | email         | Valid Email Id | Email Id should be valid          |
-| dateOfDate    | Future Date    | Date of birth cannot be in future |
+| dateOfBirth   | Future Date    | Date of birth cannot be in future |
 
 
 ### Feature File for Validation Use Case
@@ -488,7 +488,7 @@ For more information on `RestAssured` you may refer [https://rest-assured.io/](h
 
 ### Credits
 
-Photo by <a href="https://unsplash.com/@glenncarstenspeters?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Glenn Carstens-Peters</a> on <a href="https://unsplash.com/s/photos/list?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Photo by <a href="https://unsplash.com/@glenncarstenspeters?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Glenn Carstens-Peters</a> on <a href="https://unsplash.com/s/photos/list?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a>
   
 <hr>
 

@@ -1,7 +1,7 @@
 ---
 layout: tutorial
-chapter: 2
-title: Use BDD to Create and Test an API
+chapter: 4
+title: Use BDD to Implement and Test 'Create API'
 description: >
   In this chapter let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
 
@@ -101,7 +101,7 @@ Feature: Create Employee
   Scenario: Create employee with basic details
     Given user wants to create employee with following details
 
-      | firstName | lastName | email               | dateOfDate | jobTitle                   | employeeNumber | employeeStatus | employmentType |
+      | firstName | lastName | email               | dateOfBirth | jobTitle                   | employeeNumber | employeeStatus | employmentType |
       | Effie     | Slee     | eslee@blueocean.com | 2014-03-01  | Physical Therapy Assistant | E101           | Active         | Full-Time      |
 
     When user saves a new employee
@@ -232,7 +232,7 @@ public class Employee {
   private String firstName;
   private String lastName;
   private String email;
-  private LocalDate dateOfDate;
+  private LocalDate dateOfBirth;
   private boolean remoteWorker;
   private String jobTitle;
   private String employeeNumber;
@@ -267,7 +267,7 @@ public class EmployeeEntity {
   private String firstName;
   private String lastName;
   private String email;
-  private LocalDate dateOfDate;
+  private LocalDate dateOfBirth;
   private boolean remoteWorker;
   private String jobTitle;
   private String employeeNumber;
@@ -285,8 +285,15 @@ Path: `src/main/java/com/madrascoder/cucumberbooksample/mapper/EmployeeMapper.ja
 ```java
 import com.madrascoder.cucumberbooksample.dto.Employee;
 import com.madrascoder.cucumberbooksample.entity.EmployeeEntity;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.List;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Qualifier;
 
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
@@ -295,10 +302,19 @@ public interface EmployeeMapper {
   EmployeeEntity toEmployeeEntity(Employee employee);
 
   // For Get Use Case
+  @ToEmployee
   Employee toEmployee(EmployeeEntity employeeEntity);
+
+  @IterableMapping(qualifiedBy = ToEmployee.class)
+  List<Employee> toEmployees(Iterable<EmployeeEntity> entities);
 
   // For Update Use Case
   void mergeToEmployeeEntity(Employee employee, @MappingTarget EmployeeEntity employeeEntity);
+
+  @Qualifier
+  @Retention(RetentionPolicy.SOURCE)
+  @Target(ElementType.METHOD)
+  public @interface ToEmployee {}
 
 }
 ```
@@ -546,7 +562,7 @@ For more information on `MapStruct` you may refer [https://mapstruct.org/](https
 
 ### Credits
 
-Photo by <a href="https://unsplash.com/@kylejglenn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kyle Glenn</a> on <a href="https://unsplash.com/s/photos/accomplishment?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Photo by <a href="https://unsplash.com/@kylejglenn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Kyle Glenn</a> on <a href="https://unsplash.com/s/photos/accomplishment?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a>
   
 <hr>
 

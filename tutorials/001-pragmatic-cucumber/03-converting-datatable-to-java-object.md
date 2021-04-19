@@ -44,7 +44,7 @@ public class Employee {
   private String lastName;
   private String email;
 
-  private LocalDate dateOfDate;
+  private LocalDate dateOfBirth;
   private boolean remoteWorker;
   private String jobTitle;
   
@@ -61,7 +61,7 @@ And the sample JSON representation is,
   "firstName": "Effie",
   "lastName": "Slee",
   "email": "eslee0@blueocean.com",
-  "dateOfDate": "2000-01-01",
+  "dateOfBirth": "2000-01-01",
   "remoteWorker": false,
   "jobTitle": "Physical Therapy Assistant",
   "employeeNumber": 101,
@@ -124,9 +124,9 @@ public class EmployeeStepDefinitions {
   }
 
   @And("employee date of birth is {string}")
-  public void employeeJoiningDateIs(String dateOfDateStr) {
-    LocalDate dateOfDate = LocalDate.parse(dateOfDateStr);
-    employee.setDateOfDate(joiningDate);
+  public void employeeJoiningDateIs(String dateOfBirthStr) {
+    LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr);
+    employee.setDateOfBirth(dateOfBirth);
   }
 
   @And("employee remote worker flag is {boolean}")
@@ -183,7 +183,7 @@ Feature: Create Employee
       | firstName        | Effie                      |
       | lastName         | Slee                       |
       | email            | eslee@blueocean.com        | 
-      | dateOfDate       | 2000-01-01                 |
+      | dateOfBirth      | 2000-01-01                 |
       | remoteWorker     | false                      |
       | jobTitle         | Physical Therapy Assistant |
       | employeeNumber   | E101                       |
@@ -249,7 +249,7 @@ Feature: Create Employee
   Scenario: Create employee with basic details
     Given user wants to create employee with following details
 
-      | firstName | lastName | email               | dateOfDate  | remoteWorker | jobTitle                   | employeeNumber | employeeStatus | employmentType |
+      | firstName | lastName | email               | dateOfBirth | remoteWorker | jobTitle                   | employeeNumber | employeeStatus | employmentType |
       | Effie     | Slee     | eslee@blueocean.com | 2000-01-01  | false        | Physical Therapy Assistant | E101           | Active         | Full-Time      |
 
     When user saves a new employee
@@ -385,7 +385,7 @@ For more information on `DataTransformer.java` you may refer [https://cucumber.i
 
 ### Credits
 
-Photo by <a href="https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">CHUTTERSNAP</a> on <a href="https://unsplash.com/s/photos/options?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Photo by <a href="https://unsplash.com/@chuttersnap?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">CHUTTERSNAP</a> on <a href="https://unsplash.com/s/photos/options?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a>
   
 <hr>
 

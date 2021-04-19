@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 1
 title: Getting Started with Cucumber, Java and Spring Boot
 description: >
-  In this chapter, let us setup Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.
+  In this chapter, let us setup a Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg
@@ -325,7 +325,7 @@ Using Cucumber Plugin in intellij IDE, you may refer [https://www.jetbrains.com/
 
 ### Credits
 
-Photo by <a href="https://unsplash.com/@bradencollum?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Braden Collum</a> on <a href="https://unsplash.com/s/photos/start?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Photo by <a href="https://unsplash.com/@bradencollum?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Braden Collum</a> on <a href="https://unsplash.com/s/photos/start?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a>
 
 <hr>
 
