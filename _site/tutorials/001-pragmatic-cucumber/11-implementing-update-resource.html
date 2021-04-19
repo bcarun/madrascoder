@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Madras Coder</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Use BDD to Implement and Test ‘Update API’ | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Use BDD to Implement and Test ‘Update API’" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this chapter, let us see how to create feature files for ‘Update API’. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use ‘Background’ in feature file." />
+<meta property="og:description" content="In this chapter, let us see how to create feature files for ‘Update API’. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use ‘Background’ in feature file." />
+<link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html" />
+<meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter11/markus-winkler-cxoR55-bels-unsplash.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter11/markus-winkler-cxoR55-bels-unsplash.jpg" />
+<meta property="twitter:title" content="Use BDD to Implement and Test ‘Update API’" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter11/markus-winkler-cxoR55-bels-unsplash.jpg","headline":"Use BDD to Implement and Test ‘Update API’","description":"In this chapter, let us see how to create feature files for ‘Update API’. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use ‘Background’ in feature file.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+    <nav>
+    <ul class="menu">
+        <li class="logo">
+            <a href="https://www.madrascoder.com">Madras Coder</a>
+        </li>
+        <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
+        <li class="item"><a href="https://www.madrascoder.com">Home</a></li>
+        <li class="item"><a href="/articles">Articles</a></li>
+        <li class="item"><a href="/tutorials">Tutorials</a></li>
+        <li class="item"><a href="/about.html">About</a></li>
+        <li class="item">
+            <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
+        </li>
+    </ul>
+</nav>
+    <main class="tutorial-content">
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter11/markus-winkler-cxoR55-bels-unsplash.jpg" title="Use BDD to Implement and Test 'Update API'" />
+        <p></p>
+        <h1>Use BDD to Implement and Test 'Update API'</h1>
+        <p>In this chapter, let us see how to create feature files for 'Update API'. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use 'Background' in feature file.
+</p>
+        <hr>
+        <p>Let’s create feature file, step definitions and an API for the following requirement/user story.</p>
+
+<p><strong>As a</strong> HR Staff,<br />
+<strong>I want to</strong> edit and save and existing employee details,<br />
+<strong>So that</strong> I can keep the information current.</p>
+
+<hr />
+
+<h3 id="step-1-create-feature-file-for-update-api">Step 1: Create Feature File for ‘Update API’</h3>
+
+<p>Refer below feature file for ‘Update API’, it uses <code class="language-plaintext highlighter-rouge">Background</code> to setup the necessary data before testing ‘Update API’ scenarios.</p>
+
+<h4 id="11-feature-file">1.1 Feature File</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">Feature:</span> <span class="nc">Update</span> <span class="nc">Employee</span>
+
+  <span class="nl">Background:</span> <span class="nc">Employee</span> <span class="n">already</span> <span class="n">exists</span>
+
+    <span class="nc">Given</span> <span class="n">a</span> <span class="n">employee</span> <span class="n">with</span> <span class="n">following</span> <span class="n">details</span> <span class="n">already</span> <span class="n">exists</span>
+      <span class="o">|</span> <span class="n">id</span>     <span class="o">|</span> <span class="n">firstName</span> <span class="o">|</span> <span class="n">lastName</span> <span class="o">|</span> <span class="n">email</span>                <span class="o">|</span> <span class="n">dateOfBirth</span>        <span class="o">|</span> <span class="n">remoteWorker</span> <span class="o">|</span> <span class="n">jobTitle</span>            <span class="o">|</span> <span class="n">employeeNumber</span> <span class="o">|</span> <span class="n">employeeStatus</span> <span class="o">|</span> <span class="n">employmentType</span> <span class="o">|</span>
+      <span class="o">|</span> <span class="mi">110501</span> <span class="o">|</span> <span class="nc">Bronnie</span>   <span class="o">|</span> <span class="nc">Lanfear</span>  <span class="o">|</span> <span class="n">blanfear0</span><span class="nd">@flickr</span><span class="o">.</span><span class="na">com</span> <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">-</span><span class="mi">6570</span> <span class="o">|</span> <span class="kc">false</span>        <span class="o">|</span> <span class="nc">Electrical</span> <span class="nc">Engineer</span> <span class="o">|</span> <span class="mi">198</span>            <span class="o">|</span> <span class="nc">Inactive</span>       <span class="o">|</span> <span class="nc">Full</span><span class="o">-</span><span class="nc">Time</span>      <span class="o">|</span>
+
+  <span class="nd">@validations</span>
+  <span class="nc">Scenario</span> <span class="nl">Outline:</span> <span class="nc">Update</span> <span class="n">employee</span> <span class="o">&lt;</span><span class="n">testCase</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">expectedResult</span><span class="o">&gt;</span>
+
+    <span class="nc">Given</span> <span class="n">user</span> <span class="n">wants</span> <span class="n">to</span> <span class="n">update</span> <span class="n">employee</span> <span class="n">with</span> <span class="n">following</span> <span class="n">details</span>
+      <span class="o">|</span> <span class="n">id</span>     <span class="o">|</span> <span class="n">firstName</span>   <span class="o">|</span> <span class="n">lastName</span>   <span class="o">|</span> <span class="n">email</span>   <span class="o">|</span> <span class="n">dateOfBirth</span>   <span class="o">|</span> <span class="n">jobTitle</span>                      <span class="o">|</span> <span class="n">employeeNumber</span> <span class="o">|</span> <span class="n">employeeStatus</span> <span class="o">|</span> <span class="n">employmentType</span> <span class="o">|</span>
+      <span class="o">|</span> <span class="mi">110501</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">firstName</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">lastName</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">email</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">dateOfBirth</span><span class="o">&gt;</span> <span class="o">|</span> <span class="nc">Budget</span><span class="o">/</span><span class="nc">Accounting</span> <span class="nc">Analyst</span> <span class="no">III</span> <span class="o">|</span> <span class="mi">160</span>            <span class="o">|</span> <span class="nc">Active</span>         <span class="o">|</span> <span class="nc">Full</span><span class="o">-</span><span class="nc">Time</span>      <span class="o">|</span>
+
+    <span class="nc">When</span> <span class="n">user</span> <span class="n">saves</span> <span class="n">a</span> <span class="k">new</span> <span class="n">employee</span> <span class="o">&lt;</span><span class="n">testCase</span><span class="o">&gt;</span>
+
+    <span class="nc">Then</span> <span class="n">the</span> <span class="n">save</span> <span class="err">'</span><span class="o">&lt;</span><span class="n">expectedResult</span><span class="o">&gt;</span><span class="err">'</span>
+
+    <span class="nl">Examples:</span>
+      <span class="o">|</span> <span class="n">testCase</span>                                 <span class="o">|</span> <span class="n">expectedResult</span> <span class="o">|</span> <span class="n">firstName</span> <span class="o">|</span> <span class="n">lastName</span> <span class="o">|</span> <span class="n">email</span>                 <span class="o">|</span> <span class="n">dateOfBirth</span>        <span class="o">|</span>
+      <span class="o">|</span> <span class="n">without</span> <span class="n">first</span> <span class="n">name</span>                       <span class="o">|</span> <span class="no">FAILS</span>          <span class="o">|</span>           <span class="o">|</span> <span class="nc">Fair</span>     <span class="o">|</span> <span class="n">bfairall0</span><span class="nd">@pcworld</span><span class="o">.</span><span class="na">com</span> <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">-</span><span class="mi">6570</span> <span class="o">|</span>
+      <span class="o">|</span> <span class="n">without</span> <span class="n">last</span> <span class="n">name</span>                        <span class="o">|</span> <span class="no">FAILS</span>          <span class="o">|</span> <span class="nc">Barnie</span>    <span class="o">|</span>          <span class="o">|</span> <span class="n">bfairall0</span><span class="nd">@pcworld</span><span class="o">.</span><span class="na">com</span> <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">-</span><span class="mi">6570</span> <span class="o">|</span>
+      <span class="o">|</span> <span class="n">with</span> <span class="n">invalid</span> <span class="n">email</span> <span class="n">id</span> <span class="n">bfairall0</span><span class="err">@</span>         <span class="o">|</span> <span class="no">FAILS</span>          <span class="o">|</span> <span class="nc">Barnie</span>    <span class="o">|</span> <span class="nc">Fair</span>     <span class="o">|</span> <span class="n">bfairall0</span><span class="err">@</span>            <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">-</span><span class="mi">6570</span> <span class="o">|</span>
+      <span class="o">|</span> <span class="n">with</span> <span class="n">invalid</span> <span class="n">email</span> <span class="n">id</span> <span class="n">bfairall0</span>          <span class="o">|</span> <span class="no">FAILS</span>          <span class="o">|</span> <span class="nc">Barnie</span>    <span class="o">|</span> <span class="nc">Fair</span>     <span class="o">|</span> <span class="n">bfairall0</span>             <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">-</span><span class="mi">6570</span> <span class="o">|</span>
+      <span class="o">|</span> <span class="n">with</span> <span class="n">date</span> <span class="n">of</span> <span class="n">birth</span> <span class="n">as</span> <span class="n">future</span> <span class="n">date</span>        <span class="o">|</span> <span class="no">FAILS</span>          <span class="o">|</span> <span class="nc">Barnie</span>    <span class="o">|</span> <span class="nc">Fair</span>     <span class="o">|</span> <span class="n">bfairall0</span><span class="nd">@pcworld</span><span class="o">.</span><span class="na">com</span> <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">+</span><span class="mi">1</span>    <span class="o">|</span>
+      <span class="o">|</span> <span class="n">with</span> <span class="n">all</span> <span class="n">the</span> <span class="n">required</span> <span class="o">&amp;</span> <span class="n">valid</span> <span class="n">attributes</span> <span class="o">|</span> <span class="no">IS</span> <span class="no">SUCCESSFUL</span>  <span class="o">|</span> <span class="nc">Barnie</span>    <span class="o">|</span> <span class="nc">Fair</span>     <span class="o">|</span> <span class="n">bfairall0</span><span class="nd">@pcworld</span><span class="o">.</span><span class="na">com</span> <span class="o">|</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">-</span><span class="mi">6570</span> <span class="o">|</span>
+    
+</code></pre></div></div>
+
+<h4 id="12-corresponding-step-definitions">1.2 Corresponding Step Definitions</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.Given</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.When</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeStepDefinitions</span> <span class="kd">extends</span> <span class="nc">AbstractStepDefinitions</span> <span class="o">{</span>
+
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"user wants to create/update employee with following details"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToCreateEmployeeWithFollowingDetails</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="c1">// Background Step. It gets executed once for every Scenario or Example.</span>
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"a employee with following details already exists"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">aEmployeeWithFollowingDetailsAlreadyExists</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves a new employee(.*)"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesANewEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves employee"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executePut</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="nc">String</span> <span class="nf">employeeResourceUrl</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">baseUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"/v1/employees"</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Given Step of ‘Create Employee API’</p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span>
+<span class="nf">Given </span>user wants to create employee with following details
+<span class="err">...</span>
+</code></pre></div></div>
+
+<p>Given Step of ‘Update Employee API’</p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span>
+<span class="nf">Given </span>user wants to update employee with following details
+<span class="err">...</span>
+</code></pre></div></div>
+
+<p>If you look closely at the ‘Given Step’, the only difference is the 5th word ‘create’ and ‘update’. We don’t need to create 2 different step definition methods one for create and one for update, instead we can use the concept of ‘Alternative Text’ in Cucumber Expressions. In the Given annotation value, we have used <code class="language-plaintext highlighter-rouge">create/update</code> to represent alternate text. Hence the method will be executed for both <code class="language-plaintext highlighter-rouge">Given user wants to create employee with following details</code> &amp; <code class="language-plaintext highlighter-rouge">Given user wants to update employee with following details</code>.</p>
+
+<p><strong>Step definition with alternate text ‘create/update’</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Given</span><span class="o">(</span><span class="s">"user wants to create/update employee with following details"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToCreateEmployeeWithFollowingDetails</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Background will get executed once per scenario in the file, in this case it will get executed once per example use case.</p>
+</blockquote>
+
+<p>If you run the tests, all update use cases will fail as we have not yet implemented ‘Update Employee API’.</p>
+
+<h3 id="step-2-implement-update-api">Step 2: Implement ‘Update API’</h3>
+
+<h4 id="21-add-update-method-to-employeeservicejava">2.1 Add update method to EmployeeService.java</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.mapper.EmployeeMapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.repository.EmployeeRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.EntityNotFoundException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="o">;</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeService</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeMapper</span> <span class="n">employeeMapper</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeRepository</span> <span class="n">employeeRepository</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">EmployeeService</span><span class="o">(</span><span class="nc">EmployeeMapper</span> <span class="n">employeeMapper</span><span class="o">,</span> <span class="nc">EmployeeRepository</span> <span class="n">employeeRepository</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeMapper</span> <span class="o">=</span> <span class="n">employeeMapper</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeRepository</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span>
+  <span class="kd">public</span> <span class="nc">Long</span> <span class="nf">create</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">EmployeeEntity</span> <span class="n">employeeEntity</span> <span class="o">=</span> <span class="n">employeeMapper</span><span class="o">.</span><span class="na">toEmployeeEntity</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="n">employeeEntity</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">employeeEntity</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">employeeEntity</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">Employee</span> <span class="nf">getById</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">&gt;</span> <span class="n">employeeEntityOpt</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="n">employeeEntityOpt</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">employeeMapper:</span><span class="o">:</span><span class="n">toEmployee</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EntityNotFoundException</span><span class="o">(</span><span class="s">"Employee not found for given id"</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">&gt;</span> <span class="n">employeeEntityOpt</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+
+    <span class="kd">final</span> <span class="nc">EmployeeEntity</span> <span class="n">employeeEntity</span> <span class="o">=</span> <span class="n">employeeEntityOpt</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">employeeEntityInDb</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="n">employeeMapper</span><span class="o">.</span><span class="na">mergeToEmployeeEntity</span><span class="o">(</span><span class="n">employee</span><span class="o">,</span> <span class="n">employeeEntityInDb</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">employeeEntityInDb</span><span class="o">;</span>
+
+    <span class="o">}).</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EntityNotFoundException</span><span class="o">(</span><span class="s">"Employee not found for given id"</span><span class="o">));</span>
+
+    <span class="c1">// No need to explicitly save employee entity as it will be merged when transaction is committed.</span>
+    <span class="n">employeeRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">employeeEntity</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="22-add-put-method-to-employeerestcontrollerjava">2.2 Add PUT method to EmployeeRestController.java</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">http</span><span class="o">.</span><span class="na">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.service.EmployeeService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.validation.Valid</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PutMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.ServletUriComponentsBuilder</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/v1/employees"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeRestController</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">;</span>
+
+  <span class="c1">// Using Spring Constructor Injection</span>
+  <span class="kd">public</span> <span class="nf">EmployeeRestController</span><span class="o">(</span><span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeService</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">consumes</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">createEmployee</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span><span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">location</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">getEmployeeById</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@PutMapping</span><span class="o">(</span><span class="n">consumes</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">updateEmployee</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">employeeService</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employeeService</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<hr />
+
+<h3 id="step-3-run-the-test">Step 3: Run the Test</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean verify
+</code></pre></div></div>
+
+<p>Maven Log:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@validations
+Scenario Outline: Update employee without first name FAILS   <span class="c"># com/madrascoder/cucumberbooksample/1105-update-employee.feature:22</span>
+  Given a employee with following details already exists     <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  Given user wants to update employee with following details <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee without first name          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                      <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Update employee without last name FAILS    <span class="c"># com/madrascoder/cucumberbooksample/1105-update-employee.feature:23</span>
+  Given a employee with following details already exists     <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  Given user wants to update employee with following details <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee without last name           <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                      <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Update employee with invalid email <span class="nb">id </span>bfairall0@ FAILS <span class="c"># com/madrascoder/cucumberbooksample/1105-update-employee.feature:24</span>
+  Given a employee with following details already exists                 <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  Given user wants to update employee with following details             <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with invalid email <span class="nb">id </span>bfairall0@        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                                  <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Update employee with invalid email <span class="nb">id </span>bfairall0 FAILS <span class="c"># com/madrascoder/cucumberbooksample/1105-update-employee.feature:25</span>
+  Given a employee with following details already exists                <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  Given user wants to update employee with following details            <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with invalid email <span class="nb">id </span>bfairall0        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                                 <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Update employee with <span class="nb">date </span>of birth as future <span class="nb">date </span>FAILS <span class="c"># com/madrascoder/cucumberbooksample/1105-update-employee.feature:26</span>
+  Given a employee with following details already exists                  <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  Given user wants to update employee with following details              <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with <span class="nb">date </span>of birth as future <span class="nb">date</span>        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                                   <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Update employee with all the required &amp; valid attributes IS SUCCESSFUL <span class="c"># com/madrascoder/cucumberbooksample/1105-update-employee.feature:27</span>
+  Given a employee with following details already exists                                 <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  Given user wants to update employee with following details                             <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with all the required &amp; valid attributes                <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'IS SUCCESSFUL'</span>                                                          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+<span class="o">[</span>INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s - <span class="k">in </span>Examples
+
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, we learnt how to make use of <code class="language-plaintext highlighter-rouge">Background</code> to setup the data needed for testing the <code class="language-plaintext highlighter-rouge">Scenario</code>. We have used some of the strategies like ‘Handling Auto Generated Identifiers’, ‘Handling Boolean &amp; Dates in feature file’ etc.</p>
+
+<p>In the next chapter, we will learn how to implement and test ‘Get APIs’. We will also learn how to validate the response payload by comparing it with the expected payload specified as a DataTable in feature file.</p>
+
+<hr />
+
+<h3 id="credits">Credits</h3>
+
+<p>Photo by <a href="https://unsplash.com/@markuswinkler?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Markus Winkler</a> on <a href="https://unsplash.com/s/photos/update?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Unsplash</a></p>
+
+<hr />
+
+<p><a href="/tutorials/001-pragmatic-cucumber/10-handling-boolean-dates-in-feature-files.html">Previous Chapter</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html">Scroll Up to Top</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/">Table of Contents</a> |
+<a href="/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html">Next Chapter</a></p>
+
+
+    </main>
+    <footer>
+    <section class="legal">
+        <ul>
+            <li><a href="#"><i class="far fa-copyright"></i> Madras Coder</a></li>
+            <li><a href="#">SiteMap</a></li>
+            <li><a href="#">Credits</a></li>
+        </ul>
+    </section>
+    <section class="social">
+        <ul>
+            <li>
+                <a href="https://www.twitter.com/bcarun" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://stackoverflow.com/users/story/1535606" target="_blank">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/bcarun" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/bcarun/" target="_blank">
+                    <i class="fab fa-linkedin-in fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</footer>
+    <script src="/assets/scripts.js"></script>
+</body>
+
+</html>

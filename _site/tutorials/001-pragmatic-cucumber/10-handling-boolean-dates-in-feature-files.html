@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Madras Coder</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Strategy to Handle Boolean Values and Dates in Feature Files | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Strategy to Handle Boolean Values and Dates in Feature Files" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="We use boolean data type for certain fields in our code. There are 2 possible values for the boolean field in java, they are true and false. If we need to set value to a boolean field in feature file, we need to use true/false. But, from a Product Owner perspective, they wish to see the value as YES/NO instead of true/false. In this chapter, we will learn how to convert YES/NO in feature file to true/false. Also, we will learn how to use relative dates instead of fixed dates in test cases." />
+<meta property="og:description" content="We use boolean data type for certain fields in our code. There are 2 possible values for the boolean field in java, they are true and false. If we need to set value to a boolean field in feature file, we need to use true/false. But, from a Product Owner perspective, they wish to see the value as YES/NO instead of true/false. In this chapter, we will learn how to convert YES/NO in feature file to true/false. Also, we will learn how to use relative dates instead of fixed dates in test cases." />
+<link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/10-handling-boolean-dates-in-feature-files.html" />
+<meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/10-handling-boolean-dates-in-feature-files.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter10/suzanne-d-williams-VMKBFR6r_jg-unsplash.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter10/suzanne-d-williams-VMKBFR6r_jg-unsplash.jpg" />
+<meta property="twitter:title" content="Strategy to Handle Boolean Values and Dates in Feature Files" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/10-handling-boolean-dates-in-feature-files.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter10/suzanne-d-williams-VMKBFR6r_jg-unsplash.jpg","headline":"Strategy to Handle Boolean Values and Dates in Feature Files","description":"We use boolean data type for certain fields in our code. There are 2 possible values for the boolean field in java, they are true and false. If we need to set value to a boolean field in feature file, we need to use true/false. But, from a Product Owner perspective, they wish to see the value as YES/NO instead of true/false. In this chapter, we will learn how to convert YES/NO in feature file to true/false. Also, we will learn how to use relative dates instead of fixed dates in test cases.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+    <nav>
+    <ul class="menu">
+        <li class="logo">
+            <a href="https://www.madrascoder.com">Madras Coder</a>
+        </li>
+        <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
+        <li class="item"><a href="https://www.madrascoder.com">Home</a></li>
+        <li class="item"><a href="/articles">Articles</a></li>
+        <li class="item"><a href="/tutorials">Tutorials</a></li>
+        <li class="item"><a href="/about.html">About</a></li>
+        <li class="item">
+            <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
+        </li>
+    </ul>
+</nav>
+    <main class="tutorial-content">
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter10/suzanne-d-williams-VMKBFR6r_jg-unsplash.jpg" title="Strategy to Handle Boolean Values and Dates in Feature Files" />
+        <p></p>
+        <h1>Strategy to Handle Boolean Values and Dates in Feature Files</h1>
+        <p>We use boolean data type for certain fields in our code. There are 2 possible values for the boolean field in java, they are true and false. If we need to set value to a boolean field in feature file, we need to use true/false. But, from a Product Owner perspective, they wish to see the value as YES/NO instead of true/false.
+In this chapter, we will learn how to convert YES/NO in feature file to true/false. Also, we will learn how to use relative dates instead of fixed dates in test cases.
+</p>
+        <hr>
+        <p>Employee DTO has 2 fields,</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">...</span>
+  <span class="kd">private</span> <span class="nc">LocalDate</span> <span class="n">dateOfBirth</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">remoteWorker</span><span class="o">;</span>
+  <span class="o">...</span>
+</code></pre></div></div>
+
+<p>In the feature file, we used the values <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code> for the field <code class="language-plaintext highlighter-rouge">remoteWorker</code>. From business perspective, they perfer <code class="language-plaintext highlighter-rouge">Yes</code>, <code class="language-plaintext highlighter-rouge">No</code> instead of <code class="language-plaintext highlighter-rouge">true</code>, <code class="language-plaintext highlighter-rouge">false</code>. Now the question is, how to make cucumber convert <code class="language-plaintext highlighter-rouge">Yes</code> and <code class="language-plaintext highlighter-rouge">No</code> to <code class="language-plaintext highlighter-rouge">true</code> and <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<p>Similarly, for the <code class="language-plaintext highlighter-rouge">dateOfBirth</code> field, we have a validation in place to check the given date is in the past date. In order to validate this use case, we have used a future date 2021-05-26 (a future date as today 2021-04-18) and whenever a future date is provided, validation should fail. It will work as expected till 2021-05-26 and after that it not fail as expected. Hence, from testing perspective we need to use relative dates instead of real dates in our feature files to avoid these kinds of failures. One way to solve this problem is to use relative dates like ‘LocalDate+1’ for tomorrow, ‘LocalDate+2’ for day after tomorrow etc.</p>
+
+<p>Following are the classes that require special treatment in Cucumber,</p>
+
+<ol>
+  <li>Boolean/boolean</li>
+  <li>LocalDate</li>
+  <li>LocalDateTime</li>
+  <li>LocalTime</li>
+</ol>
+
+<h3 id="step-1-create-convertors">Step 1: Create Convertors</h3>
+
+<h4 id="11-yes-no-convertor">1.1 Yes No Convertor</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.core.convert.converter.Converter</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">YesNoConverter</span> <span class="kd">implements</span> <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Boolean</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">String</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">source</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">"YES"</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">Boolean</span><span class="o">.</span><span class="na">TRUE</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="nc">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<h4 id="12-localdate-convertor">1.2 LocalDate Convertor</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.convert.converter.Converter</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LocalDateConverter</span> <span class="kd">implements</span> <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PATTERN</span> <span class="o">=</span> <span class="s">"LocalDate.now"</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">LocalDate</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">String</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">LocalDate</span> <span class="n">localDate</span> <span class="o">=</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="nc">String</span><span class="o">[]</span> <span class="n">addValue</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="no">PATTERN</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">addValue</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">localDate</span> <span class="o">=</span> <span class="n">localDate</span><span class="o">.</span><span class="na">plusDays</span><span class="o">(</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">addValue</span><span class="o">[</span><span class="mi">1</span><span class="o">]));</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">localDate</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="13-localdatetime-convertor">1.3 LocalDateTime Convertor</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">time</span><span class="o">.</span><span class="na">format</span><span class="o">.</span><span class="na">DateTimeFormatter</span><span class="o">.</span><span class="na">ISO_DATE_TIME</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.time.LocalDateTime</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.time.format.DateTimeFormatter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.time.temporal.ChronoUnit</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.convert.converter.Converter</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LocalDateTimeConverter</span> <span class="kd">implements</span> <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">LocalDateTime</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PATTERN</span> <span class="o">=</span> <span class="s">"LocalDateTime.now"</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">DAY_PARAMETER</span> <span class="o">=</span> <span class="s">"D"</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">HOUR_PARAMETER</span> <span class="o">=</span> <span class="s">"H"</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">LocalDateTime</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">String</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">LocalDateTime</span> <span class="n">localDateTime</span> <span class="o">=</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="nc">String</span><span class="o">[]</span> <span class="n">addValue</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="no">PATTERN</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">addValue</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">String</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">addValue</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">convertWithParameter</span><span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">),</span>
+            <span class="nc">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">parameter</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)));</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">localDateTime</span> <span class="o">=</span> <span class="n">convertWithParameter</span><span class="o">(</span><span class="no">DAY_PARAMETER</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">parameter</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">)));</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//Returning minutes in zero to avoid comparison errors</span>
+    <span class="k">assert</span> <span class="n">localDateTime</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="k">return</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">localDateTime</span><span class="o">.</span><span class="na">truncatedTo</span><span class="o">(</span><span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="no">ISO_DATE_TIME</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Create a LocalDateTime based on parameter
+   *
+   * @param parameter D (Days) H (Hours)
+   * @param unit Unit to increase of decrease
+   */</span>
+  <span class="kd">private</span> <span class="nc">LocalDateTime</span> <span class="nf">convertWithParameter</span><span class="o">(</span><span class="nc">String</span> <span class="n">parameter</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">LocalDateTime</span> <span class="n">now</span> <span class="o">=</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="k">switch</span> <span class="o">(</span><span class="n">parameter</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nl">DAY_PARAMETER:</span>
+        <span class="k">return</span> <span class="n">now</span><span class="o">.</span><span class="na">plusDays</span><span class="o">(</span><span class="n">unit</span><span class="o">);</span>
+      <span class="k">case</span> <span class="nl">HOUR_PARAMETER:</span>
+        <span class="k">return</span> <span class="n">now</span><span class="o">.</span><span class="na">plusHours</span><span class="o">(</span><span class="n">unit</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="14-localtime-convertor">1.4 LocalTime Convertor</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalTime</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.time.temporal.ChronoUnit</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.convert.converter.Converter</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LocalTimeConverter</span> <span class="kd">implements</span> <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">LocalTime</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PATTERN</span> <span class="o">=</span> <span class="s">"LocalTime.now"</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">LocalTime</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">String</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">LocalTime</span> <span class="n">localTime</span> <span class="o">=</span> <span class="nc">LocalTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="nc">String</span><span class="o">[]</span> <span class="n">addValue</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="no">PATTERN</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">addValue</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">localTime</span> <span class="o">=</span> <span class="n">localTime</span><span class="o">.</span><span class="na">plusHours</span><span class="o">(</span><span class="nc">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">addValue</span><span class="o">[</span><span class="mi">1</span><span class="o">]));</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">localTime</span><span class="o">.</span><span class="na">truncatedTo</span><span class="o">(</span><span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="15-convertor-factory">1.5 Convertor Factory</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.convert.converter.Converter</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConverterFactory</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="o">?&gt;&gt;</span> <span class="n">converters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+  <span class="kd">static</span> <span class="o">{</span>
+    <span class="c1">// Map of converter name to respective convertor class.</span>
+    <span class="n">converters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"LocalDateTime"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LocalDateTimeConverter</span><span class="o">());</span>
+    <span class="n">converters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"LocalDate"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LocalDateConverter</span><span class="o">());</span>
+    <span class="n">converters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"LocalTime"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LocalTimeConverter</span><span class="o">());</span>
+    <span class="n">converters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"YES"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">YesNoConverter</span><span class="o">());</span>
+    <span class="n">converters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"NO"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">YesNoConverter</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Get Converter class for the given converter name.
+   *
+   * @param converterName - name of the converter class
+   * @return converter object
+   */</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">getConverter</span><span class="o">(</span><span class="nc">String</span> <span class="n">converterName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">converters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">converterName</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="16-convertorutils">1.6 ConvertorUtils</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.LinkedHashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.convert.converter.Converter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.util.StringUtils</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConverterUtils</span> <span class="o">{</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="nf">convertMapValues</span><span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">row</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">fields</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashMap</span><span class="o">&lt;&gt;(</span><span class="n">row</span><span class="o">);</span>
+    <span class="n">row</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">v</span> <span class="k">instanceof</span> <span class="nc">String</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">convertedV</span> <span class="o">=</span> <span class="n">convert</span><span class="o">((</span><span class="nc">String</span><span class="o">)</span> <span class="n">v</span><span class="o">);</span>
+        <span class="n">fields</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">convertedV</span><span class="o">);</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">fields</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">});</span>
+
+    <span class="k">return</span> <span class="n">fields</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Values like LocalDate.now, LocalDateTime.now, Yes, No etc are converted java types.
+   *
+   * @param value to convert
+   * @return converted java types
+   */</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="nc">StringUtils</span><span class="o">.</span><span class="na">hasText</span><span class="o">(</span><span class="n">value</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Split by period and get the left side value</span>
+    <span class="nc">String</span> <span class="n">converterName</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"\\."</span><span class="o">)[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="nc">Converter</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">converter</span> <span class="o">=</span> <span class="nc">ConverterFactory</span><span class="o">.</span><span class="na">getConverter</span><span class="o">(</span><span class="n">converterName</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">converter</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Object</span> <span class="n">convertedValue</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="na">convert</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+      <span class="k">return</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">convertedValue</span><span class="o">)</span> <span class="o">?</span> <span class="n">convertedValue</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span> <span class="o">:</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="step-2-using-convertorutils-in-datatransformerjava">Step 2: Using ConvertorUtils in DataTransformer.java</h4>
+
+<p>ConvertorUtils check each and every field, based on the value, it chooses the respective convertor to convert the data before it is being sent as payload in API calls.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.fasterxml.jackson.databind.ObjectMapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.convertor.ConverterUtils</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.DefaultDataTableCellTransformer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.DefaultDataTableEntryTransformer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.DefaultParameterTransformer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.lang.reflect.Type</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DataTransformer</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ObjectMapper</span> <span class="n">objectMapper</span><span class="o">;</span>
+
+  <span class="c1">// Spring will auto wire the ObjectMapper</span>
+  <span class="kd">public</span> <span class="nf">DataTransformer</span><span class="o">(</span><span class="nc">ObjectMapper</span> <span class="n">objectMapper</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">objectMapper</span> <span class="o">=</span> <span class="n">objectMapper</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@DefaultParameterTransformer</span>
+  <span class="nd">@DefaultDataTableEntryTransformer</span>
+  <span class="nd">@DefaultDataTableCellTransformer</span>
+  <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">transformer</span><span class="o">(</span><span class="nc">Object</span> <span class="n">fromValue</span><span class="o">,</span> <span class="nc">Type</span> <span class="n">toValueType</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Transform: fromValue = {}, toValueType = {}"</span><span class="o">,</span> <span class="n">fromValue</span><span class="o">,</span> <span class="n">toValueType</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">fromValue</span> <span class="k">instanceof</span> <span class="nc">Map</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span> 
+      <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;)</span> <span class="n">fromValue</span><span class="o">;</span>
+
+      <span class="k">return</span> <span class="n">objectMapper</span><span class="o">.</span><span class="na">convertValue</span><span class="o">(</span><span class="nc">ConverterUtils</span><span class="o">.</span><span class="na">convertMapValues</span><span class="o">(</span><span class="n">map</span><span class="o">),</span> <span class="n">objectMapper</span><span class="o">.</span><span class="na">constructType</span><span class="o">(</span><span class="n">toValueType</span><span class="o">));</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">objectMapper</span><span class="o">.</span><span class="na">convertValue</span><span class="o">(</span><span class="n">fromValue</span><span class="o">,</span> <span class="n">objectMapper</span><span class="o">.</span><span class="na">constructType</span><span class="o">(</span><span class="n">toValueType</span><span class="o">));</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="step-3-create-feature-file">Step 3: Create Feature File</h3>
+
+<p>Now that we have Convertors for LocalDate, LocalDateTime, Boolean etc., we can modify the feature files to use YES NO instead of true false and relative dates instead of actual dates.</p>
+
+<p>Look at the fields ‘remoteWorker’, ‘dateOfBirth’ in the below DataTable and Examples in Scenario Outline.</p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Create Employee
+
+  @smoketest
+  <span class="kn">Scenario</span><span class="p">:</span> Create employee with basic details
+    <span class="nf">Given </span>user wants to create employee with following details
+      <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>               <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>                   <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">Effie</span>     <span class="p">|</span> <span class="n">Slee</span>     <span class="p">|</span> <span class="n">eslee@blueocean.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6570</span> <span class="p">|</span> <span class="n">NO</span>           <span class="p">|</span> <span class="n">Physical</span> <span class="n">Therapy</span> <span class="n">Assistant</span> <span class="p">|</span> <span class="n">E101</span>           <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
+
+    <span class="nf">When </span>user saves a new employee
+
+    <span class="nf">Then </span>the save 'IS SUCCESSFUL'
+
+  <span class="nt">@validations</span>
+  <span class="kn">Scenario Outline</span><span class="p">:</span> Create employee &lt;testCase&gt; &lt;expectedResult&gt;
+
+    <span class="nf">Given </span>user wants to create employee with following details
+      <span class="p">|</span> <span class="nv">firstName</span>   <span class="p">|</span> <span class="nv">lastName</span>   <span class="p">|</span> <span class="nv">email</span>   <span class="p">|</span> <span class="nv">dateOfBirth</span>   <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>                      <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">&lt;firstName&gt;</span> <span class="p">|</span> <span class="n">&lt;lastName&gt;</span> <span class="p">|</span> <span class="n">&lt;email&gt;</span> <span class="p">|</span> <span class="n">&lt;dateOfBirth&gt;</span> <span class="p">|</span> <span class="n">NO</span>           <span class="p">|</span> <span class="n">Budget/Accounting</span> <span class="n">Analyst</span> <span class="n">III</span> <span class="p">|</span> <span class="n">160</span>            <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
+
+    <span class="nf">When </span>user saves a new employee <span class="nv">&lt;testCase&gt;</span>
+
+    <span class="nf">Then </span>the save '<span class="nv">&lt;expectedResult&gt;</span>'
+
+    <span class="nn">Examples</span><span class="p">:</span>
+      <span class="p">|</span> <span class="nv">testCase</span>                                 <span class="p">|</span> <span class="nv">expectedResult</span> <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>                 <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span>
+      <span class="p">|</span> <span class="n">without</span> <span class="n">first</span> <span class="n">name</span>                       <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span>           <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6570</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">without</span> <span class="n">last</span> <span class="n">name</span>                        <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span>          <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6570</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">invalid</span> <span class="n">email</span> <span class="n">id</span> <span class="n">bfairall0@</span>         <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@</span>            <span class="p">|</span> <span class="n">LocalDate.now-6570</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">invalid</span> <span class="n">email</span> <span class="n">id</span> <span class="n">bfairall0</span>          <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0</span>             <span class="p">|</span> <span class="n">LocalDate.now-6570</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">date</span> <span class="n">of</span> <span class="n">birth</span> <span class="n">as</span> <span class="n">future</span> <span class="n">date</span>        <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">LocalDate.now+1</span>    <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">all</span> <span class="n">the</span> <span class="n">required</span> <span class="n">&amp;</span> <span class="n">valid</span> <span class="n">attributes</span> <span class="p">|</span> <span class="n">IS</span> <span class="n">SUCCESSFUL</span>  <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6570</span> <span class="p">|</span>
+
+</code></pre></div></div>
+
+<p>If you run the tests, everything will work as usual. Values YES/NO will be automatically converted to boolean and relative dates ‘LocalDate.now+1’ etc., will be transformed to a LocalDate value.</p>
+
+<hr />
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, we learnt how to replace true/false with <strong>YES/NO</strong> and fixed dates with <strong>relative dates</strong>. This will improve the readability of the feature file.</p>
+
+<p>In the next chapter, we will learn how to create feature file for ‘Update API’. We will also apply/use these Convertor in feature files.</p>
+
+<hr />
+
+<h3 id="credits">Credits</h3>
+
+<p>Photo by <a href="https://unsplash.com/@scw1217?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Suzanne D. Williams</a> on <a href="https://unsplash.com/s/photos/automatic?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Unsplash</a></p>
+
+<hr />
+
+<p><a href="/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html">Previous Chapter</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/10-handling-boolean-dates-in-feature-files.html">Scroll Up to Top</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/">Table of Contents</a> |
+<a href="/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html">Next Chapter</a></p>
+
+
+    </main>
+    <footer>
+    <section class="legal">
+        <ul>
+            <li><a href="#"><i class="far fa-copyright"></i> Madras Coder</a></li>
+            <li><a href="#">SiteMap</a></li>
+            <li><a href="#">Credits</a></li>
+        </ul>
+    </section>
+    <section class="social">
+        <ul>
+            <li>
+                <a href="https://www.twitter.com/bcarun" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://stackoverflow.com/users/story/1535606" target="_blank">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/bcarun" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/bcarun/" target="_blank">
+                    <i class="fab fa-linkedin-in fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</footer>
+    <script src="/assets/scripts.js"></script>
+</body>
+
+</html>

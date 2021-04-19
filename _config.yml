@@ -3,6 +3,11 @@ url: "https://www.madrascoder.com" # the base hostname & protocol for your site,
 baseurl: "" # the subpath of your site, e.g. /blog
 title: "Madras Coder" # the name of your site, e.g. ACME Corp.
 
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
 # Site Variables
 right-arrow: '&#8594;'
 left-arrow: '&#8592;'

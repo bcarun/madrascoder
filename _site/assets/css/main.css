@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(highlighter.css);
 :root { --primary-color: #226df8; --background-color: #ffffff; --on-background-color: #2d3543; --surface-color: #ffffff; --on-surface-color: #2d3543; --footer-color: #f9f9f9; --on-footer-color: #969aa5; --shadow-color: rgba(0, 0, 0, 0.08); }
 
@@ -5,11 +6,11 @@
 
 * { box-sizing: border-box; }
 
-html { font-size: 1.25rem; font-family: "Roboto Slab", serif; font-weight: lighter; background-color: var(--background-color); }
+html { font-size: 1.25rem; font-family: "Roboto Slab", serif; font-weight: normal; background-color: var(--background-color); }
 
 html body { margin: 0; }
 
-html body p { line-height: 1.5rem; }
+html body p { line-height: 1.6rem; }
 
 html nav, html main, html footer { padding: 0.5rem 5rem; }
 
@@ -79,9 +80,15 @@ body .article-content, body .tutorial-content { max-width: 960px; flex: 1; align
 
 body .article-content img, body .tutorial-content img { border-radius: 0.25rem; max-width: 100%; height: auto; }
 
-body .article-content .highlight, body .tutorial-content .highlight { padding-left: 0.25rem; margin-bottom: 1rem; overflow-x: scroll; overflow: auto; max-width: 90vw; }
+body .article-content .highlight, body .tutorial-content .highlight { padding-left: 0.25rem; margin-top: 0.25rem; margin-bottom: 0.25rem; overflow-x: scroll; overflow: auto; max-width: 90vw; }
 
-body .article-content code, body .tutorial-content code { font-size: 0.8rem; line-height: 1.5rem; }
+body .article-content blockquote, body .tutorial-content blockquote { background: #f9f9f9; border-left: 10px solid #ccc; margin: 1.5em 10px; padding: 0.5em 10px; quotes: "“" "”" "‘" "’"; font-style: italic; }
+
+body .article-content blockquote:before, body .tutorial-content blockquote:before { color: #ccc; content: open-quote; font-size: 4em; line-height: 0.1em; margin-right: 0.25em; vertical-align: -0.4em; }
+
+body .article-content blockquote p, body .tutorial-content blockquote p { display: inline; }
+
+body .article-content code, body .tutorial-content code { font-size: 0.8rem; line-height: 1.25rem; }
 
 body .article-content table, body .article-content th, body .article-content tr, body .article-content td, body .tutorial-content table, body .tutorial-content th, body .tutorial-content tr, body .tutorial-content td { padding: 0.25rem 0.25rem; border: 1px solid; border-collapse: collapse; color: var(--on-surface-color); }
 
@@ -89,13 +96,19 @@ body .article-content table, body .tutorial-content table { width: 100%; margin-
 
 body .article-content th, body .tutorial-content th { font-weight: 700; }
 
-body .article-content p, body .tutorial-content p { color: var(--on-surface-color); margin-bottom: 2rem; }
+body .article-content p, body .tutorial-content p { color: var(--on-surface-color); margin-bottom: 1.25rem; }
 
-body .article-content p code, body .tutorial-content p code { font-size: 1.25rem; font-weight: bold; }
+body .article-content p code, body .tutorial-content p code { font-size: 1.10rem; color: #d28445; }
 
 body .article-content h1, body .article-content h2, body .article-content h3, body .article-content h4, body .article-content h5, body .article-content h6, body .tutorial-content h1, body .tutorial-content h2, body .tutorial-content h3, body .tutorial-content h4, body .tutorial-content h5, body .tutorial-content h6 { color: var(--on-background-color); }
 
+body .article-content hr, body .tutorial-content hr { border-color: lightgray; }
+
 body .article-content li, body .tutorial-content li { color: var(--on-surface-color); line-height: 2rem; }
+
+body .article-content a, body .article-content a:visited, body .article-content a:hover, body .article-content a:active, body .tutorial-content a, body .tutorial-content a:visited, body .tutorial-content a:hover, body .tutorial-content a:active { text-decoration: none; color: inherit; }
+
+body .article-content a:hover, body .article-content a.active, body .article-content a:visited:hover, body .article-content a.active:visited, body .article-content a:hover:hover, body .article-content a.active:hover, body .article-content a:active:hover, body .article-content a.active:active, body .tutorial-content a:hover, body .tutorial-content a.active, body .tutorial-content a:visited:hover, body .tutorial-content a.active:visited, body .tutorial-content a:hover:hover, body .tutorial-content a.active:hover, body .tutorial-content a:active:hover, body .tutorial-content a.active:active { color: var(--primary-color); }
 
 body footer { display: flex; justify-content: space-between; background-color: var(--footer-color); align-items: center; }
 

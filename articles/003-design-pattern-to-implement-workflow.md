@@ -7,6 +7,8 @@ category: article
 image: /assets/media/articles/003-design-pattern-to-implement-workflow/workflow-design-pattern-title.jpg
 tags:
   - Java
-date: Coming Soon
+date: 
 featured: true
 ---
+
+Coming Soon
