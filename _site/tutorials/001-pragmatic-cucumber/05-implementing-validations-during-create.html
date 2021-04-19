@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Madras Coder</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Implementing BDD to Test Validation Use Cases | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Implementing BDD to Test Validation Use Cases" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In the last chapter, we used BDD to develop and test ‘Create API’. In this chapter, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same." />
+<meta property="og:description" content="In the last chapter, we used BDD to develop and test ‘Create API’. In this chapter, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same." />
+<link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html" />
+<meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg" />
+<meta property="twitter:title" content="Implementing BDD to Test Validation Use Cases" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg","headline":"Implementing BDD to Test Validation Use Cases","description":"In the last chapter, we used BDD to develop and test ‘Create API’. In this chapter, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+    <nav>
+    <ul class="menu">
+        <li class="logo">
+            <a href="https://www.madrascoder.com">Madras Coder</a>
+        </li>
+        <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
+        <li class="item"><a href="https://www.madrascoder.com">Home</a></li>
+        <li class="item"><a href="/articles">Articles</a></li>
+        <li class="item"><a href="/tutorials">Tutorials</a></li>
+        <li class="item"><a href="/about.html">About</a></li>
+        <li class="item">
+            <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
+        </li>
+    </ul>
+</nav>
+    <main class="tutorial-content">
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg" title="Implementing BDD to Test Validation Use Cases" />
+        <p></p>
+        <h1>Implementing BDD to Test Validation Use Cases</h1>
+        <p>In the last chapter, we used BDD to develop and test 'Create API'. In this chapter, let's go a little deeper and learn how to represent validation use cases in feature file and test the same.
+</p>
+        <hr>
+        <h3 id="validation-use-cases">Validation Use Cases</h3>
+
+<p>Let’s imagine we have to perform the following validations before saving an employee.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Validation</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>firstName</td>
+      <td>Required</td>
+      <td>First name is a required field</td>
+    </tr>
+    <tr>
+      <td>lastName</td>
+      <td>Required</td>
+      <td>Last name is a required field</td>
+    </tr>
+    <tr>
+      <td>email</td>
+      <td>Valid Email Id</td>
+      <td>Email Id should be valid</td>
+    </tr>
+    <tr>
+      <td>dateOfBirth</td>
+      <td>Future Date</td>
+      <td>Date of birth cannot be in future</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="feature-file-for-validation-use-case">Feature File for Validation Use Case</h3>
+
+<p>In the previous chapters, we used <code class="language-plaintext highlighter-rouge">Scenario</code> in our feature files. Each <code class="language-plaintext highlighter-rouge">Scenario</code> is like one test case. In this case, we have to perform validations. For example, we have to test creating employee without <strong>firstName</strong> and expect the API to fail with 400 Bad Request. Next we have to test creating employee without <strong>lastName</strong> and expected the API to fail with 400 Bad Request. Likewise, we have test various validation use cases listed in the above said table. One of the best way to do this is by using <code class="language-plaintext highlighter-rouge">Scenario Outline</code> and <code class="language-plaintext highlighter-rouge">Examples</code>.</p>
+
+<p>Read the below stated feature file to see how <code class="language-plaintext highlighter-rouge">Scenario Outline</code> and <code class="language-plaintext highlighter-rouge">Examples</code> are used to represent validation test cases.</p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Create Employee
+
+  @smoketest
+  <span class="kn">Scenario</span><span class="p">:</span> Create employee with basic details
+    <span class="nf">Given </span>user wants to create employee with following details
+      <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>               <span class="p">|</span> <span class="nv">dateOfBirth</span> <span class="p">|</span> <span class="nv">jobTitle</span>                   <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">Effie</span>     <span class="p">|</span> <span class="n">Slee</span>     <span class="p">|</span> <span class="n">eslee@blueocean.com</span> <span class="p">|</span> <span class="n">2014-03-01</span>  <span class="p">|</span> <span class="n">Physical</span> <span class="n">Therapy</span> <span class="n">Assistant</span> <span class="p">|</span> <span class="n">E101</span>           <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
+
+    <span class="nf">When </span>user saves a new employee
+
+    <span class="nf">Then </span>the save 'IS SUCCESSFUL'
+
+  <span class="nt">@validations</span>
+  <span class="kn">Scenario Outline</span><span class="p">:</span> Create employee &lt;testCase&gt; &lt;expectedResult&gt;
+
+    <span class="nf">Given </span>user wants to create employee with following details
+      <span class="p">|</span> <span class="nv">firstName</span>   <span class="p">|</span> <span class="nv">lastName</span>   <span class="p">|</span> <span class="nv">email</span>   <span class="p">|</span> <span class="nv">dateOfBirth</span>   <span class="p">|</span> <span class="nv">jobTitle</span>                      <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">&lt;firstName&gt;</span> <span class="p">|</span> <span class="n">&lt;lastName&gt;</span> <span class="p">|</span> <span class="n">&lt;email&gt;</span> <span class="p">|</span> <span class="n">&lt;dateOfBirth&gt;</span> <span class="p">|</span> <span class="n">Budget/Accounting</span> <span class="n">Analyst</span> <span class="n">III</span> <span class="p">|</span> <span class="n">160</span>            <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
+    
+    <span class="nf">When </span>user saves a new employee <span class="nv">&lt;testCase&gt;</span>
+    
+    <span class="nf">Then </span>the save '<span class="nv">&lt;expectedResult&gt;</span>'
+
+    <span class="nn">Examples</span><span class="p">:</span>
+      <span class="p">|</span> <span class="nv">testCase</span>                                 <span class="p">|</span> <span class="nv">expectedResult</span> <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>                 <span class="p">|</span> <span class="nv">dateOfBirth</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">without</span> <span class="n">first</span> <span class="n">name</span>                       <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span>           <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">2000-05-26</span>  <span class="p">|</span>
+      <span class="p">|</span> <span class="n">without</span> <span class="n">last</span> <span class="n">name</span>                        <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span>          <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">2000-05-26</span>  <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">invalid</span> <span class="n">email</span> <span class="n">id</span> <span class="n">bfairall0@</span>         <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@</span>            <span class="p">|</span> <span class="n">2000-05-26</span>  <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">invalid</span> <span class="n">email</span> <span class="n">id</span> <span class="n">bfairall0</span>          <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0</span>             <span class="p">|</span> <span class="n">2000-05-26</span>  <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">date</span> <span class="n">of</span> <span class="n">birth</span> <span class="n">as</span> <span class="n">future</span> <span class="n">date</span>        <span class="p">|</span> <span class="n">FAILS</span>          <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">2021-05-26</span>  <span class="p">|</span>
+      <span class="p">|</span> <span class="n">with</span> <span class="n">all</span> <span class="n">the</span> <span class="n">required</span> <span class="n">&amp;</span> <span class="n">valid</span> <span class="n">attributes</span> <span class="p">|</span> <span class="n">IS</span> <span class="n">SUCCESSFUL</span>  <span class="p">|</span> <span class="n">Barnie</span>    <span class="p">|</span> <span class="n">Fairall</span>  <span class="p">|</span> <span class="n">bfairall0@pcworld.com</span> <span class="p">|</span> <span class="n">2000-05-26</span>  <span class="p">|</span>
+
+</code></pre></div></div>
+
+<p>If you look at the feature file, there is one <code class="language-plaintext highlighter-rouge">Scenario</code> and one <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, this is just to compare each other. In <code class="language-plaintext highlighter-rouge">Scenario</code> the values or attributes of employee are hardcoded, but in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, values are picked up from <code class="language-plaintext highlighter-rouge">Examples</code>. <code class="language-plaintext highlighter-rouge">Scenario Outline</code> helps us to represent multiple test cases as examples and execute once for each row in the <code class="language-plaintext highlighter-rouge">Examples DataTable</code>.</p>
+
+<p>Now, lets compare ‘Given Step’, ‘When Step’ and ‘Then Step’ between <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>.</p>
+
+<h4 id="given-step-changes-between-scenario-and-scenario-outline">‘Given Step’ Changes between Scenario and Scenario Outline</h4>
+
+<p><strong>In Scenario,</strong></p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">Given </span>user wants to create employee with following details
+  <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>               <span class="p">|</span> <span class="nv">dateOfBirth</span> <span class="p">|</span> <span class="nv">jobTitle</span>                   <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+  <span class="p">|</span> <span class="n">Effie</span>     <span class="p">|</span> <span class="n">Slee</span>     <span class="p">|</span> <span class="n">eslee@blueocean.com</span> <span class="p">|</span> <span class="n">2014-03-01</span>  <span class="p">|</span> <span class="n">Physical</span> <span class="n">Therapy</span> <span class="n">Assistant</span> <span class="p">|</span> <span class="n">E101</span>           <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
+
+</code></pre></div></div>
+
+<p><strong>In Scenario Outline,</strong></p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">Given </span>user wants to create employee with following details
+  <span class="p">|</span> <span class="nv">firstName</span>   <span class="p">|</span> <span class="nv">lastName</span>   <span class="p">|</span> <span class="nv">email</span>   <span class="p">|</span> <span class="nv">dateOfBirth</span>   <span class="p">|</span> <span class="nv">jobTitle</span>                      <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+  <span class="p">|</span> <span class="n">&lt;firstName&gt;</span> <span class="p">|</span> <span class="n">&lt;lastName&gt;</span> <span class="p">|</span> <span class="n">&lt;email&gt;</span> <span class="p">|</span> <span class="n">&lt;dateOfBirth&gt;</span> <span class="p">|</span> <span class="n">Budget/Accounting</span> <span class="n">Analyst</span> <span class="n">III</span> <span class="p">|</span> <span class="n">160</span>            <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
+
+</code></pre></div></div>
+
+<p>Fields firstName, lastName, email and dateOfBirth are the ones that need to be validated. Hence in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, the values are modified to be variables <code class="language-plaintext highlighter-rouge">&lt;firstName&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;lastName&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;email&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;dateOfBirth&gt;</code>. <code class="language-plaintext highlighter-rouge">Scenario Outline</code> will be executed once per example row in <code class="language-plaintext highlighter-rouge">Examples DataTable</code>. In our case, we have 6 rows in <code class="language-plaintext highlighter-rouge">Examples</code> DataTable, hence the <code class="language-plaintext highlighter-rouge">Scenario Outline</code> will be executed 6 times once per example row. Value for these placeholders or variables will be picked up from the example that is being executed.</p>
+
+<h4 id="when-step">When Step</h4>
+
+<p><strong>In Scenario,</strong></p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">When </span>user saves a new employee
+</code></pre></div></div>
+
+<p><strong>In Scenario Outline,</strong></p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">When </span>user saves a new employee <span class="nv">&lt;testCase&gt;</span>
+</code></pre></div></div>
+
+<p>Comparing the ‘When Step’, in <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, the difference is the <code class="language-plaintext highlighter-rouge">&lt;testCase&gt;</code> placeholder in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>. Use of <code class="language-plaintext highlighter-rouge">&lt;testCase&gt;</code> variable in this step is to print the test case when executing the step. When the first example is executed, ‘When Step’ will be printed as stated below</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>When user saves a new employee without first name
+Then the save <span class="s1">'FAILS'</span>
+</code></pre></div></div>
+
+<p>For the above ‘When Step’ in both <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, we have only one step definition method,</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves a new employee(.*)"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesANewEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">...</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<p>If you look at the <code class="language-plaintext highlighter-rouge">@When</code> annotation, we used <code class="language-plaintext highlighter-rouge">(.*)</code> at the end. By using <code class="language-plaintext highlighter-rouge">(.*)</code>, we are asking Cucumber not to use any word after ‘user saves a new employee’ for matching the step definition. Anything that is stated inside a parenthesis is an optional text and it will not be used for matching the step in feature file with the step definition method. Hence we are able to use one step definition method for both of the ‘When Step’s in <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>. We have used ‘Cucumber Expressions’ support to achieve this.</p>
+
+<h4 id="then-step">Then Step</h4>
+
+<p>One change you can notice easily in the <code class="language-plaintext highlighter-rouge">Then</code> step is, enclosing ‘IS SUCCESSFUL’ between single quotes as stated below.</p>
+
+<p><strong>In Scenario,</strong></p>
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">Then </span>the save 'IS SUCCESSFUL'
+</code></pre></div></div>
+
+<p><strong>In Scenario Outline,</strong></p>
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">Then </span>the save '<span class="nv">&lt;expectedResult&gt;</span>'
+</code></pre></div></div>
+
+<p>When you enclose words between Single Quote (‘), it is considered as a String and the value in between single quotes can be captured as an argument in step definition. Here is the corresponding step definition.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Then</span><span class="o">(</span><span class="s">"the save {string}"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">theSave</span><span class="o">(</span><span class="nc">String</span> <span class="n">expectedResult</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>When the method <code class="language-plaintext highlighter-rouge">theSave(String expectedResult)</code> is executed, expectedResult will be ‘IS SUCCESSFUL’ for the <code class="language-plaintext highlighter-rouge">Scenario: Create employee with basic details</code>.</p>
+
+<blockquote>
+  <p>When you list examples test cases, have all failure test cases first and then have success test case at the end, like what we had in the above said feature file.</p>
+</blockquote>
+
+<h4 id="employeestepdefinitionsjava-changes">EmployeeStepDefinitions.java Changes</h4>
+
+<p>Two methods, <code class="language-plaintext highlighter-rouge">userSavesANewEmployee</code> and <code class="language-plaintext highlighter-rouge">theSave</code> are the ones that you need to look in the below code.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">io</span><span class="o">.</span><span class="na">restassured</span><span class="o">.</span><span class="na">RestAssured</span><span class="o">.</span><span class="na">given</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.Given</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.Then</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.When</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.http.ContentType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.response.Response</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.web.server.LocalServerPort</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeStepDefinitions</span> <span class="o">{</span>
+
+  <span class="c1">// By default, all step definitions are Spring Beans</span>
+  <span class="c1">// You may autowire Spring Beans and Properties in Cucumber </span>
+  <span class="c1">// StepDefinition class</span>
+  <span class="nd">@LocalServerPort</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">port</span><span class="o">;</span>
+
+  <span class="kd">private</span> <span class="nc">Response</span> <span class="n">response</span><span class="o">;</span>
+
+  <span class="kd">private</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">baseUrl</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"http://localhost:"</span> <span class="o">+</span> <span class="n">port</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"user wants to create employee with following details"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToCreateEmployeeWithFollowingDetails</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employee</span> <span class="o">=</span> <span class="n">employee</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves a new employee(.*)"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesANewEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">baseUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"/v1/employees"</span><span class="o">;</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">given</span><span class="o">().</span><span class="na">log</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">all</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">employee</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">contentType</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+
+    <span class="n">response</span><span class="o">.</span><span class="na">then</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">log</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">all</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Then</span><span class="o">(</span><span class="s">"the save {string}"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">theSave</span><span class="o">(</span><span class="nc">String</span> <span class="n">expectedResult</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">actualStatusCode</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">();</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="s">"IS SUCCESSFUL"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualStatusCode</span><span class="o">).</span><span class="na">isIn</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">201</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"FAILS"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualStatusCode</span><span class="o">).</span><span class="na">isIn</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="mi">412</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"NOT FOUND"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualStatusCode</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">404</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Cannot parse expected result, expecting 'IS SUCCESSFUL' or 'FAILS'"</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>If you run the Cucumber test</strong>, you can see all the test cases related to validations are failing. It is because, we have not implement validations yet.</p>
+
+<h3 id="api-changes-to-implement-validations">API Changes to Implement Validations</h3>
+
+<p>Let us make necessary changes to source code to implement the expected validation to make the tests pass.</p>
+
+<h4 id="add-maven-dependency-to-perform-bean-validation">Add Maven Dependency to Perform Bean Validation</h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Bean Validation --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-validation<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>Note:</strong> We don’t have version because, it is inherited from Spring Boot Dependencies.</p>
+
+<h4 id="add-validation-annotations-to-employee-dto-bean">Add Validation Annotations to Employee DTO Bean</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.validation.constraints.Email</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.validation.constraints.NotBlank</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.validation.constraints.Past</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Getter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Setter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.ToString</span><span class="o">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@ToString</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+  <span class="nd">@NotBlank</span><span class="o">(</span><span class="n">message</span> <span class="o">=</span> <span class="s">"First name is required"</span><span class="o">)</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">;</span>
+
+  <span class="nd">@NotBlank</span><span class="o">(</span><span class="n">message</span> <span class="o">=</span> <span class="s">"Last name is required"</span><span class="o">)</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">;</span>
+
+  <span class="nd">@Email</span><span class="o">(</span><span class="n">message</span> <span class="o">=</span> <span class="s">"Valid email id is required"</span><span class="o">)</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+
+  <span class="nd">@Past</span><span class="o">(</span><span class="n">message</span> <span class="o">=</span> <span class="s">"Expecting past date for date of birth"</span><span class="o">)</span>
+  <span class="kd">private</span> <span class="nc">LocalDate</span> <span class="n">dateOfBirth</span><span class="o">;</span>
+
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">remoteWorker</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">jobTitle</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">employeeNumber</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">employmentStatus</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">employmentType</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="add-methodargumentnotvalidexception-handler-to-defaultrestcontrolleradvice">Add MethodArgumentNotValidException Handler to DefaultRestControllerAdvice</h3>
+
+<p>Look at method annotated with <code class="language-plaintext highlighter-rouge">@ExceptionHandler(MethodArgumentNotValidException.class)</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.stream.Collectors</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.EntityNotFoundException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Getter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Setter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.support.DefaultMessageSourceResolvable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.HttpStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.MethodArgumentNotValidException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.ControllerAdvice</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.ExceptionHandler</span><span class="o">;</span>
+
+<span class="nd">@ControllerAdvice</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultRestControllerAdvice</span> <span class="o">{</span>
+
+  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">EntityNotFoundException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Message</span><span class="o">&gt;&gt;</span> <span class="nf">handleException</span><span class="o">(</span><span class="nc">EntityNotFoundException</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="nc">Message</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">exception</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">message</span><span class="o">),</span> <span class="nc">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">);</span>
+  <span class="o">}</span>
+
+
+  <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">MethodArgumentNotValidException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Message</span><span class="o">&gt;&gt;</span> <span class="nf">handleValidationExceptions</span><span class="o">(</span><span class="nc">MethodArgumentNotValidException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Message</span><span class="o">&gt;</span> <span class="n">messages</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="na">getBindingResult</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">getAllErrors</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">DefaultMessageSourceResolvable:</span><span class="o">:</span><span class="n">getDefaultMessage</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Message:</span><span class="o">:</span><span class="n">error</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="n">messages</span><span class="o">,</span> <span class="nc">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Getter</span>
+  <span class="nd">@Setter</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Message</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Message</span> <span class="nf">info</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Message</span><span class="o">();</span>
+      <span class="n">message</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="nc">Message</span><span class="o">.</span><span class="na">MessageType</span><span class="o">.</span><span class="na">INFO</span><span class="o">);</span>
+      <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">text</span><span class="o">);</span>
+
+      <span class="k">return</span> <span class="n">message</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Message</span> <span class="nf">warning</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Message</span><span class="o">();</span>
+      <span class="n">message</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="nc">Message</span><span class="o">.</span><span class="na">MessageType</span><span class="o">.</span><span class="na">WARNING</span><span class="o">);</span>
+      <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">text</span><span class="o">);</span>
+
+      <span class="k">return</span> <span class="n">message</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Message</span> <span class="nf">error</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Message</span><span class="o">();</span>
+      <span class="n">message</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="nc">Message</span><span class="o">.</span><span class="na">MessageType</span><span class="o">.</span><span class="na">ERROR</span><span class="o">);</span>
+      <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">text</span><span class="o">);</span>
+
+      <span class="k">return</span> <span class="n">message</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Message</span><span class="o">.</span><span class="na">MessageType</span> <span class="n">type</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">text</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">MessageType</span> <span class="o">{</span>
+      <span class="no">INFO</span><span class="o">,</span>
+      <span class="no">WARNING</span><span class="o">,</span>
+      <span class="no">ERROR</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="add-valid-annotation-to-employeerestcontroller">Add @Valid Annotation to EmployeeRestController</h4>
+
+<p>Look at <code class="language-plaintext highlighter-rouge">@Valid</code> annotation added to <code class="language-plaintext highlighter-rouge">createEmployee</code> method.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">http</span><span class="o">.</span><span class="na">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.service.EmployeeService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.validation.Valid</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.ServletUriComponentsBuilder</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/v1/employees"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeRestController</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">;</span>
+
+  <span class="c1">// Using Spring Constructor Injection</span>
+  <span class="kd">public</span> <span class="nf">EmployeeRestController</span><span class="o">(</span><span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeService</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">consumes</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">createEmployee</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span><span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">location</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">getEmployeeById</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="run-the-test">Run the Test</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean verify
+</code></pre></div></div>
+
+<p>Maven Log: You can see logs similar to the one below, I have removed the REST request and response log to make it easier to read,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+@validations
+Scenario Outline: Create employee without first name FAILS   <span class="c"># com/madrascoder/cucumberbooksample/1100-create-employee.feature:26</span>
+  Given user wants to create employee with following details <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee without first name          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                      <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Create employee without last name FAILS    <span class="c"># com/madrascoder/cucumberbooksample/1100-create-employee.feature:27</span>
+  Given user wants to create employee with following details <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee without last name           <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                      <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Create employee with invalid email <span class="nb">id </span>bfairall0@ FAILS <span class="c"># com/madrascoder/cucumberbooksample/1100-create-employee.feature:28</span>
+  Given user wants to create employee with following details             <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with invalid email <span class="nb">id </span>bfairall0@        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                                  <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Create employee with invalid email <span class="nb">id </span>bfairall0 FAILS <span class="c"># com/madrascoder/cucumberbooksample/1100-create-employee.feature:29</span>
+  Given user wants to create employee with following details            <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with invalid email <span class="nb">id </span>bfairall0        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                                 <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Create employee with <span class="nb">date </span>of birth as future <span class="nb">date </span>FAILS <span class="c"># com/madrascoder/cucumberbooksample/1100-create-employee.feature:30</span>
+  Given user wants to create employee with following details              <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with <span class="nb">date </span>of birth as future <span class="nb">date</span>        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'FAILS'</span>                                                   <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.theSave(java.lang.String)</span>
+
+@validations
+Scenario Outline: Create employee with all the required &amp; valid attributes IS SUCCESSFUL <span class="c"># com/madrascoder/cucumberbooksample/1100-create-employee.feature:31</span>
+  Given user wants to create employee with following details                             <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToCreateEmployeeWithFollowingDetails(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user saves a new employee with all the required &amp; valid attributes                <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userSavesANewEmployee()</span>
+  Then the save <span class="s1">'IS SUCCESSFUL'</span>                                                          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.theSave(java.lang.String)</span>
+
+...
+</code></pre></div></div>
+
+<p>Read the log and look at the <code class="language-plaintext highlighter-rouge">Scenario Outline</code> once again, you will understand the concept behind <code class="language-plaintext highlighter-rouge">Scenario Outline</code> &amp; <code class="language-plaintext highlighter-rouge">Examples</code> much better.</p>
+
+<p><strong>Note:</strong> If you have looked closely, DataTable didn’t get printed in the logs. Yes Cucumber uses ‘pretty’ print report to log the execution and it doesn’t print the DataTable. In order to solve this problem, we will learn to generate a HTML report in a future chapter.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, you learnt how to use <code class="language-plaintext highlighter-rouge">Scenario Outline</code> and <code class="language-plaintext highlighter-rouge">Examples</code> to implement API validation use cases.</p>
+
+<p>In the step definition code, we had a method to assert the response. It is a generic method, it can be used to assert Employee API or any other API. As its a common method, we can move it to a separate class called <code class="language-plaintext highlighter-rouge">CommonStepDefinitions.java</code>, but this method uses the instance variable in <code class="language-plaintext highlighter-rouge">EmployeeStepDefinitions.java</code> to assert the response. In order to effectively utilize or reuse step definitions from multiple classes, we need to change the way we share state between step definitions.</p>
+
+<p>In the next chapter, lets learn 2 ways to share state between step definitions.</p>
+
+<hr />
+
+<h3 id="references">References</h3>
+
+<p>For more information on <code class="language-plaintext highlighter-rouge">Cucumber Expressions</code> you may refer <a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">https://cucumber.io/docs/cucumber/cucumber-expressions/</a></p>
+
+<p>For more information on <code class="language-plaintext highlighter-rouge">RestAssured</code> you may refer <a href="https://rest-assured.io/" target="_blank">https://rest-assured.io/</a></p>
+
+<hr />
+
+<h3 id="credits">Credits</h3>
+
+<p>Photo by <a href="https://unsplash.com/@glenncarstenspeters?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Glenn Carstens-Peters</a> on <a href="https://unsplash.com/s/photos/list?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Unsplash</a></p>
+
+<hr />
+
+<p><a href="/tutorials/001-pragmatic-cucumber/04-implementing-create-resource.html">Previous Chapter</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html">Scroll Up to Top</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/">Table of Contents</a> |
+<a href="/tutorials/001-pragmatic-cucumber/06-sharing-state-between-steps.html">Next Chapter</a></p>
+
+    </main>
+    <footer>
+    <section class="legal">
+        <ul>
+            <li><a href="#"><i class="far fa-copyright"></i> Madras Coder</a></li>
+            <li><a href="#">SiteMap</a></li>
+            <li><a href="#">Credits</a></li>
+        </ul>
+    </section>
+    <section class="social">
+        <ul>
+            <li>
+                <a href="https://www.twitter.com/bcarun" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://stackoverflow.com/users/story/1535606" target="_blank">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/bcarun" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/bcarun/" target="_blank">
+                    <i class="fab fa-linkedin-in fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</footer>
+    <script src="/assets/scripts.js"></script>
+</body>
+
+</html>

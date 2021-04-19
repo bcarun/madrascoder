@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Madras Coder</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Use BDD to Implement and Test ‘GET APIs’ | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Use BDD to Implement and Test ‘GET APIs’" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this chapter, let us see how to create feature files for ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library." />
+<meta property="og:description" content="In this chapter, let us see how to create feature files for ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library." />
+<link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html" />
+<meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg" />
+<meta property="twitter:title" content="Use BDD to Implement and Test ‘GET APIs’" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg","headline":"Use BDD to Implement and Test ‘GET APIs’","description":"In this chapter, let us see how to create feature files for ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+    <nav>
+    <ul class="menu">
+        <li class="logo">
+            <a href="https://www.madrascoder.com">Madras Coder</a>
+        </li>
+        <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
+        <li class="item"><a href="https://www.madrascoder.com">Home</a></li>
+        <li class="item"><a href="/articles">Articles</a></li>
+        <li class="item"><a href="/tutorials">Tutorials</a></li>
+        <li class="item"><a href="/about.html">About</a></li>
+        <li class="item">
+            <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
+        </li>
+    </ul>
+</nav>
+    <main class="tutorial-content">
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg" title="Use BDD to Implement and Test 'GET APIs'" />
+        <p></p>
+        <h1>Use BDD to Implement and Test 'GET APIs'</h1>
+        <p>In this chapter, let us see how to create feature files for 'GET APIs'. Also, let us see how we can compare the expected results with the actual results using AssertJ library.
+</p>
+        <hr>
+        <p>Let’s create feature file, step definitions and an API for the following requirement/user story.</p>
+
+<p><strong>As a</strong> HR Staff,<br />
+<strong>I want to</strong> get employee details by id,<br />
+<strong>So that</strong> I view the details of the respective employee.</p>
+
+<p><strong>As a</strong> HR Staff,<br />
+<strong>I want to</strong> get employee details by last name,<br />
+<strong>So that</strong> I view all the employees with who has the given last name.</p>
+
+<hr />
+
+<h3 id="step-1-create-feature-file-for-get-apis">Step 1: Create Feature File for ‘Get APIs’</h3>
+
+<p>Here is the feature file containing following scenarios</p>
+
+<ol>
+  <li><strong>Get employee by id</strong></li>
+  <li><strong>Get employees by last name</strong></li>
+</ol>
+
+<h4 id="11-feature-file">1.1 Feature File</h4>
+
+<p>In the feature <code class="language-plaintext highlighter-rouge">Background</code>, we setup 3 employees with ids <strong>(111001, 111002, 111003)</strong>. Also, employee with id = <strong>‘111001’</strong> and <strong>‘111003’</strong> is set to have the same last name <strong>‘Green’</strong>. This is to test <strong>‘Get employees by last name’</strong> use case.</p>
+
+<div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Get Employee
+
+  <span class="kn">Background</span><span class="p">:</span> Employee already exists
+
+    <span class="nf">Given </span>a employee with following details already exists
+      <span class="p">|</span> <span class="nv">id</span>     <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>              <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>                     <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">111001</span> <span class="p">|</span> <span class="n">Tyrone</span>    <span class="p">|</span> <span class="n">Green</span>    <span class="p">|</span> <span class="n">tobeney0@hc360.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6546</span> <span class="p">|</span> <span class="n">NO</span>           <span class="p">|</span> <span class="n">Budget/Accounting</span> <span class="n">Analyst</span> <span class="n">II</span> <span class="p">|</span> <span class="n">175</span>            <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Part-Time</span>      <span class="p">|</span>
+
+    <span class="nf">And </span>a employee with following details already exists
+      <span class="p">|</span> <span class="nv">id</span>     <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span>  <span class="p">|</span> <span class="nv">email</span>                   <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>                      <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">111002</span> <span class="p">|</span> <span class="n">Shel</span>      <span class="p">|</span> <span class="n">Hendricks</span> <span class="p">|</span> <span class="n">shendricks1@walmart.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6547</span> <span class="p">|</span> <span class="n">YES</span>          <span class="p">|</span> <span class="n">Community</span> <span class="n">Outreach</span> <span class="n">Specialist</span> <span class="p">|</span> <span class="n">183</span>            <span class="p">|</span> <span class="n">Inactive</span>       <span class="p">|</span> <span class="n">Contractor</span>     <span class="p">|</span>
+
+    <span class="nf">And </span>a employee with following details already exists
+      <span class="p">|</span> <span class="nv">id</span>     <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>                <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>           <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">111003</span> <span class="p">|</span> <span class="n">Salli</span>     <span class="p">|</span> <span class="n">Green</span>    <span class="p">|</span> <span class="n">sduffitt2@rambler.ru</span> <span class="p">|</span> <span class="n">LocalDate.now-6548</span> <span class="p">|</span> <span class="n">YES</span>          <span class="p">|</span> <span class="n">Biostatistician</span> <span class="n">IV</span> <span class="p">|</span> <span class="n">146</span>            <span class="p">|</span> <span class="n">Inactive</span>       <span class="p">|</span> <span class="n">Part-Time</span>      <span class="p">|</span>
+
+
+  <span class="kn">Scenario</span><span class="p">:</span> Get employee by id
+
+    <span class="nf">When </span>user wants to get employee by id 111002
+
+    <span class="nf">Then </span>the get 'IS SUCCESSFUL'
+
+    <span class="nf">And </span>following employee is returned
+      <span class="p">|</span> <span class="nv">id</span>     <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span>  <span class="p">|</span> <span class="nv">email</span>                   <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>                      <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">111002</span> <span class="p">|</span> <span class="n">Shel</span>      <span class="p">|</span> <span class="n">Hendricks</span> <span class="p">|</span> <span class="n">shendricks1@walmart.com</span> <span class="p">|</span> <span class="n">LocalDate.now-6547</span> <span class="p">|</span> <span class="n">YES</span>          <span class="p">|</span> <span class="n">Community</span> <span class="n">Outreach</span> <span class="n">Specialist</span> <span class="p">|</span> <span class="n">183</span>            <span class="p">|</span> <span class="n">Inactive</span>       <span class="p">|</span> <span class="n">Contractor</span>     <span class="p">|</span>
+
+
+  <span class="kn">Scenario</span><span class="p">:</span> Get employee by last name
+
+    <span class="nf">When </span>user wants to get employee by last name containing 'Gre'
+
+    <span class="nf">Then </span>the get 'IS SUCCESSFUL'
+
+    <span class="nf">And </span>following employees are returned
+      <span class="p">|</span> <span class="nv">id</span>     <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>                <span class="p">|</span> <span class="nv">dateOfBirth</span>        <span class="p">|</span> <span class="nv">remoteWorker</span> <span class="p">|</span> <span class="nv">jobTitle</span>                     <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">111003</span> <span class="p">|</span> <span class="n">Salli</span>     <span class="p">|</span> <span class="n">Green</span>    <span class="p">|</span> <span class="n">sduffitt2@rambler.ru</span> <span class="p">|</span> <span class="n">LocalDate.now-6548</span> <span class="p">|</span> <span class="n">YES</span>          <span class="p">|</span> <span class="n">Biostatistician</span> <span class="n">IV</span>           <span class="p">|</span> <span class="n">146</span>            <span class="p">|</span> <span class="n">Inactive</span>       <span class="p">|</span> <span class="n">Part-Time</span>      <span class="p">|</span>
+      <span class="p">|</span> <span class="n">111001</span> <span class="p">|</span> <span class="n">Tyrone</span>    <span class="p">|</span> <span class="n">Green</span>    <span class="p">|</span> <span class="n">tobeney0@hc360.com</span>   <span class="p">|</span> <span class="n">LocalDate.now-6546</span> <span class="p">|</span> <span class="n">NO</span>           <span class="p">|</span> <span class="n">Budget/Accounting</span> <span class="n">Analyst</span> <span class="n">II</span> <span class="p">|</span> <span class="n">175</span>            <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Part-Time</span>      <span class="p">|</span>
+
+</code></pre></div></div>
+
+<p>If you look at the both the <code class="language-plaintext highlighter-rouge">Scenario</code>s, there is no <code class="language-plaintext highlighter-rouge">Given Step</code>. Yes, you can create a <code class="language-plaintext highlighter-rouge">Scenario</code> without a <code class="language-plaintext highlighter-rouge">Given Step</code>.</p>
+
+<h4 id="12-corresponding-step-definitions">1.2 Corresponding Step Definitions</h4>
+
+<p>In the step definition class below, look at the methods <code class="language-plaintext highlighter-rouge">userWantsToGetEmployeeById</code>, <code class="language-plaintext highlighter-rouge">followingEmployeeIsReturned</code>, <code class="language-plaintext highlighter-rouge">userWantsToGetEmployeeByLastNameContaining</code> and <code class="language-plaintext highlighter-rouge">followingEmployeesAreReturned</code>. These are the new methods added to support testing ‘GET APIs’.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.And</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.Given</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.When</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.mapper.TypeRef</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.response.Response</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeStepDefinitions</span> <span class="kd">extends</span> <span class="nc">AbstractStepDefinitions</span> <span class="o">{</span>
+
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"user wants to create/update employee with following details"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToCreateEmployeeWithFollowingDetails</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="c1">// Background Step. It gets executed once for every Scenario or Example.</span>
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"a employee with following details already exists"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">aEmployeeWithFollowingDetailsAlreadyExists</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    
+    <span class="c1">// Payload is picked up from test context automatically</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+
+    <span class="c1">// To make sure next API call doesn't use the previous request payload</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">reset</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves a new employee(.*)"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesANewEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves employee"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executePut</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user wants to get employee by id {int}"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToGetEmployeeById</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="n">id</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="n">executeGet</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"/{id}"</span><span class="o">,</span> <span class="n">pathParams</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@And</span><span class="o">(</span><span class="s">"following employee is returned"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">followingEmployeeIsReturned</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">expectedEmployee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">().</span><span class="na">getResponse</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">Employee</span> <span class="n">actualEmployee</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="nc">Employee</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">actualEmployee</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expectedEmployee</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user wants to get employee by last name containing {string}"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToGetEmployeeByLastNameContaining</span><span class="o">(</span><span class="nc">String</span> <span class="n">lastNameContaining</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"last-name-containing"</span><span class="o">,</span> <span class="n">lastNameContaining</span><span class="o">);</span>
+    <span class="n">executeGet</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">(),</span> <span class="kc">null</span><span class="o">,</span> <span class="n">queryParams</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@And</span><span class="o">(</span><span class="s">"following employees are returned"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">followingEmployeesAreReturned</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">expectedEmployees</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">().</span><span class="na">getResponse</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">actualEmployees</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="k">new</span> <span class="nc">TypeRef</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;&gt;()</span> <span class="o">{});</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">actualEmployees</span><span class="o">).</span><span class="na">containsExactlyElementsOf</span><span class="o">(</span><span class="n">expectedEmployees</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="nc">String</span> <span class="nf">employeeResourceUrl</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">baseUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"/v1/employees"</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Note:</strong> In all the previous chapter, we assert the HTTP response code, but here in GET API Scenario, we do another assertion to check if the actual response payload matches with the expected response payload using AssertJ library.</p>
+
+<h4 id="13-modified-commonstepdefinitionsjava-to-match-get-api-response-code-assertion">1.3 Modified CommonStepDefinitions.java to match ‘Get API’ Response Code Assertion</h4>
+
+<p>Look at the the <code class="language-plaintext highlighter-rouge">Then Step</code>, it uses Cucumber Expressions <strong>alternate text</strong> to match both <code class="language-plaintext highlighter-rouge">save</code> and <code class="language-plaintext highlighter-rouge">get</code> words using <code class="language-plaintext highlighter-rouge">save/get</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.TestContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.Then</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.response.Response</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommonStepDefinitions</span> <span class="o">{</span>
+
+  <span class="nd">@Autowired</span>
+  <span class="kd">private</span> <span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">;</span>
+
+  <span class="nd">@Then</span><span class="o">(</span><span class="s">"the save/get {string}"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">theSave</span><span class="o">(</span><span class="nc">String</span> <span class="n">expectedResult</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getResponse</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">actualStatusCode</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">();</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="s">"IS SUCCESSFUL"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualStatusCode</span><span class="o">).</span><span class="na">isIn</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">201</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"FAILS"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualStatusCode</span><span class="o">).</span><span class="na">isIn</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="mi">412</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"NOT FOUND"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualStatusCode</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">404</span><span class="o">);</span>
+
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span>
+          <span class="s">"Expected result is invalid. Valid values are 'IS SUCCESSFUL', 'FAILS', 'NOT FOUND'"</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now that we have the Scenarios to test ‘Get APIs’, you may run the test. Test will fail as we have not yet implemented the ‘Get API’, to be specific we have not yet implemented ‘Get employee by last name’.</p>
+
+<hr />
+
+<h3 id="step-2-implement-get-apis">Step 2: Implement ‘Get APIs’</h3>
+
+<h4 id="21-add-find-method-to-employeerepositoryjava">2.1 Add find method to EmployeeRepository.java</h4>
+
+<p><strong>Path:</strong> src/main/java/com/madrascoder/cucumberbooksample/repository/EmployeeRepository.java</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.Query</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Repository</span><span class="o">;</span>
+
+<span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">EmployeeRepository</span> <span class="kd">extends</span> <span class="nc">JpaRepository</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="nd">@Query</span><span class="o">(</span><span class="s">"select e from EmployeeEntity e where e.lastName like %:lastName% order by e.lastName, e.firstName"</span><span class="o">)</span>
+  <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">&gt;</span> <span class="nf">findByLastName</span><span class="o">(</span><span class="nc">String</span> <span class="n">lastName</span><span class="o">);</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="22-add-getbyid-and-getbylastname-methods-to-employeeservicejava">2.2 Add getById and getByLastName methods to EmployeeService.java</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.mapper.EmployeeMapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.repository.EmployeeRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.EntityNotFoundException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="o">;</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeService</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeMapper</span> <span class="n">employeeMapper</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeRepository</span> <span class="n">employeeRepository</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">EmployeeService</span><span class="o">(</span><span class="nc">EmployeeMapper</span> <span class="n">employeeMapper</span><span class="o">,</span> <span class="nc">EmployeeRepository</span> <span class="n">employeeRepository</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeMapper</span> <span class="o">=</span> <span class="n">employeeMapper</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeRepository</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span>
+  <span class="kd">public</span> <span class="nc">Long</span> <span class="nf">create</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">EmployeeEntity</span> <span class="n">employeeEntity</span> <span class="o">=</span> <span class="n">employeeMapper</span><span class="o">.</span><span class="na">toEmployeeEntity</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="n">employeeEntity</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">employeeEntity</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">employeeEntity</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">Employee</span> <span class="nf">getById</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">&gt;</span> <span class="n">employeeEntityOpt</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="n">employeeEntityOpt</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">employeeMapper:</span><span class="o">:</span><span class="n">toEmployee</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EntityNotFoundException</span><span class="o">(</span><span class="s">"Employee not found for given id"</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">getByLastName</span><span class="o">(</span><span class="nc">String</span> <span class="n">lastNameContaining</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">&gt;</span> <span class="n">entities</span> <span class="o">=</span>
+        <span class="n">employeeRepository</span><span class="o">.</span><span class="na">findByLastName</span><span class="o">(</span><span class="n">lastNameContaining</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="n">employeeMapper</span><span class="o">.</span><span class="na">toEmployees</span><span class="o">(</span><span class="n">entities</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Transactional</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">EmployeeEntity</span><span class="o">&gt;</span> <span class="n">employeeEntityOpt</span> <span class="o">=</span> <span class="n">employeeRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+
+    <span class="kd">final</span> <span class="nc">EmployeeEntity</span> <span class="n">employeeEntity</span> <span class="o">=</span> <span class="n">employeeEntityOpt</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">employeeEntityInDb</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="n">employeeMapper</span><span class="o">.</span><span class="na">mergeToEmployeeEntity</span><span class="o">(</span><span class="n">employee</span><span class="o">,</span> <span class="n">employeeEntityInDb</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">employeeEntityInDb</span><span class="o">;</span>
+
+    <span class="o">}).</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EntityNotFoundException</span><span class="o">(</span><span class="s">"Employee not found for given id"</span><span class="o">));</span>
+
+    <span class="c1">// No need to explicitly save employee entity as it will be merged when transaction is committed.</span>
+    <span class="n">employeeRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">employeeEntity</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="23-add-http-get-methods-to-employeerestcontrollerjava">2.3 Add HTTP GET methods to EmployeeRestController.java</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">http</span><span class="o">.</span><span class="na">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.service.EmployeeService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.validation.Valid</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PutMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestBody</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestParam</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.ServletUriComponentsBuilder</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/v1/employees"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeRestController</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">;</span>
+
+  <span class="c1">// Using Spring Constructor Injection</span>
+  <span class="kd">public</span> <span class="nf">EmployeeRestController</span><span class="o">(</span><span class="nc">EmployeeService</span> <span class="n">employeeService</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">employeeService</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">consumes</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">createEmployee</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span><span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">location</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">getEmployeeById</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">employeeService</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">produces</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;&gt;</span> <span class="nf">getEmployeesByLastName</span><span class="o">(</span>
+      <span class="nd">@RequestParam</span><span class="o">(</span><span class="s">"last-name-containing"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">lastNameContaining</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employeeService</span><span class="o">.</span><span class="na">getByLastName</span><span class="o">(</span><span class="n">lastNameContaining</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="nd">@PutMapping</span><span class="o">(</span><span class="n">consumes</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="no">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="nf">updateEmployee</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">employeeService</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">employeeService</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="step-3-run-the-test">Step 3: Run the Test</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean verify
+</code></pre></div></div>
+
+<p>Maven Log:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+Scenario: Get employee by <span class="nb">id</span>                             <span class="c"># com/madrascoder/cucumberbooksample/1110-get-employee.feature:18</span>
+  Given a employee with following details already exists <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  And a employee with following details already exists   <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  And a employee with following details already exists   <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user wants to get employee by <span class="nb">id </span>111002           <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToGetEmployeeById(java.lang.Integer)</span>
+  Then the get <span class="s1">'IS SUCCESSFUL'</span>                           <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+  And following employee is returned                     <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.followingEmployeeIsReturned(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+
+Scenario: Get employee by last name                             <span class="c"># com/madrascoder/cucumberbooksample/1110-get-employee.feature:29</span>
+  Given a employee with following details already exists        <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  And a employee with following details already exists          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  And a employee with following details already exists          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.aEmployeeWithFollowingDetailsAlreadyExists(com.madrascoder.cucumberbooksample.dto.Employee)</span>
+  When user wants to get employee by last name containing <span class="s1">'Gre'</span> <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.userWantsToGetEmployeeByLastNameContainingGre(java.lang.String)</span>
+  Then the get <span class="s1">'IS SUCCESSFUL'</span>                                  <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.CommonStepDefinitions.theSave(java.lang.String)</span>
+  And following employees are returned                          <span class="c"># com.madrascoder.cucumberbooksample.stepdefinitions.EmployeeStepDefinitions.followingEmployeesAreReturned(java.util.List&lt;com.madrascoder.cucumberbooksample.dto.Employee&gt;)</span>
+...
+</code></pre></div></div>
+
+<p><strong>Note:</strong> First 3 steps printed in the logs for each scenario are from <code class="language-plaintext highlighter-rouge">Background</code>. Remember, <code class="language-plaintext highlighter-rouge">Background</code> will get executed once for each scenario.</p>
+
+<hr />
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, we learnt how to use <code class="language-plaintext highlighter-rouge">Background</code> to setup all the data needed to test the ‘Get APIs’, implemented the ‘Get APIs’ and tested them. We also learnt how to validate the data in response payload by comparing it with the expected data given in the feature file.</p>
+
+<p>In the next chapter, we will learn how to generate reports using build-in Cucumber report plugins.</p>
+
+<hr />
+
+<h3 id="references">References</h3>
+
+<p>For more information on <code class="language-plaintext highlighter-rouge">AssertJ</code> library, you may refer <a href="https://assertj.github.io/doc/" target="_blank">https://assertj.github.io/doc/</a></p>
+
+<hr />
+
+<h3 id="credits">Credits</h3>
+
+<p>Photo by <a href="https://unsplash.com/@ayosake?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">David Sinclair</a> on <a href="https://unsplash.com/s/photos/search?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Unsplash</a></p>
+
+<hr />
+
+<p><a href="/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html">Previous Chapter</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html">Scroll Up to Top</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/">Table of Contents</a> |
+<a href="/tutorials/001-pragmatic-cucumber/13-cucumber-reports.html">Next Chapter</a></p>
+
+
+    </main>
+    <footer>
+    <section class="legal">
+        <ul>
+            <li><a href="#"><i class="far fa-copyright"></i> Madras Coder</a></li>
+            <li><a href="#">SiteMap</a></li>
+            <li><a href="#">Credits</a></li>
+        </ul>
+    </section>
+    <section class="social">
+        <ul>
+            <li>
+                <a href="https://www.twitter.com/bcarun" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://stackoverflow.com/users/story/1535606" target="_blank">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/bcarun" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/bcarun/" target="_blank">
+                    <i class="fab fa-linkedin-in fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</footer>
+    <script src="/assets/scripts.js"></script>
+</body>
+
+</html>
