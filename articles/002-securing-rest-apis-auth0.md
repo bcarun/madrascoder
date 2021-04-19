@@ -200,7 +200,7 @@ public class Employee {
   private Long id;
   private String firstName;
   private String lastName;
-  private LocalDate joiningDate;
+  private LocalDate dateOfBirth;
 
 }
 ```
@@ -227,7 +227,7 @@ public class EmployeeService {
     return new Employee().setId(1L)
         .setFirstName("Joseph")
         .setLastName("Alex")
-        .setJoiningDate(LocalDate.now());
+        .setDateOfBirth(LocalDate.now());
   }
 }
 ```

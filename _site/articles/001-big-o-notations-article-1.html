@@ -21,6 +21,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Big O notations help us to represent an algorithm or a program’s efficiency. In this article, we will see 3 basic Big O notations O(1), O(n) and O(log n) with simple explanations and examples with code snippets." />
+<meta property="og:description" content="Big O notations help us to represent an algorithm or a program’s efficiency. In this article, we will see 3 basic Big O notations O(1), O(n) and O(log n) with simple explanations and examples with code snippets." />
+<link rel="canonical" href="https://www.madrascoder.com/articles/001-big-o-notations-article-1.html" />
+<meta property="og:url" content="https://www.madrascoder.com/articles/001-big-o-notations-article-1.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/articles/001-big-o-notations-article-1/clock-title-picture.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-17T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/articles/001-big-o-notations-article-1/clock-title-picture.jpg" />
+<meta property="twitter:title" content="Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/articles/001-big-o-notations-article-1.html","image":"https://www.madrascoder.com/assets/media/articles/001-big-o-notations-article-1/clock-title-picture.jpg","headline":"Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms","dateModified":"2021-01-17T00:00:00-05:00","datePublished":"2021-01-17T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.madrascoder.com/articles/001-big-o-notations-article-1.html"},"description":"Big O notations help us to represent an algorithm or a program’s efficiency. In this article, we will see 3 basic Big O notations O(1), O(n) and O(log n) with simple explanations and examples with code snippets.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
 </head>
 
 <body>
@@ -41,10 +62,11 @@
 </nav>
     <main class="article-content">
         <img src="/assets/media/articles/001-big-o-notations-article-1/clock-title-picture.jpg" title="Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms" />
-        <p>January 17, 2021</p>
+        <p>2021-01-17</p>
         <h1>Algorithms - Big O Notations O(1) O(n) O(log n) Explained In Simple Terms</h1>
         <p>Big O notations help us to represent an algorithm or a program’s efficiency. In this article, we will see 3 basic Big O notations O(1), O(n) and O(log n) with simple explanations and examples with code snippets.
 </p>
+        <hr>
         <hr />
 
 <p>Before jumping to learn about Big O notations, lets get some basics.</p>
@@ -99,7 +121,7 @@
 <span class="kt">int</span> <span class="n">numberToSearch</span> <span class="o">=</span> <span class="mi">16</span><span class="o">;</span>
 <span class="err">​</span>
 <span class="kt">int</span> <span class="nf">find</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberToSearch</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">numberToSearch</span><span class="o">)</span>
       <span class="k">return</span> <span class="n">i</span><span class="o">;</span> <span class="c1">// FOUND</span>
   <span class="o">}</span>
@@ -162,12 +184,12 @@
     <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
     <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
 <span class="err">​</span>
-    <span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;=</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
       <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="o">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
-      <span class="k">if</span> <span class="o">(</span><span class="n">numberToSearch</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">numbers</span><span class="o">[</span><span class="n">mid</span><span class="o">]){</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">numberToSearch</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="o">[</span><span class="n">mid</span><span class="o">]){</span>
           <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
       <span class="o">}</span>
-      <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">numberToSearch</span> <span class="o">&amp;</span><span class="n">gt</span><span class="o">;</span> <span class="n">numbers</span><span class="o">[</span><span class="n">mid</span><span class="o">])</span> <span class="o">{</span>
+      <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">numberToSearch</span> <span class="o">&gt;</span> <span class="n">numbers</span><span class="o">[</span><span class="n">mid</span><span class="o">])</span> <span class="o">{</span>
           <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
       <span class="o">}</span>
       <span class="k">else</span> <span class="o">{</span>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Madras Coder</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Move REST API Calls to Step Definitions Base Class | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Move REST API Calls to Step Definitions Base Class" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html" />
+<meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg" />
+<meta property="twitter:title" content="Move REST API Calls to Step Definitions Base Class" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg","headline":"Move REST API Calls to Step Definitions Base Class","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+    <nav>
+    <ul class="menu">
+        <li class="logo">
+            <a href="https://www.madrascoder.com">Madras Coder</a>
+        </li>
+        <li class="toggle"><a href="#"><i onclick="toggleMenu(this)" class="toggle-menu fas fa-bars fa-2x"></i></a></li>
+        <li class="item"><a href="https://www.madrascoder.com">Home</a></li>
+        <li class="item"><a href="/articles">Articles</a></li>
+        <li class="item"><a href="/tutorials">Tutorials</a></li>
+        <li class="item"><a href="/about.html">About</a></li>
+        <li class="item">
+            <a href="#"><i onclick="toggleDarkMode(this)" class="fas fa-moon"></i></a>
+        </li>
+    </ul>
+</nav>
+    <main class="tutorial-content">
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg" title="Move REST API Calls to Step Definitions Base Class" />
+        <p></p>
+        <h1>Move REST API Calls to Step Definitions Base Class</h1>
+        <p></p>
+        <hr>
+        <p>Following method calls <code class="language-plaintext highlighter-rouge">POST /v1/employees</code> REST API to create an employee.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="nd">@When</span><span class="o">(</span><span class="s">"user saves a new employee(.*)"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesANewEmployee</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nc">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">baseUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"/v1/employees"</span><span class="o">;</span>
+
+  <span class="n">response</span> <span class="o">=</span> <span class="n">given</span><span class="o">().</span><span class="na">log</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">all</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">employee</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">contentType</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+
+  <span class="n">response</span><span class="o">.</span><span class="na">then</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">log</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">all</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="o">...</span>
+</code></pre></div></div>
+
+<p>In the above code, we use RestAssured static builder methods <code class="language-plaintext highlighter-rouge">given()</code>, <code class="language-plaintext highlighter-rouge">log()</code>, <code class="language-plaintext highlighter-rouge">post()</code> etc to call the REST API and log the request and response. Similarly, we need to call HTTP GET, PUT, DELETE, PATCH methods for multiple APIs. Instead of repeating this 7 - 8 lines of code in each method, we can abstract all HTTP calls to a base class use it in all step definitions class by extending the abstract base class.</p>
+
+<h3 id="step-1-create-abstractstepdefinitionsjava">Step 1: Create AbstractStepDefinitions.java</h3>
+
+<p>AbstractStepDefinitions.java contains methods to call REST APIs, log request response and it reads the state from TestContext.java.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.TestContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.http.ContentType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.response.Response</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.restassured.specification.RequestSpecification</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.web.server.LocalServerPort</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractStepDefinitions</span> <span class="o">{</span>
+
+  <span class="c1">// By default, all step definitions are Spring Beans</span>
+  <span class="c1">// You may autowire Spring Beans and Properties in Cucumber StepDefinition class</span>
+  <span class="nd">@LocalServerPort</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">port</span><span class="o">;</span>
+
+  <span class="nd">@Autowired</span>
+  <span class="kd">private</span> <span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">;</span>
+
+  <span class="kd">protected</span> <span class="nc">String</span> <span class="nf">baseUrl</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"http://localhost:"</span> <span class="o">+</span> <span class="n">port</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="nc">TestContext</span> <span class="nf">testContext</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">testContext</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePost</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePost</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="n">pathParams</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePost</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getRequest</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getPayload</span><span class="o">();</span>
+
+    <span class="n">setPayload</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">payload</span><span class="o">);</span>
+    <span class="n">setQueryParams</span><span class="o">(</span><span class="n">pathParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+    <span class="n">setPathParams</span><span class="o">(</span><span class="n">queryParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">contentType</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">apiPath</span><span class="o">);</span>
+
+    <span class="n">logResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+
+    <span class="n">testContext</span><span class="o">.</span><span class="na">setResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeMultiPartPost</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getRequest</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getPayload</span><span class="o">();</span>
+
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">multiPart</span><span class="o">(</span><span class="s">"fileName"</span><span class="o">,</span> <span class="n">payload</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">apiPath</span><span class="o">);</span>
+
+    <span class="n">logResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+    <span class="n">testContext</span><span class="o">.</span><span class="na">setResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeDelete</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executeDelete</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeDelete</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executeDelete</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="n">pathParams</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeDelete</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getRequest</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getPayload</span><span class="o">();</span>
+
+    <span class="n">setPayload</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">payload</span><span class="o">);</span>
+    <span class="n">setQueryParams</span><span class="o">(</span><span class="n">pathParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+    <span class="n">setPathParams</span><span class="o">(</span><span class="n">queryParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">apiPath</span><span class="o">);</span>
+
+    <span class="n">logResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+    <span class="n">testContext</span><span class="o">.</span><span class="na">setResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePut</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executePut</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePut</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executePut</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="n">pathParams</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePut</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getRequest</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getPayload</span><span class="o">();</span>
+
+    <span class="n">setPayload</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">payload</span><span class="o">);</span>
+    <span class="n">setQueryParams</span><span class="o">(</span><span class="n">pathParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+    <span class="n">setPathParams</span><span class="o">(</span><span class="n">queryParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">contentType</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">apiPath</span><span class="o">);</span>
+    <span class="n">logResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+    <span class="n">testContext</span><span class="o">.</span><span class="na">setResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePatch</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executePatch</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePatch</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executePatch</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="n">pathParams</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executePatch</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getRequest</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getPayload</span><span class="o">();</span>
+
+    <span class="n">setPayload</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">payload</span><span class="o">);</span>
+    <span class="n">setQueryParams</span><span class="o">(</span><span class="n">queryParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+    <span class="n">setPathParams</span><span class="o">(</span><span class="n">pathParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">patch</span><span class="o">(</span><span class="n">apiPath</span><span class="o">);</span>
+
+    <span class="n">logResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+    <span class="n">testContext</span><span class="o">.</span><span class="na">setResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeGet</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executeGet</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeGet</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">executeGet</span><span class="o">(</span><span class="n">apiPath</span><span class="o">,</span> <span class="n">pathParams</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">executeGet</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getRequest</span><span class="o">();</span>
+
+    <span class="n">setQueryParams</span><span class="o">(</span><span class="n">queryParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+    <span class="n">setPathParams</span><span class="o">(</span><span class="n">pathParams</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+    <span class="nc">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">apiPath</span><span class="o">);</span>
+
+    <span class="n">logResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+    <span class="n">testContext</span><span class="o">.</span><span class="na">setResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">logResponse</span><span class="o">(</span><span class="nc">Response</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">then</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">log</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">all</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setPathParams</span><span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">pathParams</span><span class="o">,</span> <span class="nc">RequestSpecification</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">pathParams</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">request</span><span class="o">.</span><span class="na">pathParams</span><span class="o">(</span><span class="n">pathParams</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setQueryParams</span><span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">queryParams</span><span class="o">,</span> <span class="nc">RequestSpecification</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">queryParams</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">request</span><span class="o">.</span><span class="na">queryParams</span><span class="o">(</span><span class="n">queryParams</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setPayload</span><span class="o">(</span><span class="nc">RequestSpecification</span> <span class="n">request</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">payload</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">payload</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">request</span><span class="o">.</span><span class="na">contentType</span><span class="o">(</span><span class="nc">ContentType</span><span class="o">.</span><span class="na">JSON</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">payload</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>If for some reason, you don’t like RestAssured and would like to replace it with another REST client library, you need to add the respective dependency and modify the REST client code only in this class.</p>
+</blockquote>
+
+<h3 id="step-2-extend-abstractstepdefinitionsjava-in-employeestepdefinitionsjava">Step 2: Extend AbstractStepDefinitions.java in EmployeeStepDefinitions.java</h3>
+
+<p>Because many of the boiler plate REST API calls are moved to AbstractStepDefinitions.java, EmployeeStepDefinitions.java now became super thin with just one or two lines of code in each step definition methods.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.Given</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.cucumber.java.en.When</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeStepDefinitions</span> <span class="kd">extends</span> <span class="nc">AbstractStepDefinitions</span> <span class="o">{</span>
+
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"user wants to create/update employee with following details"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userWantsToCreateEmployeeWithFollowingDetails</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="c1">// Background Step. It gets executed once for every Scenario or Example.</span>
+  <span class="nd">@Given</span><span class="o">(</span><span class="s">"a employee with following details already exists"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">aEmployeeWithFollowingDetailsAlreadyExists</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testContext</span><span class="o">().</span><span class="na">setPayload</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves a new employee(.*)"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesANewEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executePost</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@When</span><span class="o">(</span><span class="s">"user saves employee"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">userSavesEmployee</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">executePut</span><span class="o">(</span><span class="n">employeeResourceUrl</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="nc">String</span> <span class="nf">employeeResourceUrl</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">baseUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"/v1/employees"</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Compared with the one we had in previous chapter, you know how simple it is now.</p>
+
+<hr />
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, we moved all boiler plate REST API call code to AbstractStepDefinitions.java class. This simplified EmployeeStepDefinitions.java class and it will make any other new step definitions class also a simple one.</p>
+
+<p>In the next chapter, we will learn how to deal with JPA/Hibernate auto generated identifiers from testing perspective.</p>
+
+<hr />
+
+<h3 id="references">References</h3>
+
+<p>For more information on <code class="language-plaintext highlighter-rouge">MapStruct</code> you may refer <a href="https://mapstruct.org/" target="_blank">https://mapstruct.org/</a></p>
+
+<hr />
+
+<h3 id="credits">Credits</h3>
+
+<p>Photo by <a href="https://unsplash.com/@markpot123?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Mark Potterton</a> on <a href="https://unsplash.com/s/photos/construction?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank">Unsplash</a></p>
+
+<hr />
+
+<p><a href="/tutorials/001-pragmatic-cucumber/07-common-step-definitions-class.html">Previous Chapter</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html">Scroll Up to Top</a> | 
+<a href="/tutorials/001-pragmatic-cucumber/">Table of Contents</a> |
+<a href="/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html">Next Chapter</a></p>
+
+
+    </main>
+    <footer>
+    <section class="legal">
+        <ul>
+            <li><a href="#"><i class="far fa-copyright"></i> Madras Coder</a></li>
+            <li><a href="#">SiteMap</a></li>
+            <li><a href="#">Credits</a></li>
+        </ul>
+    </section>
+    <section class="social">
+        <ul>
+            <li>
+                <a href="https://www.twitter.com/bcarun" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://stackoverflow.com/users/story/1535606" target="_blank">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/bcarun" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/bcarun/" target="_blank">
+                    <i class="fab fa-linkedin-in fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</footer>
+    <script src="/assets/scripts.js"></script>
+</body>
+
+</html>

@@ -21,6 +21,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0 | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Step by step instructions to secure REST API using OAuth 2.0 protocol + Spring Security 5 + Auth0 (Identity as a Service - Platform)" />
+<meta property="og:description" content="Step by step instructions to secure REST API using OAuth 2.0 protocol + Spring Security 5 + Auth0 (Identity as a Service - Platform)" />
+<link rel="canonical" href="https://www.madrascoder.com/articles/002-securing-rest-apis-auth0.html" />
+<meta property="og:url" content="https://www.madrascoder.com/articles/002-securing-rest-apis-auth0.html" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta property="og:image" content="https://www.madrascoder.com/assets/media/articles/002-securing-rest-apis-auth0/lock-securing-rest-auth0-title.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-07T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://www.madrascoder.com/assets/media/articles/002-securing-rest-apis-auth0/lock-securing-rest-auth0-title.jpg" />
+<meta property="twitter:title" content="Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/articles/002-securing-rest-apis-auth0.html","image":"https://www.madrascoder.com/assets/media/articles/002-securing-rest-apis-auth0/lock-securing-rest-auth0-title.jpg","headline":"Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0","dateModified":"2021-02-07T00:00:00-05:00","datePublished":"2021-02-07T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.madrascoder.com/articles/002-securing-rest-apis-auth0.html"},"description":"Step by step instructions to secure REST API using OAuth 2.0 protocol + Spring Security 5 + Auth0 (Identity as a Service - Platform)","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
 </head>
 
 <body>
@@ -41,10 +62,11 @@
 </nav>
     <main class="article-content">
         <img src="/assets/media/articles/002-securing-rest-apis-auth0/lock-securing-rest-auth0-title.jpg" title="Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0" />
-        <p>February 07, 2021</p>
+        <p>2021-02-07</p>
         <h1>Securing REST APIs Using OAuth 2.0 + Spring Security 5 + Auth 0</h1>
         <p>Step by step instructions to secure REST API using OAuth 2.0 protocol + Spring Security 5 + Auth0 (Identity as a Service - Platform)
 </p>
+        <hr>
         <p>This article use Auth0 (IDaaS Platform) to secure REST APIs. You may use Keyclock or Okta or any other OAuth 2.0 Protcol complaint authorization server.</p>
 
 <p>For different OAuth 2.0 Protcol complaint authorization server, configuration screen may be different. But under the hood, they all use OAuth 2.0.</p>
@@ -230,7 +252,7 @@ Select <strong>Quickstart</strong> <sup>( 1 )</sup>, <strong>Node.js</strong> <s
   <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
   <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">;</span>
   <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="nc">LocalDate</span> <span class="n">joiningDate</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">LocalDate</span> <span class="n">dateOfBirth</span><span class="o">;</span>
 
 <span class="o">}</span>
 </code></pre></div></div>
@@ -256,7 +278,7 @@ Select <strong>Quickstart</strong> <sup>( 1 )</sup>, <strong>Node.js</strong> <s
     <span class="k">return</span> <span class="k">new</span> <span class="nf">Employee</span><span class="o">().</span><span class="na">setId</span><span class="o">(</span><span class="mi">1L</span><span class="o">)</span>
         <span class="o">.</span><span class="na">setFirstName</span><span class="o">(</span><span class="s">"Joseph"</span><span class="o">)</span>
         <span class="o">.</span><span class="na">setLastName</span><span class="o">(</span><span class="s">"Alex"</span><span class="o">)</span>
-        <span class="o">.</span><span class="na">setJoiningDate</span><span class="o">(</span><span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
+        <span class="o">.</span><span class="na">setDateOfBirth</span><span class="o">(</span><span class="nc">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>

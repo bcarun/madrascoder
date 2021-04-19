@@ -21,6 +21,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Tutorials | Madras Coder</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Tutorials" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://www.madrascoder.com/tutorials/" />
+<meta property="og:url" content="https://www.madrascoder.com/tutorials/" />
+<meta property="og:site_name" content="Madras Coder" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tutorials" />
+<script type="application/ld+json">
+{"url":"https://www.madrascoder.com/tutorials/","headline":"Tutorials","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
 </head>
 
 <body>
@@ -49,6 +64,214 @@
     
     <li class="card-container">
     <article>
+        <a href="/tutorials/001-pragmatic-cucumber/01-getting-started.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Getting Started with Cucumber, Java and Spring Boot</h3>
+                <p class="card-description">
+                    In this chapter, let us setup a Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Different patterns of creating Cucumber Feature files</h3>
+                <p class="card-description">
+                    In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/03-converting-datatable-to-java-object.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter3/weston-mackinnon-au9N2rdOmOg-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">How to Convert a DataTable into a Java Object</h3>
+                <p class="card-description">
+                    This chapter is continuation of 'Different patterns of creating Cucumber Feature files' with more real use case.
+In this chapter, let us see 3 patterns to represent complex objects in feature files. In a real use case, we may need to convert the DataTable to a JSON so that we can use that as payload to call REST API from step definition. If we can convert DataTable to a Java Object, we can easily convert that to a JSON.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/04-implementing-create-resource.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Use BDD to Implement and Test 'Create API'</h3>
+                <p class="card-description">
+                    In this chapter let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Implementing BDD to Test Validation Use Cases</h3>
+                <p class="card-description">
+                    In the last chapter, we used BDD to develop and test 'Create API'. In this chapter, let's go a little deeper and learn how to represent validation use cases in feature file and test the same.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/06-sharing-state-between-steps.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter6/isabel-lenis-vXM4dJPB4OM-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Sharing State between Step Executions</h3>
+                <p class="card-description">
+                    We use 'Given Step' to gather inputs, 'When Step' to call the API or perform the desired operation using the data gathered and 'Then Step' to assert the expected result/response. There are 3 different strategies to share data between step executions. First one is to store the state as StepDefinition class instance variables. We have been doing this in the past chapters. Second strategy is to use a class with @ScenarioScope annotation and the last one is to use a ThreadLocal. In this chapter, let us see how we can use the @ScenarioScope annotation and ThreadLocal to share state between step executions.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/07-common-step-definitions-class.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter7/kit-suman--vxhOD5_Aeo-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Common Step Definitions</h3>
+                <p class="card-description">
+                    We are primarily dealing with REST APIs. In all our test, we need to assert the HTTP Response Code. Step Definition code to assert the HTTP Response Code can be used by multiple feature files. Hence, in this chapter, we will move that to a separate class called CommonStepDefinitions.java. In future if there is a need to share a step definitions across multiple feature files, we can add those methods to CommonStepDefinitions.java.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Move REST API Calls to Step Definitions Base Class</h3>
+                <p class="card-description">
+                    
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter9/markus-spiske-yAlLIl4qtnc-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Strategy to Handle Auto Generated Identifier</h3>
+                <p class="card-description">
+                    
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/10-handling-boolean-dates-in-feature-files.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter10/suzanne-d-williams-VMKBFR6r_jg-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Strategy to Handle Boolean Values and Dates in Feature Files</h3>
+                <p class="card-description">
+                    We use boolean data type for certain fields in our code. There are 2 possible values for the boolean field in java, they are true and false. If we need to set value to a boolean field in feature file, we need to use true/false. But, from a Product Owner perspective, they wish to see the value as YES/NO instead of true/false.
+In this chapter, we will learn how to convert YES/NO in feature file to true/false. Also, we will learn how to use relative dates instead of fixed dates in test cases.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/11-implementing-update-resource.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter11/markus-winkler-cxoR55-bels-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Use BDD to Implement and Test 'Update API'</h3>
+                <p class="card-description">
+                    In this chapter, let us see how to create feature files for 'Update API'. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use 'Background' in feature file.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Use BDD to Implement and Test 'GET APIs'</h3>
+                <p class="card-description">
+                    In this chapter, let us see how to create feature files for 'GET APIs'. Also, let us see how we can compare the expected results with the actual results using AssertJ library.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
+        <a href="/tutorials/001-pragmatic-cucumber/13-cucumber-reports.html">
+            <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter13/lukas-blazek-mcSDtbWXUZU-unsplash.jpg" alt="">
+            <div class="card-content">
+                <h3 class="card-title">Cucumber Reports</h3>
+                <p class="card-description">
+                    Cucumber has various built-in plugins to generate reports. In this chapter, we will see how we can generate, package it and expose them as URLs along with the APIs. Report is a plugin in case of Cucumber. To enable any available report, you may need to set Cucumber plugin property in junit-platform.properties.
+
+                </p>
+                <p class="card-date"></p>
+            </div>
+        </a>
+    </article>
+</li>
+    
+    <li class="card-container">
+    <article>
         <a href="/tutorials/002-rest-api-best-practices/">
             <img src="/assets/media/tutorials/002-rest-api-best-practices/sean-stratton-ObpCE_X3j6U-unsplash.jpg" alt="">
             <div class="card-content">
@@ -57,7 +280,7 @@
                     This tutorials walks through various best practices and design considerations while developing REST APIs.
 
                 </p>
-                <p class="card-date">Coming Soon</p>
+                <p class="card-date"></p>
             </div>
         </a>
     </article>
@@ -70,10 +293,10 @@
             <div class="card-content">
                 <h3 class="card-title">Pragmatic Behavior Driven Development Using Cucumber</h3>
                 <p class="card-description">
-                    This tutorials walks through setting up Cucumber in a Spring Boot environment, patterns to create feature files, reuse step definitions and become productive while doing BDD.
+                    Behavior Driven Development (BDD) is an art. If you are someone who is interested in implementing BDD using Cucumber, learnt the basic concepts and wondering where to start, you are in a right place. This hands on tutorials will help you from getting started by setting the project to implementing 'Create API', 'Update API', 'Get APIs', 'Validation Use Cases' and various techniques to make implementing BDD easier with Cucumber and Spring Boot.
 
                 </p>
-                <p class="card-date">Coming Soon</p>
+                <p class="card-date"></p>
             </div>
         </a>
     </article>

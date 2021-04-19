@@ -7,6 +7,7 @@ category: article
 image: /assets/media/articles/005-java-15-new-features/mike-kenneally-zlwDJoKTuA8-unsplash.jpg
 tags:
   - Java
-date: Coming Soon
+date: 
 featured: false
 ---
+Coming Soon
