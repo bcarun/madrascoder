@@ -254,7 +254,7 @@ body {
 
   .article-content,
   .tutorial-content {
-    max-width: 100vw;
+    max-width: $tablet-resolution-max;
     flex: 1;
     align-self: center;
 
