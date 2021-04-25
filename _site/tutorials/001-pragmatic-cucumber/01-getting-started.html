@@ -79,6 +79,7 @@
 <h3 id="2-create-a-spring-boot-project-using-spring-initializer">2. Create a Spring Boot Project using Spring Initializer</h3>
 
 <p>There are 2 ways you can create a Spring Boot project.</p>
+
 <ol>
   <li>Using Spring Initializer website <a href="https://start.spring.io/" target="_blank">https://start.spring.io/</a></li>
   <li>Use Spring Initializer in your IDE</li>
@@ -94,7 +95,7 @@
 
 <hr />
 
-<h3 id="3-maven-dependencies">3. Maven Dependencies</h3>
+<h3 id="3-add-maven-dependencies">3. Add Maven Dependencies</h3>
 
 <p>Add the following Cucumber dependencies to pom.xml file</p>
 
@@ -146,15 +147,15 @@ state between cucumber step execution
 
 <hr />
 
-<h3 id="4-setup-cucumberspringcontextconfigurationjava">4. Setup CucumberSpringContextConfiguration.java</h3>
+<h3 id="4-setup-cucumber-spring-context-configuration">4. Setup Cucumber Spring Context Configuration</h3>
 
-<p>When you generate Spring Boot Project, it automatically creates a class under test directory to run all tests. In case of Cucumber, we don’t want to use this class to trigger tests, let us use this class to configure spring context for executing spring boot application tests, hence we are renaming it to ‘CucumberSpringContextConfiguration.java’</p>
+<p>Create a class to declare spring context configuration</p>
 
-<p>Navigate to following directory <code class="language-plaintext highlighter-rouge">src/test/java/com/madrascoder/cucumberbooksample/</code></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample/
+<span class="nb">touch </span>CucumberSpringContextConfiguration.java
+</code></pre></div></div>
 
-<p>Rename CucumberBookSampleApplicationTests.java to <code class="language-plaintext highlighter-rouge">CucumberSpringContextConfiguration.java</code></p>
-
-<p>Add <code class="language-plaintext highlighter-rouge">@CucumberContextConfiguration</code> annotation and set <code class="language-plaintext highlighter-rouge">RANDOM_PORT</code> as stated below,</p>
+<p>Add following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">io.cucumber.spring.CucumberContextConfiguration</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="o">;</span>
@@ -168,7 +169,15 @@ state between cucumber step execution
 
 <hr />
 
-<h3 id="5-create-a-class-called-runcucumbertestjava">5. Create a class called RunCucumberTest.java</h3>
+<h3 id="5-create-a-class-to-trigger-cucumber-test">5. Create a Class to Trigger Cucumber Test</h3>
+
+<p>Navigate to following location and create a new class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample
+<span class="nb">touch </span>RunCucumberTest.java
+</code></pre></div></div>
+
+<p>Add following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.madrascoder.cucumberbooksample</span><span class="o">;</span>
 
@@ -179,15 +188,21 @@ state between cucumber step execution
 
 </code></pre></div></div>
 
-<p>RunCucumberTest class helps trigger Cucumber test. Also, it helps IDE to automatically recognize this class as a Test Class. You may right click to run all Cucumber tests using this class.</p>
+<p><code class="language-plaintext highlighter-rouge">RunCucumberTest</code> class helps trigger Cucumber test. Also, it helps IDE to automatically recognize this class as a Test Class. You may right click to run all Cucumber tests using this class.</p>
 
 <p>This is automatically run by maven as well.</p>
 
 <hr />
 
-<h3 id="6-create-junit-platformproperties">6. Create junit-platform.properties</h3>
+<h3 id="6-configure-cucumber-plugin-using-junit-properties">6. Configure Cucumber Plugin Using JUnit Properties</h3>
 
-<p>Create a file under resources/junit-platform.properties and configure a couple of properties as stated below.</p>
+<p>Navigate to following location and create a new class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources
+<span class="nb">touch </span>junit-platform.properties
+</code></pre></div></div>
+
+<p>Add the following properties,</p>
 
 <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Options if you don't want to publish test umber reports to 
 # https://reports.cucumber.io cloud
@@ -205,9 +220,13 @@ state between cucumber step execution
 
 <h3 id="7-lets-create-our-first-feature-file">7. Let’s create our first feature file</h3>
 
-<p>Navigate to (<strong>Test Resources</strong>) <code class="language-plaintext highlighter-rouge">src/test/resources/com/madrascoder/cucumberbooksample/</code></p>
+<p>Navigate to following location to create our first feature file,</p>
 
-<p><strong>Note:</strong> Remember, you have to create multiple directories and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is <code class="language-plaintext highlighter-rouge">src/test/resources</code> directory and <strong>not</strong> <code class="language-plaintext highlighter-rouge">src/test/java</code>.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources/com/madrascoder/cucumberbooksample
+<span class="nb">touch </span>1000-sum-of-numbers.feature
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Remember, you have to create <strong>multiple directories</strong> and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is <code class="language-plaintext highlighter-rouge">src/test/resources</code> directory and <strong>not</strong> <code class="language-plaintext highlighter-rouge">src/test/java</code>.</p>
 
 <p>Create a file named <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code> with the following feature.</p>
 
@@ -235,11 +254,17 @@ state between cucumber step execution
 
 <hr />
 
-<h3 id="8-lets-create-the-step-definitions-file-for-1000-sum-of-numbersfeature">8. Let’s create the step definitions file for 1000-sum-of-numbers.feature</h3>
+<h3 id="8-create-step-definitions">8. Create Step Definitions</h3>
 
-<p>You may use your IDE to generate step definitions skeleton code if you have Cucumber and Gherkin plugins in intellij.</p>
+<p>Let’s create the step definitions file for 1000-sum-of-numbers.feature</p>
 
-<p>Else, you may manually create a file named <code class="language-plaintext highlighter-rouge">AdditionStepDefinitions.java</code> under (<strong>Test Source</strong>) <code class="language-plaintext highlighter-rouge">src/test/java/com.madrascoder.cucumberbooksample.stepdefinitions</code> package.</p>
+<p>Navigate to following location,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
+<span class="nb">touch </span>AdditionStepDefinitions.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
 
@@ -277,6 +302,10 @@ state between cucumber step execution
 </code></pre></div></div>
 
 <p>Annotations <code class="language-plaintext highlighter-rouge">@Given</code>, <code class="language-plaintext highlighter-rouge">@And</code>, <code class="language-plaintext highlighter-rouge">@When</code>, <code class="language-plaintext highlighter-rouge">@Then</code> are synonymous, they can be used interchangeably. Important part is the value of these annotation. These values corresponds to the steps in feature file. You may have noticed <code class="language-plaintext highlighter-rouge">{int}</code> in annotation values. We will learn more about expressions <code class="language-plaintext highlighter-rouge">{int}</code>, <code class="language-plaintext highlighter-rouge">{string}</code> etc., in future chapters. For now, imagine the text at location of <code class="language-plaintext highlighter-rouge">{int}</code> in feature file will be automatically converted to <code class="language-plaintext highlighter-rouge">int</code> and supplied as argument to the corresponding method.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, we create a Spring Boot application, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.</p>
 
 <hr />
 
@@ -352,12 +381,6 @@ Scenario: Sum of two numbers      <span class="c"># com/madrascoder/cucumberbook
 <p>You may right click on <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code> under resources and choose Run in intellij</p>
 
 <p><img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/run-feature-file.png" alt="RunCucumberTest.java" /></p>
-
-<hr />
-
-<h3 id="conclusion">Conclusion</h3>
-
-<p>In this chapter, we create a Spring Boot application, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.</p>
 
 <hr />
 

@@ -347,7 +347,11 @@ Then the save <span class="s1">'FAILS'</span>
 
 <h3 id="add-methodargumentnotvalidexception-handler-to-defaultrestcontrolleradvice">Add MethodArgumentNotValidException Handler to DefaultRestControllerAdvice</h3>
 
-<p>Look at method annotated with <code class="language-plaintext highlighter-rouge">@ExceptionHandler(MethodArgumentNotValidException.class)</code>.</p>
+<p>Look at method having following annotation</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">MethodArgumentNotValidException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>In the below code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.stream.Collectors</span><span class="o">;</span>

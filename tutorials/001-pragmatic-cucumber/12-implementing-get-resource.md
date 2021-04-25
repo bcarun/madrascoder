@@ -86,7 +86,19 @@ If you look at the both the `Scenario`s, there is no `Given Step`. Yes, you can 
 
 #### 1.2 Corresponding Step Definitions
 
-In the step definition class below, look at the methods `userWantsToGetEmployeeById`, `followingEmployeeIsReturned`, `userWantsToGetEmployeeByLastNameContaining` and `followingEmployeesAreReturned`. These are the new methods added to support testing 'GET APIs'.
+Look at the methods stated below, these are the new methods added to support testing 'GET APIs'.
+
+```java
+userWantsToGetEmployeeById(Integer id)
+
+followingEmployeeIsReturned(Employee expectedEmployee) 
+
+userWantsToGetEmployeeByLastNameContaining(String lastNameContaining)
+
+followingEmployeesAreReturned(List<Employee> expectedEmployees) 
+```
+
+ In the step definition class stated below, 
 
 ```java
 import static org.assertj.core.api.Assertions.assertThat;

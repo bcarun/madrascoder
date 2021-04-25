@@ -286,7 +286,12 @@ public class Employee {
 
 ### Add MethodArgumentNotValidException Handler to DefaultRestControllerAdvice
 
-Look at method annotated with `@ExceptionHandler(MethodArgumentNotValidException.class)`.
+Look at method having following annotation
+```java
+@ExceptionHandler(MethodArgumentNotValidException.class)
+```
+
+In the below code,
 
 ```java
 import java.util.List;

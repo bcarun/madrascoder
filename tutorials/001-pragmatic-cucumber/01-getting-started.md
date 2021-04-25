@@ -29,6 +29,7 @@ For this tutorial, let us use the following
 ### 2. Create a Spring Boot Project using Spring Initializer
 
 There are 2 ways you can create a Spring Boot project.
+
 1. Using Spring Initializer website [https://start.spring.io/](https://start.spring.io/){:target="_blank"}
 2. Use Spring Initializer in your IDE
 
@@ -42,7 +43,7 @@ Spring Initializer will trigger a zip file download, you may unzip it and import
 
 <hr>
 
-### 3. Maven Dependencies
+### 3. Add Maven Dependencies
 
 Add the following Cucumber dependencies to pom.xml file
 
@@ -95,15 +96,16 @@ state between cucumber step execution
 
 <hr>
 
-### 4. Setup CucumberSpringContextConfiguration.java
+### 4. Setup Cucumber Spring Context Configuration
 
-When you generate Spring Boot Project, it automatically creates a class under test directory to run all tests. In case of Cucumber, we don't want to use this class to trigger tests, let us use this class to configure spring context for executing spring boot application tests, hence we are renaming it to 'CucumberSpringContextConfiguration.java'
+Create a class to declare spring context configuration 
 
-Navigate to following directory `src/test/java/com/madrascoder/cucumberbooksample/`
+```shell
+cd src/test/java/com/madrascoder/cucumberbooksample/
+touch CucumberSpringContextConfiguration.java
+```
 
-Rename CucumberBookSampleApplicationTests.java to `CucumberSpringContextConfiguration.java`
-
-Add `@CucumberContextConfiguration` annotation and set `RANDOM_PORT` as stated below,
+Add following code,
 
 ```java
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -118,7 +120,16 @@ public class CucumberSpringContextConfiguration {}
 
 <hr>
 
-### 5. Create a class called RunCucumberTest.java
+### 5. Create a Class to Trigger Cucumber Test
+
+Navigate to following location and create a new class,
+
+```shell
+cd src/test/java/com/madrascoder/cucumberbooksample
+touch RunCucumberTest.java
+```
+
+Add following code,
 
 ```java
 package com.madrascoder.cucumberbooksample;
@@ -130,15 +141,22 @@ public class RunCucumberTest {}
 
 ```
 
-RunCucumberTest class helps trigger Cucumber test. Also, it helps IDE to automatically recognize this class as a Test Class. You may right click to run all Cucumber tests using this class.
+`RunCucumberTest` class helps trigger Cucumber test. Also, it helps IDE to automatically recognize this class as a Test Class. You may right click to run all Cucumber tests using this class.
 
 This is automatically run by maven as well.
 
 <hr>
 
-### 6. Create junit-platform.properties
+### 6. Configure Cucumber Plugin Using JUnit Properties
 
-Create a file under resources/junit-platform.properties and configure a couple of properties as stated below.
+Navigate to following location and create a new class,
+
+```shell
+cd src/test/resources
+touch junit-platform.properties
+```
+
+Add the following properties,
 
 ```properties
 # Options if you don't want to publish test umber reports to 
@@ -157,9 +175,14 @@ For other available Cucumber properties, you may refer to [https://cucumber.io/d
 
 ### 7. Let's create our first feature file
 
-Navigate to (**Test Resources**) `src/test/resources/com/madrascoder/cucumberbooksample/`
+Navigate to following location to create our first feature file,
 
-**Note:** Remember, you have to create multiple directories and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is `src/test/resources` directory and **not** `src/test/java`.
+```shell
+cd src/test/resources/com/madrascoder/cucumberbooksample
+touch 1000-sum-of-numbers.feature
+```
+
+**Note:** Remember, you have to create **multiple directories** and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is `src/test/resources` directory and **not** `src/test/java`.
 
 Create a file named `1000-sum-of-numbers.feature` with the following feature.
 
@@ -186,11 +209,18 @@ Feature file is created using something called Gherkin. This is one of the ways 
 
 <hr>
 
-### 8. Let's create the step definitions file for 1000-sum-of-numbers.feature
+### 8. Create Step Definitions
 
-You may use your IDE to generate step definitions skeleton code if you have Cucumber and Gherkin plugins in intellij.
+Let's create the step definitions file for 1000-sum-of-numbers.feature
 
-Else, you may manually create a file named `AdditionStepDefinitions.java` under (**Test Source**) `src/test/java/com.madrascoder.cucumberbooksample.stepdefinitions` package.
+Navigate to following location,
+
+```shell
+cd src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
+touch AdditionStepDefinitions.java
+```
+
+Add the following code,
 
 ```java
 import static org.assertj.core.api.Assertions.assertThat;
@@ -229,6 +259,10 @@ public class AdditionStepDefinitions {
 ```
 
 Annotations `@Given`, `@And`, `@When`, `@Then` are synonymous, they can be used interchangeably. Important part is the value of these annotation. These values corresponds to the steps in feature file. You may have noticed `{int}` in annotation values. We will learn more about expressions `{int}`, `{string}` etc., in future chapters. For now, imagine the text at location of `{int}` in feature file will be automatically converted to `int` and supplied as argument to the corresponding method.
+
+### Conclusion
+
+In this chapter, we create a Spring Boot application, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.
 
 <hr>
 
@@ -306,12 +340,6 @@ You may right click on `RunCucumberTest.java` and choose Run/Debug in intellij
 You may right click on `1000-sum-of-numbers.feature` under resources and choose Run in intellij
 
 ![RunCucumberTest.java](/assets/media/tutorials/001-pragmatic-cucumber/chapter1/run-feature-file.png)
-
-<hr>
-
-### Conclusion
-
-In this chapter, we create a Spring Boot application, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.
 
 <hr>
 

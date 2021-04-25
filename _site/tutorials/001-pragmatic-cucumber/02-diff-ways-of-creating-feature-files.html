@@ -65,9 +65,19 @@
         <p>In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.
 </p>
         <hr>
-        <p>When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files <strong>sounded easy</strong>, but when I sat down to write feature files and step definitions it was difficult. Didn’t mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. One of the reason why I felt difficult was, creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development ended up having feature files that was hard to understand by product owner. <strong>Writing feature file is an art</strong>, it requires a lot of trial and error until the Software Engineer, Quality Analyst and Product Owner are all in same line of understanding.</p>
+        <p>When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files <strong>sounded easy</strong>, but when I sat down to write feature files and step definitions it was difficult. Didn’t mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. One of the reason why I felt difficult was,</p>
 
-<p>Doing BDD for few years now, I discovered different patterns for creating feature files. Let us see some of the basic patterns here and learn other advanced patterns on the go.</p>
+<blockquote>
+  <p>Creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development ended up having feature files that was hard to understand by product owner.</p>
+</blockquote>
+
+<p><strong>Writing feature file is an art</strong>, it requires a lot of trial and error until the Software Engineer, Quality Analyst and Product Owner are all in same line of understanding.</p>
+
+<p>I have been doing BDD for few years now. During this time, I discovered different patterns for creating feature files. Let us see some of the basic patterns here and learn other advanced patterns in the coming chapters.</p>
+
+<hr />
+
+<h3 id="sample-use-case">Sample Use Case</h3>
 
 <p>Imagine we are building a Calculator product and it has <strong>Addition</strong> feature. Now, let us take one scenario <strong>“Sum of numbers”</strong> and see different ways of writing a feature file for it. Assuming you have already read about Cucumber, Feature file etc., let me jump and show some <strong>patterns</strong> of feature file and corresponding step definitions code.</p>
 
@@ -245,7 +255,10 @@ And second number is 20
   <span class="c1">// ...</span>
 </code></pre></div></div>
 
-<p>Step definition method <code class="language-plaintext highlighter-rouge">userWantsToSumTheFollowingNumbers(DataTable dataTable)</code> converts the data into a DataTable object and from that we use <code class="language-plaintext highlighter-rouge">dataTable.asList(Integer.class)</code> to convert that to a List<Integer>.</Integer></p>
+<p>Following step definition method converts the data into a DataTable object and from that we use <code class="language-plaintext highlighter-rouge">dataTable.asList(Integer.class)</code> to convert that to a List<Integer>.</Integer></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">userWantsToSumTheFollowingNumbers</span><span class="o">(</span><span class="nc">DataTable</span> <span class="n">dataTable</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>You may be wondering, why this extra step of converting DataTable to a List.</p>
 
@@ -414,7 +427,10 @@ And second number is 20
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p><strong>Note:</strong> DataTable has 2 columns, first column correspond to the <code class="language-plaintext highlighter-rouge">Key</code> of the <code class="language-plaintext highlighter-rouge">Map</code> and second column is the <code class="language-plaintext highlighter-rouge">Value</code> of the <code class="language-plaintext highlighter-rouge">Map</code>, hence the method <code class="language-plaintext highlighter-rouge">userWantsToSumTheFollowingNumbers(Map&lt;String, Integer&gt; numbersMap)</code> argument is a <code class="language-plaintext highlighter-rouge">Map</code>.</p>
+<p><strong>Note:</strong> DataTable has 2 columns, first column correspond to the <code class="language-plaintext highlighter-rouge">Key</code> of the <code class="language-plaintext highlighter-rouge">Map</code> and second column is the <code class="language-plaintext highlighter-rouge">Value</code> of the <code class="language-plaintext highlighter-rouge">Map</code>, hence the method argument is a <code class="language-plaintext highlighter-rouge">Map</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">userWantsToSumTheFollowingNumbers</span><span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbersMap</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p><strong>Learning:</strong> One thing that you can learn in this pattern is, you can use DataTable in any step of the scenario, scenario outline or example.</p>
 
@@ -425,7 +441,7 @@ And second number is 20
 <p>Now that you learnt creating Feature file and corresponding step definition, there is one important concept to understand. Here it is,</p>
 
 <blockquote>
-  <p>Feature files are executable specifications.</p>
+  <p>Feature files are executable specifications</p>
 </blockquote>
 
 <p>There are 2 pieces to the puzzle, one is <strong>specification</strong> and other is <strong>making it executable</strong>. As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.</p>
@@ -436,9 +452,11 @@ And second number is 20
 
 <h3 id="references">References</h3>
 
-<p>For more information on Cucumber Expressions you may refer <a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">https://cucumber.io/docs/cucumber/cucumber-expressions/</a></p>
+<p>For more information on Cucumber Expressions you may refer<br />
+<a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">https://cucumber.io/docs/cucumber/cucumber-expressions/</a></p>
 
-<p>For more information on DataTable, you may refer <a href="https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable" target="_blank">https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable</a></p>
+<p>For more information on DataTable, you may refer<br />
+<a href="https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable" target="_blank">https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable</a></p>
 
 <hr />
 
