@@ -155,7 +155,9 @@ public class AdditionStepDefinitions {
 
 Annotation 
 
-`@Given("first/second number is {int}")`
+```java
+@Given("first/second number is {int}")
+```
 
 matches both the scenario steps stated below,
 
@@ -216,7 +218,6 @@ Following step definition method converts the data into a DataTable object and f
 ```java
 userWantsToSumTheFollowingNumbers(DataTable dataTable)
 ``` 
-
 
 You may be wondering, why this extra step of converting DataTable to a List. 
 
