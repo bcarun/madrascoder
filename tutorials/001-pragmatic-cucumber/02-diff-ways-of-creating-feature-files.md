@@ -16,9 +16,16 @@ date:
 featured: false
 ---
 
-When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files **sounded easy**, but when I sat down to write feature files and step definitions it was difficult. Didn't mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. One of the reason why I felt difficult was, creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development ended up having feature files that was hard to understand by product owner. **Writing feature file is an art**, it requires a lot of trial and error until the Software Engineer, Quality Analyst and Product Owner are all in same line of understanding.
+When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files **sounded easy**, but when I sat down to write feature files and step definitions it was difficult. Didn't mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. One of the reason why I felt difficult was, 
 
-Doing BDD for few years now, I discovered different patterns for creating feature files. Let us see some of the basic patterns here and learn other advanced patterns on the go.
+> Creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development ended up having feature files that was hard to understand by product owner. 
+
+**Writing feature file is an art**, it requires a lot of trial and error until the Software Engineer, Quality Analyst and Product Owner are all in same line of understanding.
+
+I have been doing BDD for few years now. During this time, I discovered different patterns for creating feature files. Let us see some of the basic patterns here and learn other advanced patterns in the coming chapters.
+
+<hr>
+### Sample Use Case
 
 Imagine we are building a Calculator product and it has **Addition** feature. Now, let us take one scenario **“Sum of numbers”** and see different ways of writing a feature file for it. Assuming you have already read about Cucumber, Feature file etc., let me jump and show some **patterns** of feature file and corresponding step definitions code.
 
@@ -204,7 +211,12 @@ public class AdditionStepDefinitions {
   // ...
 ```
 
-Step definition method `userWantsToSumTheFollowingNumbers(DataTable dataTable)` converts the data into a DataTable object and from that we use `dataTable.asList(Integer.class)` to convert that to a List<Integer>. 
+Following step definition method converts the data into a DataTable object and from that we use `dataTable.asList(Integer.class)` to convert that to a List<Integer>. 
+
+```java
+userWantsToSumTheFollowingNumbers(DataTable dataTable)
+``` 
+
 
 You may be wondering, why this extra step of converting DataTable to a List. 
 
@@ -377,7 +389,11 @@ public class AdditionStepDefinitions {
 }
 ```
 
-**Note:** DataTable has 2 columns, first column correspond to the `Key` of the `Map` and second column is the `Value` of the `Map`, hence the method `userWantsToSumTheFollowingNumbers(Map<String, Integer> numbersMap)` argument is a `Map`.
+**Note:** DataTable has 2 columns, first column correspond to the `Key` of the `Map` and second column is the `Value` of the `Map`, hence the method argument is a `Map`.
+
+```java
+userWantsToSumTheFollowingNumbers(Map<String, Integer> numbersMap)
+```
 
 **Learning:** One thing that you can learn in this pattern is, you can use DataTable in any step of the scenario, scenario outline or example.
 
@@ -387,7 +403,8 @@ public class AdditionStepDefinitions {
 
 Now that you learnt creating Feature file and corresponding step definition, there is one important concept to understand. Here it is,
 
->Feature files are executable specifications.
+> Feature files are executable specifications
+
 
 There are 2 pieces to the puzzle, one is **specification** and other is **making it executable**. As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.
 
@@ -397,9 +414,11 @@ There are 2 pieces to the puzzle, one is **specification** and other is **making
 
 ### References
 
-For more information on Cucumber Expressions you may refer [https://cucumber.io/docs/cucumber/cucumber-expressions/](https://cucumber.io/docs/cucumber/cucumber-expressions/){:target="_blank"}
+For more information on Cucumber Expressions you may refer  
+[https://cucumber.io/docs/cucumber/cucumber-expressions/](https://cucumber.io/docs/cucumber/cucumber-expressions/){:target="_blank"}
 
-For more information on DataTable, you may refer [https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable](https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable){:target="_blank"}
+For more information on DataTable, you may refer  
+[https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable](https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable){:target="_blank"}
 
 <hr>
 

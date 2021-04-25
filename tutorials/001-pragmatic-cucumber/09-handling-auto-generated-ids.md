@@ -107,7 +107,7 @@ public class AutoGenerateIdIfNullIdentityGenerator extends IdentityGenerator {
 }
 ```
 
-### Step 2: Use AutoGenerateIdIfNullIdentityGenerator.java in EmployeeEntity.java
+### Step 2: Use Custom Identity Generator in EmployeeEntity.java
 
 ```java
 import java.time.LocalDate;

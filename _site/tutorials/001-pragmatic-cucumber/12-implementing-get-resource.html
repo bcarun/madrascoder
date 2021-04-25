@@ -135,7 +135,18 @@
 
 <h4 id="12-corresponding-step-definitions">1.2 Corresponding Step Definitions</h4>
 
-<p>In the step definition class below, look at the methods <code class="language-plaintext highlighter-rouge">userWantsToGetEmployeeById</code>, <code class="language-plaintext highlighter-rouge">followingEmployeeIsReturned</code>, <code class="language-plaintext highlighter-rouge">userWantsToGetEmployeeByLastNameContaining</code> and <code class="language-plaintext highlighter-rouge">followingEmployeesAreReturned</code>. These are the new methods added to support testing ‘GET APIs’.</p>
+<p>Look at the methods stated below, these are the new methods added to support testing ‘GET APIs’.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">userWantsToGetEmployeeById</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">id</span><span class="o">)</span>
+
+<span class="n">followingEmployeeIsReturned</span><span class="o">(</span><span class="nc">Employee</span> <span class="n">expectedEmployee</span><span class="o">)</span> 
+
+<span class="n">userWantsToGetEmployeeByLastNameContaining</span><span class="o">(</span><span class="nc">String</span> <span class="n">lastNameContaining</span><span class="o">)</span>
+
+<span class="n">followingEmployeesAreReturned</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Employee</span><span class="o">&gt;</span> <span class="n">expectedEmployees</span><span class="o">)</span> 
+</code></pre></div></div>
+
+<p>In the step definition class stated below,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
 

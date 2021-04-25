@@ -6,15 +6,15 @@
 
 * { box-sizing: border-box; }
 
-html { font-size: 1.25rem; font-family: "Roboto Slab", serif; font-weight: normal; background-color: var(--background-color); }
+html { font-size: 1.1rem; font-family: "Roboto Slab", serif; font-weight: normal; background-color: var(--background-color); }
 
 html body { margin: 0; }
 
 html body p { line-height: 1.6rem; }
 
-html nav, html main, html footer { padding: 0.5rem 5rem; }
+html nav, html main, html footer { padding: 0.5rem 1.5rem; }
 
-@media (max-width: 640px) { html nav, html main, html footer { padding: 0.5rem 1.5rem; } }
+@media (max-width: 640px) { html nav, html main, html footer { padding: 0.5rem; } }
 
 html a { text-decoration: none; }
 
@@ -74,13 +74,13 @@ body .content { flex: 1; align-self: center; }
 
 body .content p { color: var(--on-surface-color); }
 
-body .content h1, body .content h2, body .content h3, body .content h4, body .content h5, body .content h6 { color: var(--on-background-color); font-weight: bolder; }
+body .content h1, body .content h2, body .content h3, body .content h4, body .content h5, body .content h6 { color: var(--on-background-color); }
 
 body .article-content, body .tutorial-content { max-width: 960px; flex: 1; align-self: center; }
 
 body .article-content img, body .tutorial-content img { border-radius: 0.25rem; max-width: 100%; height: auto; }
 
-body .article-content .highlight, body .tutorial-content .highlight { padding-left: 0.25rem; margin-top: 0.25rem; margin-bottom: 0.25rem; overflow-x: scroll; overflow: auto; max-width: 90vw; }
+body .article-content .highlight, body .tutorial-content .highlight { padding-left: 0.25rem; overflow-x: scroll; overflow: auto; max-width: 95vw; }
 
 body .article-content blockquote, body .tutorial-content blockquote { background: #f9f9f9; border-left: 10px solid #ccc; margin: 1.5em 10px; padding: 0.5em 10px; quotes: "“" "”" "‘" "’"; font-style: italic; }
 
@@ -98,7 +98,7 @@ body .article-content th, body .tutorial-content th { font-weight: 700; }
 
 body .article-content p, body .tutorial-content p { color: var(--on-surface-color); margin-bottom: 1.25rem; }
 
-body .article-content p code, body .tutorial-content p code { font-size: 1.10rem; color: #d28445; }
+body .article-content p code, body .tutorial-content p code { font-size: 1rem; color: #d28445; }
 
 body .article-content h1, body .article-content h2, body .article-content h3, body .article-content h4, body .article-content h5, body .article-content h6, body .tutorial-content h1, body .tutorial-content h2, body .tutorial-content h3, body .tutorial-content h4, body .tutorial-content h5, body .tutorial-content h6 { color: var(--on-background-color); }
 
@@ -106,7 +106,7 @@ body .article-content hr, body .tutorial-content hr { border-color: lightgray; }
 
 body .article-content li, body .tutorial-content li { color: var(--on-surface-color); line-height: 2rem; }
 
-body .article-content a, body .article-content a:visited, body .article-content a:hover, body .article-content a:active, body .tutorial-content a, body .tutorial-content a:visited, body .tutorial-content a:hover, body .tutorial-content a:active { text-decoration: none; color: inherit; }
+body .article-content a, body .article-content a:visited, body .article-content a:hover, body .article-content a:active, body .tutorial-content a, body .tutorial-content a:visited, body .tutorial-content a:hover, body .tutorial-content a:active { text-decoration: underline; color: var(--on-background-color); }
 
 body .article-content a:hover, body .article-content a.active, body .article-content a:visited:hover, body .article-content a.active:visited, body .article-content a:hover:hover, body .article-content a.active:hover, body .article-content a:active:hover, body .article-content a.active:active, body .tutorial-content a:hover, body .tutorial-content a.active, body .tutorial-content a:visited:hover, body .tutorial-content a.active:visited, body .tutorial-content a:hover:hover, body .tutorial-content a.active:hover, body .tutorial-content a:active:hover, body .tutorial-content a.active:active { color: var(--primary-color); }
 

@@ -11,8 +11,6 @@ date: 2021-01-17
 featured: true
 ---
 
-<hr>
-
 Before jumping to learn about Big O notations, lets get some basics.
 
 ### What is an Algorithm?
