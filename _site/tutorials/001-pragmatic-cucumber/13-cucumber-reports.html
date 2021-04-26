@@ -75,16 +75,16 @@
 <span class="nb">touch </span>junit-platform.properties
 </code></pre></div></div>
 
-<p>To enable HTML report, add <code class="language-plaintext highlighter-rouge">html:target/classes/static/features/index.html</code> to Cucumber plugin property as stated below.</p>
+<p>To enable HTML report, add the following property to Cucumber plugin property as stated below.</p>
 
 <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">cucumber.plugin</span><span class="p">=</span><span class="s">html:target/classes/static/features/index.html</span>
 </code></pre></div></div>
 
-<p>Generated HTML report will be saved at <code class="language-plaintext highlighter-rouge">target/classes/static/features/index.html</code> and packaged along with the application jar as it is under <code class="language-plaintext highlighter-rouge">classes</code> directory.</p>
+<p>Generated HTML report will be saved at the specified directory and packaged along with the application jar as it is under <code class="language-plaintext highlighter-rouge">classes</code> directory.</p>
 
 <p>After you run the application, you may access the report using the below URL,</p>
 
-<p><a href="http://localhost:8080/features/index.html">http://localhost:8080/features/index.html</a></p>
+<p>http://localhost:8080/features/index.html</p>
 
 <p><strong>Note:</strong> Host and port may be different in your case.</p>
 
@@ -149,7 +149,7 @@ Scenario Outline: Create employee with all the required &amp; valid attributes I
 
 <h3 id="references">References</h3>
 
-<p>For more information on Cucumber Built-In Reports and Third Party Reports refer <a href="https://cucumber.io/docs/cucumber/reporting/" target="_blank">https://cucumber.io/docs/cucumber/reporting/</a></p>
+<p><a href="https://cucumber.io/docs/cucumber/reporting/" target="_blank">Cucumber Reporting</a></p>
 
 <hr />
 
