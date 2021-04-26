@@ -27,8 +27,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Implementing BDD to Test Validation Use Cases" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="In the last chapter, we used BDD to develop and test ‘Create API’. In this chapter, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same." />
-<meta property="og:description" content="In the last chapter, we used BDD to develop and test ‘Create API’. In this chapter, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same." />
+<meta name="description" content="We learnt how to use BDD and Cucumber to develop and test ‘Create API’. Here, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same." />
+<meta property="og:description" content="We learnt how to use BDD and Cucumber to develop and test ‘Create API’. Here, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html" />
 <meta property="og:site_name" content="Madras Coder" />
@@ -37,7 +37,7 @@
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg" />
 <meta property="twitter:title" content="Implementing BDD to Test Validation Use Cases" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg","headline":"Implementing BDD to Test Validation Use Cases","description":"In the last chapter, we used BDD to develop and test ‘Create API’. In this chapter, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/05-implementing-validations-during-create.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg","headline":"Implementing BDD to Test Validation Use Cases","description":"We learnt how to use BDD and Cucumber to develop and test ‘Create API’. Here, let’s go a little deeper and learn how to represent validation use cases in feature file and test the same.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -62,7 +62,7 @@
         <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg" title="Implementing BDD to Test Validation Use Cases" />
         <p></p>
         <h1>Implementing BDD to Test Validation Use Cases</h1>
-        <p>In the last chapter, we used BDD to develop and test 'Create API'. In this chapter, let's go a little deeper and learn how to represent validation use cases in feature file and test the same.
+        <p>We learnt how to use BDD and Cucumber to develop and test 'Create API'. Here, let's go a little deeper and learn how to represent validation use cases in feature file and test the same.
 </p>
         <hr>
         <h3 id="validation-use-cases">Validation Use Cases</h3>
@@ -103,7 +103,7 @@
 
 <h3 id="feature-file-for-validation-use-case">Feature File for Validation Use Case</h3>
 
-<p>In the previous chapters, we used <code class="language-plaintext highlighter-rouge">Scenario</code> in our feature files. Each <code class="language-plaintext highlighter-rouge">Scenario</code> is like one test case. In this case, we have to perform validations. For example, we have to test creating employee without <strong>firstName</strong> and expect the API to fail with 400 Bad Request. Next we have to test creating employee without <strong>lastName</strong> and expected the API to fail with 400 Bad Request. Likewise, we have test various validation use cases listed in the above said table. One of the best way to do this is by using <code class="language-plaintext highlighter-rouge">Scenario Outline</code> and <code class="language-plaintext highlighter-rouge">Examples</code>.</p>
+<p>In the previous chapters, we used <code class="language-plaintext highlighter-rouge">Scenario</code> in our feature files. Each <code class="language-plaintext highlighter-rouge">Scenario</code> is like one test case. In this case, we have to perform validations. For example, we have to test creating employee without <strong>firstName</strong> and expect the API to fail with 400 Bad Request. Next we have to test creating employee without <strong>lastName</strong> and expect the API to fail with 400 Bad Request. Likewise, we have test all validation use cases listed in the above said table. One of the best way to do this is by using <code class="language-plaintext highlighter-rouge">Scenario Outline</code> and <code class="language-plaintext highlighter-rouge">Examples</code>.</p>
 
 <p>Read the below stated feature file to see how <code class="language-plaintext highlighter-rouge">Scenario Outline</code> and <code class="language-plaintext highlighter-rouge">Examples</code> are used to represent validation test cases.</p>
 
@@ -112,6 +112,7 @@
   @smoketest
   <span class="kn">Scenario</span><span class="p">:</span> Create employee with basic details
     <span class="nf">Given </span>user wants to create employee with following details
+
       <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>               <span class="p">|</span> <span class="nv">dateOfBirth</span> <span class="p">|</span> <span class="nv">jobTitle</span>                   <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
       <span class="p">|</span> <span class="n">Effie</span>     <span class="p">|</span> <span class="n">Slee</span>     <span class="p">|</span> <span class="n">eslee@blueocean.com</span> <span class="p">|</span> <span class="n">2014-03-01</span>  <span class="p">|</span> <span class="n">Physical</span> <span class="n">Therapy</span> <span class="n">Assistant</span> <span class="p">|</span> <span class="n">E101</span>           <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
 
@@ -123,6 +124,7 @@
   <span class="kn">Scenario Outline</span><span class="p">:</span> Create employee &lt;testCase&gt; &lt;expectedResult&gt;
 
     <span class="nf">Given </span>user wants to create employee with following details
+
       <span class="p">|</span> <span class="nv">firstName</span>   <span class="p">|</span> <span class="nv">lastName</span>   <span class="p">|</span> <span class="nv">email</span>   <span class="p">|</span> <span class="nv">dateOfBirth</span>   <span class="p">|</span> <span class="nv">jobTitle</span>                      <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
       <span class="p">|</span> <span class="n">&lt;firstName&gt;</span> <span class="p">|</span> <span class="n">&lt;lastName&gt;</span> <span class="p">|</span> <span class="n">&lt;email&gt;</span> <span class="p">|</span> <span class="n">&lt;dateOfBirth&gt;</span> <span class="p">|</span> <span class="n">Budget/Accounting</span> <span class="n">Analyst</span> <span class="n">III</span> <span class="p">|</span> <span class="n">160</span>            <span class="p">|</span> <span class="n">Active</span>         <span class="p">|</span> <span class="n">Full-Time</span>      <span class="p">|</span>
     
@@ -145,7 +147,7 @@
 
 <p>Now, lets compare ‘Given Step’, ‘When Step’ and ‘Then Step’ between <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>.</p>
 
-<h4 id="given-step-changes-between-scenario-and-scenario-outline">‘Given Step’ Changes between Scenario and Scenario Outline</h4>
+<h4 id="given-step---changes-between-scenario-and-scenario-outline">‘Given Step’ - Changes between Scenario and Scenario Outline</h4>
 
 <p><strong>In Scenario,</strong></p>
 
@@ -163,9 +165,9 @@
 
 </code></pre></div></div>
 
-<p>Fields firstName, lastName, email and dateOfBirth are the ones that need to be validated. Hence in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, the values are modified to be variables <code class="language-plaintext highlighter-rouge">&lt;firstName&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;lastName&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;email&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;dateOfBirth&gt;</code>. <code class="language-plaintext highlighter-rouge">Scenario Outline</code> will be executed once per example row in <code class="language-plaintext highlighter-rouge">Examples DataTable</code>. In our case, we have 6 rows in <code class="language-plaintext highlighter-rouge">Examples</code> DataTable, hence the <code class="language-plaintext highlighter-rouge">Scenario Outline</code> will be executed 6 times once per example row. Value for these placeholders or variables will be picked up from the example that is being executed.</p>
+<p>Fields firstName, lastName, email and dateOfBirth are the ones, that need to be validated. Hence in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, the values are modified to be variables <code class="language-plaintext highlighter-rouge">&lt;firstName&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;lastName&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;email&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;dateOfBirth&gt;</code>. <code class="language-plaintext highlighter-rouge">Scenario Outline</code> will be executed once per example row in <code class="language-plaintext highlighter-rouge">Examples DataTable</code>. In our case, we have 6 rows in <code class="language-plaintext highlighter-rouge">Examples</code> DataTable, hence the <code class="language-plaintext highlighter-rouge">Scenario Outline</code> will be executed 6 times once per example row. Value for these placeholders or variables will be picked up from the example that is being executed.</p>
 
-<h4 id="when-step">When Step</h4>
+<h4 id="when-step---changes-between-scenario-and-scenario-outline">‘When Step’ - Changes between Scenario and Scenario Outline</h4>
 
 <p><strong>In Scenario,</strong></p>
 
@@ -177,7 +179,7 @@
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">When </span>user saves a new employee <span class="nv">&lt;testCase&gt;</span>
 </code></pre></div></div>
 
-<p>Comparing the ‘When Step’, in <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, the difference is the <code class="language-plaintext highlighter-rouge">&lt;testCase&gt;</code> placeholder in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>. Use of <code class="language-plaintext highlighter-rouge">&lt;testCase&gt;</code> variable in this step is to print the test case when executing the step. When the first example is executed, ‘When Step’ will be printed as stated below</p>
+<p>Comparing the ‘When Step’, in <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>, the difference is the <code class="language-plaintext highlighter-rouge">&lt;testCase&gt;</code> placeholder in <code class="language-plaintext highlighter-rouge">Scenario Outline</code>. Use of <code class="language-plaintext highlighter-rouge">&lt;testCase&gt;</code> variable in this step is to print the test case when executing the step. When the first example in Scenario Outline is executed, ‘When Step’ will be printed as stated below</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>When user saves a new employee without first name
 Then the save <span class="s1">'FAILS'</span>
@@ -193,7 +195,7 @@ Then the save <span class="s1">'FAILS'</span>
 
 <p>If you look at the <code class="language-plaintext highlighter-rouge">@When</code> annotation, we used <code class="language-plaintext highlighter-rouge">(.*)</code> at the end. By using <code class="language-plaintext highlighter-rouge">(.*)</code>, we are asking Cucumber not to use any word after ‘user saves a new employee’ for matching the step definition. Anything that is stated inside a parenthesis is an optional text and it will not be used for matching the step in feature file with the step definition method. Hence we are able to use one step definition method for both of the ‘When Step’s in <code class="language-plaintext highlighter-rouge">Scenario</code> and <code class="language-plaintext highlighter-rouge">Scenario Outline</code>. We have used ‘Cucumber Expressions’ support to achieve this.</p>
 
-<h4 id="then-step">Then Step</h4>
+<h4 id="then-step---changes-between-scenario-and-scenario-outline">‘Then Step’ - Changes between Scenario and Scenario Outline</h4>
 
 <p>One change you can notice easily in the <code class="language-plaintext highlighter-rouge">Then</code> step is, enclosing ‘IS SUCCESSFUL’ between single quotes as stated below.</p>
 
@@ -205,7 +207,7 @@ Then the save <span class="s1">'FAILS'</span>
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">Then </span>the save '<span class="nv">&lt;expectedResult&gt;</span>'
 </code></pre></div></div>
 
-<p>When you enclose words between Single Quote (‘), it is considered as a String and the value in between single quotes can be captured as an argument in step definition. Here is the corresponding step definition.</p>
+<p>When you enclose words between Single Quote ( <code class="language-plaintext highlighter-rouge">'some word'</code> ), it is considered as a String and the value in between single quotes can be captured as an argument in step definition. Here is the corresponding step definition.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Then</span><span class="o">(</span><span class="s">"the save {string}"</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">theSave</span><span class="o">(</span><span class="nc">String</span> <span class="n">expectedResult</span><span class="o">)</span> <span class="o">{</span>
@@ -221,7 +223,13 @@ Then the save <span class="s1">'FAILS'</span>
 
 <h4 id="employeestepdefinitionsjava-changes">EmployeeStepDefinitions.java Changes</h4>
 
-<p>Two methods, <code class="language-plaintext highlighter-rouge">userSavesANewEmployee</code> and <code class="language-plaintext highlighter-rouge">theSave</code> are the ones that you need to look in the below code.</p>
+<p>Look at the following methods,</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">userSavesANewEmployee</span><span class="o">()</span>
+<span class="n">theSave</span><span class="o">(</span><span class="nc">String</span> <span class="n">expectedResult</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>In the below code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">io</span><span class="o">.</span><span class="na">restassured</span><span class="o">.</span><span class="na">RestAssured</span><span class="o">.</span><span class="na">given</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
@@ -310,6 +318,8 @@ Then the save <span class="s1">'FAILS'</span>
 
 <h4 id="add-validation-annotations-to-employee-dto-bean">Add Validation Annotations to Employee DTO Bean</h4>
 
+<p>Look at the annotations added to the fields,</p>
+
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.validation.constraints.Email</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.validation.constraints.NotBlank</span><span class="o">;</span>
@@ -345,9 +355,10 @@ Then the save <span class="s1">'FAILS'</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="add-methodargumentnotvalidexception-handler-to-defaultrestcontrolleradvice">Add MethodArgumentNotValidException Handler to DefaultRestControllerAdvice</h3>
+<h3 id="add-method-argument-not-valid-exception-handler">Add Method Argument Not Valid Exception Handler</h3>
 
-<p>Look at method having following annotation</p>
+<p>Look at method having following annotation and corresponding method,</p>
+
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">MethodArgumentNotValidException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
 </code></pre></div></div>
 
@@ -541,9 +552,9 @@ Scenario Outline: Create employee with all the required &amp; valid attributes I
 
 <h3 id="references">References</h3>
 
-<p>For more information on <code class="language-plaintext highlighter-rouge">Cucumber Expressions</code> you may refer <a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">https://cucumber.io/docs/cucumber/cucumber-expressions/</a></p>
+<p><a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">Cucumber Expressions</a></p>
 
-<p>For more information on <code class="language-plaintext highlighter-rouge">RestAssured</code> you may refer <a href="https://rest-assured.io/" target="_blank">https://rest-assured.io/</a></p>
+<p><a href="https://rest-assured.io/" target="_blank">RestAssured</a></p>
 
 <hr />
 

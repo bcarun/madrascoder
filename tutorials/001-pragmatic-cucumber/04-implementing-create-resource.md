@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 4
 title: Use BDD to Implement and Test 'Create API'
 description: >
-  In this chapter let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
+  We learnt various patterns to represent features or product specifications. Here, let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg
@@ -93,12 +93,20 @@ spring.jackson.serialization.write-dates-as-timestamps=false
 
 ### Step 2: Create Feature File 
 
-Path: `src/test/resources/com/madrascoder/cucumberbooksample/1100-create-employee.feature`
+Navigate to following location and create a feature file,
+
+```shell
+cd src/test/resources/com/madrascoder/cucumberbooksample
+touch 1100-create-employee.feature
+```
+
+Add the following feature,
 
 ```cucumber
 Feature: Create Employee
 
   Scenario: Create employee with basic details
+    
     Given user wants to create employee with following details
 
       | firstName | lastName | email               | dateOfBirth | jobTitle                   | employeeNumber | employeeStatus | employmentType |
@@ -110,11 +118,18 @@ Feature: Create Employee
 ```
 <hr>
 
-### Step 3: Create DataTransformer
+### Step 3: Create Data Transformer Class
 
 DataTransformer (The Magic Class) helps to convert DataTable to respective DTO or Collection of DTOs and vice versa.
 
-Path: `src/test/com/madrascoder/cucumberbooksample/DataTransformer.java`
+Navigate to following location and create a data transformer class,
+
+```shell
+cd src/test/com/madrascoder/cucumberbooksample
+touch DataTransformer.java
+```
+
+Add the following code,
 
 ```java
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -147,9 +162,16 @@ public class DataTransformer {
 
 <hr>
 
-### Step 4: Create EmployeeStepDefinitions.java
+### Step 4: Create Employee Step Definitions
 
-Path: `src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions/EmployeeStepDefinitions.java`
+Navigate to following location and create a step definitions class,
+
+```shell
+cd src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
+touch EmployeeStepDefinitions.java
+```
+
+Add the following code,
 
 ```java
 import static io.restassured.RestAssured.given;
@@ -215,7 +237,14 @@ We are done with all changes needed under src/test/*. If you try to run the test
 
 #### 5.1 Create Employee Class (DTO) with basic attributes,
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/dto/Employee.java`
+Navigate to following location and create Employee DTO class,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/dto
+touch Employee.java
+```
+
+Add the following code,
 
 ```java
 import java.time.LocalDate;
@@ -243,7 +272,14 @@ public class Employee {
 
 #### 5.2 Create EmployeeEntity Class (JPA Managed Object)
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/entity/EmployeeEntity.java`
+Navigate to following location and create Employee Entity class,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/entity
+touch EmployeeEntity.java
+```
+
+Add the following code,
 
 ```java
 import java.time.LocalDate;
@@ -280,7 +316,14 @@ public class EmployeeEntity {
 
 'MapStruct' library (dependency added earlier), this library uses AnnotationProcessor to generate the respective convertor method implementations for the interface and also declares the auto generated class as a Spring Bean.
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/mapper/EmployeeMapper.java`
+Navigate to the following location and create EmployeeMapper class
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/mapper
+touch EmployeeMapper.java
+```
+
+Add the following code,
 
 ```java
 import com.madrascoder.cucumberbooksample.dto.Employee;
@@ -319,11 +362,20 @@ public interface EmployeeMapper {
 }
 ```
 
-Look for the auto generated class under compiler output directory target/generated-sources/annotations.
+Look for the auto generated class under compiler output directory, usually its target/generated-sources/annotations.
+
+**Note:** Maven compiler plugin and the mapstruct annotation processor declared in `pom.xml` generates the `EmployeeMapperImpl.class`.
 
 #### 5.4 Create EmployeeRepository Interface
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/repository/EmployeeRepository.java`
+Navigate to following location and create employee repository class,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/repository
+touch EmployeeRepository.java
+```
+
+Add following code,
 
 ```java
 import com.madrascoder.cucumberbooksample.entity.EmployeeEntity;
@@ -337,7 +389,14 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
 
 #### 5.5 Create EmployeeService Class
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/service/EmployeeService.java`
+Navigate to following location and create employee service class
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/service
+touch EmployeeService.java
+```
+
+Add the following code,
 
 ```java
 import com.madrascoder.cucumberbooksample.dto.Employee;
@@ -377,7 +436,14 @@ public class EmployeeService {
 
 #### 5.6 Create Controller Advice & Respective Message Class for REST API Error Handling
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/restapi/DefaultRestControllerAdvice.java`
+Navigate to the following location and create a exception handler for REST API Controller,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/restapi
+touch DefaultRestControllerAdvice.java
+```
+
+Add the following code,
 
 ```java
 import java.util.List;
@@ -441,7 +507,13 @@ public class DefaultRestControllerAdvice {
 
 #### 5.7 Create EmployeeRestController Class
 
-Path: `src/main/java/com/madrascoder/cucumberbooksample/restapi/EmployeeRestController.java`
+Navigate to the following location and create rest controller class,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/restapi
+touch EmployeeRestController.java
+```
+Add the following code,
 
 ```java
 import com.madrascoder.cucumberbooksample.dto.Employee;
@@ -550,13 +622,13 @@ Connection: keep-alive
 
 There is a lot we have learnt so far. This chapter is the first step towards doing BDD in a real projects. Every minute you spend reading and trying the steps so far will definitely save a lots of hours for you and your team when you start implementing BDD in your team.
 
-In the next chapter, lets learn how to create feature files to represent all validation use cases and test those validations. This is also a common use case when it comes to creating an API. Come on, lets learn that in next chapter.
+In the next chapter, lets learn how to create feature files to represent all validation use cases and test those validations. This is also a common use case when it comes to creating an API. 
 
 <hr>
 
 ### References
 
-For more information on `MapStruct` you may refer [https://mapstruct.org/](https://mapstruct.org/){:target="_blank"}
+[MapStruct](https://mapstruct.org/){:target="_blank"}
 
 <hr>
 

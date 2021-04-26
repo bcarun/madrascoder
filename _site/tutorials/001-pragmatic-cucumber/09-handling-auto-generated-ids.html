@@ -27,6 +27,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Strategy to Handle Auto Generated Identifier" />
 <meta property="og:locale" content="en_US" />
+<meta name="description" content="In databases, we use auto increment columns for primary key. JPA/Hibernate uses the @Id annotation to deal with getting the next value when inserting the records in to the database. For testing, we should be able to set the identifier when we setup the data so that we can use the same identifier to perform some actions on the respective object. If you explicitly set the identifier before creating a resource, JPA/Hibernate checks if the record with the given id exists. If not exists, JPA/Hibernate ignores the supplier identifier and gets the next value from database. This behavior makes it hard to set up and use data for testing. Here, let us see how we can change the default behavior of JPA/Hibernate and make it use the identifier supplied and use auto generate only when no identifier is supplied." />
+<meta property="og:description" content="In databases, we use auto increment columns for primary key. JPA/Hibernate uses the @Id annotation to deal with getting the next value when inserting the records in to the database. For testing, we should be able to set the identifier when we setup the data so that we can use the same identifier to perform some actions on the respective object. If you explicitly set the identifier before creating a resource, JPA/Hibernate checks if the record with the given id exists. If not exists, JPA/Hibernate ignores the supplier identifier and gets the next value from database. This behavior makes it hard to set up and use data for testing. Here, let us see how we can change the default behavior of JPA/Hibernate and make it use the identifier supplied and use auto generate only when no identifier is supplied." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html" />
 <meta property="og:site_name" content="Madras Coder" />
@@ -35,7 +37,7 @@
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter9/markus-spiske-yAlLIl4qtnc-unsplash.jpg" />
 <meta property="twitter:title" content="Strategy to Handle Auto Generated Identifier" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter9/markus-spiske-yAlLIl4qtnc-unsplash.jpg","headline":"Strategy to Handle Auto Generated Identifier","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/09-handling-auto-generated-ids.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter9/markus-spiske-yAlLIl4qtnc-unsplash.jpg","headline":"Strategy to Handle Auto Generated Identifier","description":"In databases, we use auto increment columns for primary key. JPA/Hibernate uses the @Id annotation to deal with getting the next value when inserting the records in to the database. For testing, we should be able to set the identifier when we setup the data so that we can use the same identifier to perform some actions on the respective object. If you explicitly set the identifier before creating a resource, JPA/Hibernate checks if the record with the given id exists. If not exists, JPA/Hibernate ignores the supplier identifier and gets the next value from database. This behavior makes it hard to set up and use data for testing. Here, let us see how we can change the default behavior of JPA/Hibernate and make it use the identifier supplied and use auto generate only when no identifier is supplied.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -60,7 +62,8 @@
         <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter9/markus-spiske-yAlLIl4qtnc-unsplash.jpg" title="Strategy to Handle Auto Generated Identifier" />
         <p></p>
         <h1>Strategy to Handle Auto Generated Identifier</h1>
-        <p></p>
+        <p>In databases, we use auto increment columns for primary key. JPA/Hibernate uses the @Id annotation to deal with getting the next value when inserting the records in to the database. For testing, we should be able to set the identifier when we setup the data so that we can use the same identifier to perform some actions on the respective object. If you explicitly set the identifier before creating a resource, JPA/Hibernate checks if the record with the given id exists. If not exists, JPA/Hibernate ignores the supplier identifier and gets the next value from database. This behavior makes it hard to set up and use data for testing. Here, let us see how we can change the default behavior of JPA/Hibernate and make it use the identifier supplied and use auto generate only when no identifier is supplied.
+</p>
         <hr>
         <p>In the below Entity class, we have used IdentityGenerator (@Id and @GeneratedValue annotations) to automatically generate id of the record during persist/save.</p>
 
@@ -128,9 +131,15 @@
 
 <p>One way to solve this problem is to extend IdentityGenerator class and override <code class="language-plaintext highlighter-rouge">generate</code> method to use the ‘id’ supplied if available and auto generate a new ‘id’ only when the supplied ‘id’ is null.</p>
 
-<h3 id="step-1-extend-identitygeneratorjava">Step 1: Extend IdentityGenerator.java</h3>
+<h3 id="step-1-extend-jpa-identity-generator">Step 1: Extend JPA Identity Generator</h3>
 
-<p><strong>Path:</strong> src/main/java/com/madrascoder/cucumberbooksample/entity/AutoGenerateIdIfNullIdentityGenerator.java</p>
+<p>Navigate to the following location and create a custom identity generator class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/entity
+<span class="nb">touch </span>AutoGenerateIdIfNullIdentityGenerator.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.hibernate.engine.spi.SharedSessionContractImplementor</span><span class="o">;</span>
@@ -149,7 +158,7 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="step-2-use-custom-identity-generator-in-employeeentityjava">Step 2: Use Custom Identity Generator in EmployeeEntity.java</h3>
+<h3 id="step-2-use-custom-identity-generator-in-employeeentity">Step 2: Use Custom Identity Generator in EmployeeEntity</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
@@ -187,7 +196,7 @@
 </code></pre></div></div>
 
 <blockquote>
-  <p>Whatever we did now is what I call as ‘Testable Architecture’.</p>
+  <p>Whatever we did now is what I call as ‘Testable Architecture’. It is important to consider testing when writing code.</p>
 </blockquote>
 
 <hr />
@@ -195,6 +204,8 @@
 <h3 id="conclusion">Conclusion</h3>
 
 <p>In this chapter, we created a custom identity generator to replace the default behavior of JPA/Hibernate. Now, if feature file supply an ‘id’, JPA/Hibernate will use that ‘id’ instead of ignoring and creating one from next sequence. This is very useful when implementing ‘Update API’ and ‘Get APIs’.</p>
+
+<p>This custom identity generator is intended for testing purpose, hence make sure the caller doesn’t set the id fields during the actual calls to avoid confusion with sequence generation and incorrect updates.</p>
 
 <p>In the next chapter, we will learn another technique on how we can replace true/false with YES/NO in feature files so that it is easier to read. We will also learn how to use relative dates instead of fixed dates which is not good for testing.</p>
 

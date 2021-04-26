@@ -27,6 +27,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Move REST API Calls to Step Definitions Base Class" />
 <meta property="og:locale" content="en_US" />
+<meta name="description" content="Calling REST APIs to create a resource, update a resource, get a resource, delete a resource require some boiler plate code. In our example, we are creating API for a HR Software. In order to test the API we need to call them from step definition classes. If we can move the code to call REST APIs to base class, every step definition class that needs to call REST API can leverage that instead of again and again writing code to call APIs. Here, let us see how and what can be moved to step definition base class." />
+<meta property="og:description" content="Calling REST APIs to create a resource, update a resource, get a resource, delete a resource require some boiler plate code. In our example, we are creating API for a HR Software. In order to test the API we need to call them from step definition classes. If we can move the code to call REST APIs to base class, every step definition class that needs to call REST API can leverage that instead of again and again writing code to call APIs. Here, let us see how and what can be moved to step definition base class." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html" />
 <meta property="og:site_name" content="Madras Coder" />
@@ -35,7 +37,7 @@
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg" />
 <meta property="twitter:title" content="Move REST API Calls to Step Definitions Base Class" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg","headline":"Move REST API Calls to Step Definitions Base Class","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/08-moving-rest-client-calls-to-base-class.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg","headline":"Move REST API Calls to Step Definitions Base Class","description":"Calling REST APIs to create a resource, update a resource, get a resource, delete a resource require some boiler plate code. In our example, we are creating API for a HR Software. In order to test the API we need to call them from step definition classes. If we can move the code to call REST APIs to base class, every step definition class that needs to call REST API can leverage that instead of again and again writing code to call APIs. Here, let us see how and what can be moved to step definition base class.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -60,7 +62,8 @@
         <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter8/mark-potterton-sNVkn3507Oo-unsplash.jpg" title="Move REST API Calls to Step Definitions Base Class" />
         <p></p>
         <h1>Move REST API Calls to Step Definitions Base Class</h1>
-        <p></p>
+        <p>Calling REST APIs to create a resource, update a resource, get a resource, delete a resource require some boiler plate code. In our example, we are creating API for a HR Software. In order to test the API we need to call them from step definition classes. If we can move the code to call REST APIs to base class, every step definition class that needs to call REST API can leverage that instead of again and again writing code to call APIs. Here, let us see how and what can be moved to step definition base class.
+</p>
         <hr>
         <p>Following method calls <code class="language-plaintext highlighter-rouge">POST /v1/employees</code> REST API to create an employee.</p>
 
@@ -84,9 +87,17 @@
 
 <p>In the above code, we use RestAssured static builder methods <code class="language-plaintext highlighter-rouge">given()</code>, <code class="language-plaintext highlighter-rouge">log()</code>, <code class="language-plaintext highlighter-rouge">post()</code> etc to call the REST API and log the request and response. Similarly, we need to call HTTP GET, PUT, DELETE, PATCH methods for multiple APIs. Instead of repeating this 7 - 8 lines of code in each method, we can abstract all HTTP calls to a base class use it in all step definitions class by extending the abstract base class.</p>
 
-<h3 id="step-1-create-abstractstepdefinitionsjava">Step 1: Create AbstractStepDefinitions.java</h3>
+<h3 id="step-1-create-abstract-step-definitions-class">Step 1: Create Abstract Step Definitions Class</h3>
 
-<p>AbstractStepDefinitions.java contains methods to call REST APIs, log request response and it reads the state from TestContext.java.</p>
+<p>Navigate to following location and create the abstract step definitions class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
+<span class="nb">touch </span>CommonStepDefinitions.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
+
+<p>Below class contains methods to call REST APIs, log request, log response. It reads the state from the auto wired TestContext.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.TestContext</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">io.restassured.http.ContentType</span><span class="o">;</span>
@@ -267,10 +278,10 @@
 </code></pre></div></div>
 
 <blockquote>
-  <p>If for some reason, you don’t like RestAssured and would like to replace it with another REST client library, you need to add the respective dependency and modify the REST client code only in this class.</p>
+  <p>If for some reason, you don’t like RestAssured and would like to replace it with another REST client library, you need to add the respective dependency and modify the REST client code only in this class. This is another benefit of abstracting REST API Call logic to an abstract class.</p>
 </blockquote>
 
-<h3 id="step-2-extend-abstractstepdefinitionsjava-in-employeestepdefinitionsjava">Step 2: Extend AbstractStepDefinitions.java in EmployeeStepDefinitions.java</h3>
+<h3 id="step-2-extend-abstract-step-definitions-class-in-employee-step-definitions-class">Step 2: Extend Abstract Step Definitions class in Employee Step Definitions class</h3>
 
 <p>Because many of the boiler plate REST API calls are moved to AbstractStepDefinitions.java, EmployeeStepDefinitions.java now became super thin with just one or two lines of code in each step definition methods.</p>
 
@@ -317,12 +328,6 @@
 <p>In this chapter, we moved all boiler plate REST API call code to AbstractStepDefinitions.java class. This simplified EmployeeStepDefinitions.java class and it will make any other new step definitions class also a simple one.</p>
 
 <p>In the next chapter, we will learn how to deal with JPA/Hibernate auto generated identifiers from testing perspective.</p>
-
-<hr />
-
-<h3 id="references">References</h3>
-
-<p>For more information on <code class="language-plaintext highlighter-rouge">MapStruct</code> you may refer <a href="https://mapstruct.org/" target="_blank">https://mapstruct.org/</a></p>
 
 <hr />
 

@@ -1,11 +1,11 @@
 ---
 layout: tutorial
 chapter: 3
-title: How to Convert a DataTable into a Java Object
+title: Converting a DataTable into a Java Object
 description: >
-  This chapter is continuation of 'Different patterns of creating Cucumber Feature files' with more real use case.
+  In 'Different patterns for creating Cucumber Feature files' we learnt various ways/patters to represent feature or product specification. Here, we will continue the same but with more of a real world use case.
   
-  In this chapter, let us see 3 patterns to represent complex objects in feature files. In a real use case, we may need to convert the DataTable to a JSON so that we can use that as payload to call REST API from step definition. If we can convert DataTable to a Java Object, we can easily convert that to a JSON.
+  Let us see 3 patterns to represent complex objects in feature files. Imagine we are creating a REST API. In order to test the API behavior, we need to call the API from step definition. If the payload for the API to test is expected as JSON, we need to convert the data in DataTable to a JSON so that it can be used as payload to call REST API from step definition. If we can convert DataTable to a Java Object, we can easily convert that to a JSON. Let us learn that here.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter3/weston-mackinnon-au9N2rdOmOg-unsplash.jpg
@@ -23,8 +23,6 @@ Let's imagine we are working on creating a HR Software and we need to implement 
 **As a** HR Staff,  
 **I want to** to save a new employee details,  
 **So that** I can refer to the details in the system when needed.  
-
-In order to implement this requirement/user story, let us create a feature file using the patterns we learnt earlier.
 
 Let us assume the following fields represents the basic details of an employee,
 
@@ -74,10 +72,13 @@ And the sample JSON representation is,
 
 ### Pattern: One Step Per Field
 
+Let us convert the above said high level requirement or user story to a feature file,
+
 **Feature File**
 
 ```cucumber
 Feature: Create Employee
+
   Scenario: Create employee with basic details
     Given employee first name is 'Effie'
     And employee last name is 'Slee'
@@ -166,7 +167,7 @@ public class EmployeeStepDefinitions {
   }
 }
 ```
-Creating step definitions for each step is time consuming, representations are some time hierarchical and it becomes very hard to maintain.
+**Note:** Creating step definitions for each step is time consuming, representations are some time hierarchical and it becomes very hard to maintain.
 
 So, let us try another approach.
 
@@ -213,6 +214,7 @@ public class EmployeeStepDefinitions {
 
   @Given("user wants to create employee with following details")
   public void userWantsToCreateEmployeeWithFollowingDetails(Map<String, Object> employeeMap) {
+    // Don't create ObjectMapper instance like the one below, it is just an example
     // Create one instance of ObjectMapper and keep reusing every where, else autowire Spring's ObjectMapper bean
     final ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.registerModule(new JavaTimeModule())
@@ -264,9 +266,17 @@ Feature: Create Employee
 
 **Prerequisite for Step Definitions**
 
-Before we implement the step definition, we need to create a generic data transformer which converts any DataTable to corresponding Java Object. Here is that **magic** class,
+Before we implement the step definition, we need to create a generic data transformer class that converts any DataTable to corresponding Java Object. Here is that **magic** class,
 
-Create a class `src/test/com/madrascoder/cucumberbooksample/DataTransformer.java` and as stated below.
+
+Navigate to following location and create a class to automatically transform DataTable to a Java Object,
+
+```shell
+cd src/test/com/madrascoder/cucumberbooksample
+touch DataTransformer.java
+```
+
+Add the following code,
 
 ```java
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -361,6 +371,130 @@ To generate mock data for DataTable, you may use Mockaroo custom formatter with 
 
 <hr>
 
+### Representing Hierarchical Data
+
+In the real world, an Employee may have associated Addresses. How do we represent that in feature file and step definition.
+
+Let us assume, Address has the following fields,
+
+```java
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class Address {
+  private Long id;
+  private String type;
+  private String addressLine1;
+  private String addressLine2;
+  private String city;
+  private String state;
+  private String zipcode;
+  private String country;
+}
+```
+
+Employee has list of associated addresses,
+
+```java
+import java.time.LocalDate;
+import java.util.List;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class Employee {
+
+  private Long id;
+
+  @NotBlank(message = "First name is required")
+  private String firstName;
+
+  @NotBlank(message = "Last name is required")
+  private String lastName;
+
+  @Email(message = "Valid email id is required")
+  private String email;
+
+  @Past(message = "Expecting past date for date of birth")
+  private LocalDate dateOfBirth;
+
+  private boolean remoteWorker;
+  private String jobTitle;
+  private String employeeNumber;
+  private String employmentStatus;
+  private String employmentType;
+
+  private List<Address> addresses; // Look here
+}
+```
+
+#### Feature File
+
+```cucumber
+Feature: Create Employee
+
+  Scenario: Create employee with basic details
+
+    Given user wants to create employee with following details
+
+      | firstName | lastName | email               | dateOfBirth        | remoteWorker | jobTitle                   | employeeNumber | employeeStatus | employmentType |
+      | Effie     | Slee     | eslee@blueocean.com | LocalDate.now-6570 | NO           | Physical Therapy Assistant | E101           | Active         | Full-Time      |
+
+    And with following address
+
+      | type   | addressLine1          | addressLine2 | city  | state | country |
+      | Office | 1000 Blue Ocean Drive | Suite 200    | Miami | FL    | USA     |
+
+    When user saves a new employee
+
+    Then the save 'IS SUCCESSFUL'
+```
+
+#### Corresponding Step Definitions
+
+```java
+import com.madrascoder.cucumberbooksample.dto.Address;
+import com.madrascoder.cucumberbooksample.dto.Employee;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.restassured.mapper.TypeRef;
+import io.restassured.response.Response;
+import java.util.List;
+import java.util.Map;
+
+public class EmployeeStepDefinitions extends AbstractStepDefinitions {
+
+  @Given("user wants to create/update employee with following details")
+  public void userWantsToCreateEmployeeWithFollowingDetails(Employee employee) {
+    testContext().setPayload(employee);
+  }
+
+  @And("with following details address(es)")
+  public void withFollowingDetailsAddress(List<Address> addresses) {
+    final Employee payload = testContext().getPayload(Employee.class);
+    payload.setAddresses(addresses);
+  }
+  ...
+  
+```
+
+We can keep enhancing the payload with all the child or associated objects using different steps as stated above.
+
 ### Conclusion
 
 In this chapter, we saw 3 patterns
@@ -379,7 +513,7 @@ In the next chapter, let's apply **Spreadsheet DataTable Pattern** to test the R
 
 ### References
 
-For more information on `DataTransformer.java` you may refer [https://cucumber.io/docs/cucumber/configuration/](https://cucumber.io/docs/cucumber/configuration/){:target="_blank"}
+[Data Transformation](https://cucumber.io/docs/cucumber/configuration/){:target="_blank"}
 
 <hr>
 

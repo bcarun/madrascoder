@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 6
 title: Sharing State between Step Executions
 description: >
-  We use 'Given Step' to gather inputs, 'When Step' to call the API or perform the desired operation using the data gathered and 'Then Step' to assert the expected result/response. There are 3 different strategies to share data between step executions. First one is to store the state as StepDefinition class instance variables. We have been doing this in the past chapters. Second strategy is to use a class with @ScenarioScope annotation and the last one is to use a ThreadLocal. In this chapter, let us see how we can use the @ScenarioScope annotation and ThreadLocal to share state between step executions.
+  We use 'Given Step' to gather inputs, 'When Step' to call the API or perform the desired operation using the data gathered and 'Then Step' to assert the expected result/response. There are 3 different strategies to share data between step executions. First one is to store the state as StepDefinition class instance variables. We have been doing this in the past chapters. Second strategy is to use a class with @ScenarioScope annotation and the last one is to use a ThreadLocal object in a Singleton class. In this chapter, let us see how we can use the @ScenarioScope annotation and ThreadLocal to share state between step executions.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter6/isabel-lenis-vXM4dJPB4OM-unsplash.jpg
@@ -16,13 +16,20 @@ date:
 featured: false
 ---
 
-You know that we are developing a Spring Boot REST API using BDD. Hence our primary focus is to test the APIs. In order to call the API, we may need a payload (HTTP Request) and in order to validate or assert the test case we need the response. In a nutshell, we need to store the HTTP Request and HTTP Response object and make it available across step definition methods.
+We are developing a Spring Boot REST API using BDD. Hence our primary focus is to test the APIs. In order to call the API, we may need a payload (HTTP Request) and in order to validate or assert the test case we need the response. In a nutshell, we need to store the HTTP Request and HTTP Response object and make it available across step definition methods.
 
 In our example, we use a library called RestAssured to call the REST API. Hence we need to store the RequestSpecification and Response object as state variables. Here is the @ScenarioScope class that stores the state.
 
 ### 1. Using @ScenarioScope Spring Bean
 
-**Path:** src/test/java/com/madrascoder/cucumberbooksample/TestContext.java
+Navigate to the following location and create a class to store test context,
+
+```shell
+cd src/test/java/com/madrascoder/cucumberbooksample
+touch TestContext.java
+```
+
+Add the following code,
 
 ```java
 import static io.restassured.RestAssured.given;
@@ -58,7 +65,10 @@ public class TestContext {
 }
 ```
 
-Now let us see how we can use this `TestContext.java` class in `EmployeeStepDefinitions.java`,
+In the above test context class, we have fields to store the HTTP Request Payload and HTTP Response.
+
+
+Now let us see how we can use the above created test context class in step definitions class.
 
 ```java
 import static io.restassured.RestAssured.given;
@@ -132,7 +142,7 @@ public class EmployeeStepDefinitions {
 }
 ```
 
-If you look at the above EmployeeStepDefinitions.java class, you may notice that we replaced the following instance variables with testContext instance variable.
+If you look at the above class, you may notice that we replaced the following instance variables with testContext instance variable.
 
 ```java
 private Response response;
@@ -176,6 +186,8 @@ testContext.setResponse(response);
 Response response = testContext.getResponse();
 ...
 ```
+
+In a nutshell, when we gather inputs we set that to payload field and when we call the API, we store the response, then when we assert we get the response from test context.
 
 <hr>
 
@@ -259,12 +271,13 @@ In order to use the TestContext enum, you may add below method in EmployeeStepDe
 
 ### Conclusion
 
+Out of the 3 options, we will be using @ScenarioScoped annotation based test context class in our examples.
 
 <hr>
 
 ### References
 
-For more information on `MapStruct` you may refer [https://mapstruct.org/](https://mapstruct.org/){:target="_blank"}
+[MapStruct](https://mapstruct.org/){:target="_blank"}
 
 <hr>
 

@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 2
 title: Use BDD to Implement and Test 'Update API'
 description: >
-  In this chapter, let us see how to create feature files for 'Update API'. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use 'Background' in feature file.
+  Previously, we learnt how to use BDD to implement and test 'Create API'. Here, let us learn how to create feature files for 'Update API'. In order to update something, it should exist. So before update, we have to setup the necessary data. To setup data, we will use 'Background' in feature file.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter11/markus-winkler-cxoR55-bels-unsplash.jpg
@@ -30,12 +30,13 @@ Refer below feature file for 'Update API', it uses `Background` to setup the nec
 
 #### 1.1 Feature File
 
-```java
+```cucumber
 Feature: Update Employee
 
   Background: Employee already exists
 
     Given a employee with following details already exists
+
       | id     | firstName | lastName | email                | dateOfBirth        | remoteWorker | jobTitle            | employeeNumber | employeeStatus | employmentType |
       | 110501 | Bronnie   | Lanfear  | blanfear0@flickr.com | LocalDate.now-6570 | false        | Electrical Engineer | 198            | Inactive       | Full-Time      |
 
@@ -114,7 +115,7 @@ Given user wants to update employee with following details
 ...
 ```
 
-If you look closely at the 'Given Step', the only difference is the 5th word 'create' and 'update'. We don't need to create 2 different step definition methods one for create and one for update, instead we can use the concept of 'Alternative Text' in Cucumber Expressions. In the Given annotation value, we have used `create/update` to represent alternate text. Hence the method will be executed for both `Given user wants to create employee with following details` & `Given user wants to update employee with following details`.
+If you look closely at the 'Given Step', the only difference is the 5th word 'create' and 'update'. We don't need to create 2 different step definition methods one for create and one for update, instead we can use the concept of 'Alternative Text' in Cucumber Expressions. In the Given annotation value, we have used `create/update` to represent alternate text. Hence the method will be executed for both `Given user wants to create employee with following details` and `Given user wants to update employee with following details`.
 
 **Step definition with alternate text 'create/update'**
 
@@ -127,7 +128,7 @@ If you look closely at the 'Given Step', the only difference is the 5th word 'cr
 
 > Background will get executed once per scenario in the file, in this case it will get executed once per example use case.
 
-If you run the tests, all update use cases will fail as we have not yet implemented 'Update Employee API'.
+**If you run the tests**, all update use cases will fail as we have not yet implemented 'Update Employee API'.
 
 
 ### Step 2: Implement 'Update API'

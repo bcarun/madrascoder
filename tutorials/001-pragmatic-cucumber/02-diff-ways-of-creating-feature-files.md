@@ -1,9 +1,9 @@
 ---
 layout: tutorial
 chapter: 2
-title: Different patterns of creating Cucumber Feature files
+title: Different Patterns for Creating Feature Files
 description: >
-  In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.
+  Feature files are specifications. A feature can be represented in different ways/patterns. Here, let us see different patterns for creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg
@@ -16,9 +16,11 @@ date:
 featured: false
 ---
 
-When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files **sounded easy**, but when I sat down to write feature files and step definitions it was difficult. Didn't mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. One of the reason why I felt difficult was, 
+When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files **sounded easy**, but when I sat down to write feature files and step definitions it was difficult. Didn't mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. 
 
-> Creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development ended up having feature files that was hard to understand by product owner. 
+One of the reason why I felt difficult was, 
+
+> Creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development (less step definitions) ended up having feature files that was hard to understand by product owner. 
 
 **Writing feature file is an art**, it requires a lot of trial and error until the Software Engineer, Quality Analyst and Product Owner are all in same line of understanding.
 
@@ -27,7 +29,7 @@ I have been doing BDD for few years now. During this time, I discovered differen
 <hr>
 ### Sample Use Case
 
-Imagine we are building a Calculator product and it has **Addition** feature. Now, let us take one scenario **“Sum of numbers”** and see different ways of writing a feature file for it. Assuming you have already read about Cucumber, Feature file etc., let me jump and show some **patterns** of feature file and corresponding step definitions code.
+Imagine we are building a Calculator product and it has **Addition** feature. Now, let us take one scenario **“Sum of numbers”** and see different ways of writing a feature file for it. Assuming you are already familiar about Cucumber, Feature file etc., let me jump and see some **patterns** for creating feature file and corresponding step definitions code.
 
 <hr>
 
@@ -39,11 +41,13 @@ In the below stated feature file, you may notice that the 2 numbers (inputs) to 
 
 ```cucumber
 Feature: Addition
+
   Scenario: Sum of two numbers
     Given first number is 10 and second number is 20
     When user executes sum function
     Then the sum is 30
 ```
+
 
 **Corresponding Step Definitions Class**
 
@@ -87,6 +91,7 @@ In the below stated feature file, 2 numbers (inputs) required to calculate the *
 
 ```cucumber
 Feature: Addition
+
   Scenario: Sum of two numbers
     Given first number is 10
     And second number is 20
@@ -124,7 +129,7 @@ public class AdditionStepDefinitions {
 
 **Can this be improved?** Yes.
 
-There are 2 methods (`firstNumberIs`, `secondNumberIs`) in the above step definition class file, one for each step in scenario. As stated above in the beginning of the chapter, we can replace 2 methods into 1 method (`firstOrSecondNumberIs`) by using Cucumber Expressions. Let's see how its done in below code
+There are 2 methods (`firstNumberIs`, `secondNumberIs`) in the above step definition class file, one for each step in scenario. As stated in the beginning of the chapter, we can replace 2 methods into 1 method as (`firstOrSecondNumberIs`) by using Cucumber Expressions. Let's see how its done in below code,
 
 **Corresponding Step Definitions Class - Type 2**
 
@@ -174,7 +179,7 @@ In the coming chapters, we will introduce some more reusable step definition pat
 
 <hr>
 
-### Pattern 3: List DataTable
+### Pattern 3: One Step Get all Inputs as List (DataTable)
 
 In the below stated Feature file, inputs or list of numbers to calculate the **sum** are represented in a Grid separated using pipe symbol, this grid is called as DataTable in Cucumber.
 
@@ -182,10 +187,12 @@ In the below stated Feature file, inputs or list of numbers to calculate the **s
 
 ```cucumber
 Feature: Addition
+
   Scenario: Sum of two numbers
     Given user wants to sum the following numbers
       | 10 |
       | 20 |
+
     When user executes sum function
     Then the sum is 30
 ```
@@ -213,7 +220,7 @@ public class AdditionStepDefinitions {
   // ...
 ```
 
-Following step definition method converts the data into a DataTable object and from that we use `dataTable.asList(Integer.class)` to convert that to a List<Integer>. 
+Following step definition method converts the data under the Given step into a DataTable object and from that we use `dataTable.asList(Integer.class)` to convert that to a List<Integer>. 
 
 ```java
 userWantsToSumTheFollowingNumbers(DataTable dataTable)
@@ -402,12 +409,14 @@ userWantsToSumTheFollowingNumbers(Map<String, Integer> numbersMap)
 
 ### Conclusion
 
-Now that you learnt creating Feature file and corresponding step definition, there is one important concept to understand. Here it is,
+Now that you learnt various patterns for creating Feature file and corresponding step definition, there is one important concept to understand. Here it is,
 
 > Feature files are executable specifications
 
 
-There are 2 pieces to the puzzle, one is **specification** and other is **making it executable**. As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.
+There are 2 important things in the above said point, one is **specification** and other is **making it executable**. In this context, feature files are specifications of the product and step definitions are the executable ones. 
+
+As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.
 
 **In the next chapter,** we will see how we can represent a Java Object as DataTable and convert a DataTable into a Java Object in step definitions.
 
@@ -415,11 +424,9 @@ There are 2 pieces to the puzzle, one is **specification** and other is **making
 
 ### References
 
-For more information on Cucumber Expressions you may refer  
-[https://cucumber.io/docs/cucumber/cucumber-expressions/](https://cucumber.io/docs/cucumber/cucumber-expressions/){:target="_blank"}
+[Cucumber Expressions](https://cucumber.io/docs/cucumber/cucumber-expressions/){:target="_blank"}
 
-For more information on DataTable, you may refer  
-[https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable](https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable){:target="_blank"}
+[Cucumber DataTable](https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable){:target="_blank"}
 
 <hr>
 

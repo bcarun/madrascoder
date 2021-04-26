@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 7
 title: Common Step Definitions
 description: >
-  We are primarily dealing with REST APIs. In all our test, we need to assert the HTTP Response Code. Step Definition code to assert the HTTP Response Code can be used by multiple feature files. Hence, in this chapter, we will move that to a separate class called CommonStepDefinitions.java. In future if there is a need to share a step definitions across multiple feature files, we can add those methods to CommonStepDefinitions.java.
+  We are primarily dealing with REST APIs. In all our test, we need to assert the HTTP Response Code. Step Definition code to assert the HTTP Response Code can be used in multiple feature files. Hence, in this chapter, we will move that to a separate class called CommonStepDefinitions.java. In future if there is a need to share a step definitions across multiple feature files, we can add those methods to CommonStepDefinitions.java.
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter7/kit-suman--vxhOD5_Aeo-unsplash.jpg
 tags:
@@ -15,7 +15,16 @@ date:
 featured: false
 ---
 
-### Step 1: Move HTTP Response Code Assertion Step Definition to CommonStepDefinitions.java
+### Move HTTP Response Code Assertion Step Definition to Common Step Definitions class
+
+Navigate to following location and create the common step definitions class,
+
+```shell
+cd src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
+touch CommonStepDefinitions.java
+```
+
+Add the following code,
 
 ```java
 import com.madrascoder.cucumberbooksample.TestContext;
@@ -53,9 +62,9 @@ public class CommonStepDefinitions {
 
 ### Conclusion
 
-In this chapter, we learnt how to deal with step definitions that are commonly used across multiple feature files.
+In this chapter, we learnt how to deal with step definitions that are commonly used across multiple feature files. Test Context class that we created in the previous chapter made it possible to split the common step definitions to its own class.
 
-In the next chapter, we will move all boiler plate REST API calls to a abstract base class and let all step definitions class extend it.
+In the next chapter, we will move all boiler plate REST API calls to an abstract base class and let all step definitions class extend it. This way we write less code per step definitions there by its easier to maintain.
 
 <hr>
 
