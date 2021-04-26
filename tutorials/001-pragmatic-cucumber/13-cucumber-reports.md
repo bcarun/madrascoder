@@ -27,17 +27,17 @@ cd src/test/resources
 touch junit-platform.properties
 ```
 
-To enable HTML report, add `html:target/classes/static/features/index.html` to Cucumber plugin property as stated below.
+To enable HTML report, add the following property to Cucumber plugin property as stated below.
 
 ```properties
 cucumber.plugin=html:target/classes/static/features/index.html
 ```
 
-Generated HTML report will be saved at `target/classes/static/features/index.html` and packaged along with the application jar as it is under `classes` directory.
+Generated HTML report will be saved at the specified directory and packaged along with the application jar as it is under `classes` directory.
 
 After you run the application, you may access the report using the below URL,
 
-[http://localhost:8080/features/index.html](http://localhost:8080/features/index.html)
+http://localhost:8080/features/index.html
 
 **Note:** Host and port may be different in your case.
 
@@ -104,7 +104,7 @@ Reports improve the visibility. I strongly recommend generating and sharing repo
 
 ### References
 
-For more information on Cucumber Built-In Reports and Third Party Reports refer [https://cucumber.io/docs/cucumber/reporting/](https://cucumber.io/docs/cucumber/reporting/){:target="_blank"}
+[Cucumber Reporting](https://cucumber.io/docs/cucumber/reporting/){:target="_blank"}
 
 <hr>
 
