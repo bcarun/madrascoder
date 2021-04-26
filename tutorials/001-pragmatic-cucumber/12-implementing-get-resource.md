@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 12
 title: Use BDD to Implement and Test 'GET APIs'
 description: >
-  In this chapter, let us see how to create feature files for 'GET APIs'. Also, let us see how we can compare the expected results with the actual results using AssertJ library.
+  Previously, we learnt how to implement and test 'Create API', 'Update API'. Here, let us learn how to use BDD to implement and test 'GET APIs'. Also, let us see how we can compare the expected results with the actual results using AssertJ library.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg
@@ -24,7 +24,7 @@ Let’s create feature file, step definitions and an API for the following requi
 
 **As a** HR Staff,  
 **I want to** get employee details by last name,  
-**So that** I view all the employees with who has the given last name.  
+**So that** I view details of all the employees who has the given last name.  
 
 <hr>
 
@@ -38,7 +38,14 @@ Here is the feature file containing following scenarios
 
 #### 1.1 Feature File
 
-In the feature `Background`, we setup 3 employees with ids **(111001, 111002, 111003)**. Also, employee with id = **'111001'** and **'111003'** is set to have the same last name **'Green'**. This is to test **'Get employees by last name'** use case.
+Navigate to following location and create a feature file,
+
+```shell
+cd src/test/resources/com/madrascoder/cucumberbooksample
+touch 1110-get-employee.feature
+```
+
+Add the following feature,
 
 ```cucumber
 Feature: Get Employee
@@ -82,7 +89,9 @@ Feature: Get Employee
 
 ```
 
-If you look at the both the `Scenario`s, there is no `Given Step`. Yes, you can create a `Scenario` without a `Given Step`. 
+In the feature `Background`, we setup 3 employees with ids **(111001, 111002, 111003)**. Also, employee with id = **'111001'** and **'111003'** is set to have the same last name **'Green'**. This is to test **'Get employees by last name'** use case.
+
+> If you look at the both the `Scenario`s, there is no `Given Step`. Yes, you can create a `Scenario` without a `Given Step`. 
 
 #### 1.2 Corresponding Step Definitions
 
@@ -176,7 +185,7 @@ public class EmployeeStepDefinitions extends AbstractStepDefinitions {
 
 **Note:** In all the previous chapter, we assert the HTTP response code, but here in GET API Scenario, we do another assertion to check if the actual response payload matches with the expected response payload using AssertJ library.
 
-#### 1.3 Modified CommonStepDefinitions.java to match 'Get API' Response Code Assertion
+#### 1.3 Modified Common Step Definitions to match 'Get API' Response Code Assertion
 
 Look at the the `Then Step`, it uses Cucumber Expressions **alternate text** to match both `save` and `get` words using `save/get`.
 
@@ -221,9 +230,15 @@ Now that we have the Scenarios to test 'Get APIs', you may run the test. Test wi
 
 ### Step 2: Implement 'Get APIs'
 
-#### 2.1 Add find method to EmployeeRepository.java
+#### 2.1 Add find method to Employee Repository
 
-**Path:** src/main/java/com/madrascoder/cucumberbooksample/repository/EmployeeRepository.java
+Navigate to following location and update the employee repository class,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/repository
+```
+
+Open and add the findByLastName method to the class,
 
 ```java
 import com.madrascoder.cucumberbooksample.entity.EmployeeEntity;
@@ -241,7 +256,15 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
 }
 ```
 
-#### 2.2 Add getById and getByLastName methods to EmployeeService.java
+#### 2.2 Add getById and getByLastName methods to Employee Service
+
+Navigate to following class and add getById and getByLastName methods,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/service
+```
+
+Open add getById and getByLastName methods,
 
 ```java
 import com.madrascoder.cucumberbooksample.dto.Employee;
@@ -304,7 +327,15 @@ public class EmployeeService {
 }
 ```
 
-#### 2.3 Add HTTP GET methods to EmployeeRestController.java
+#### 2.3 Add HTTP GET methods to Employee Rest Controller
+
+Navigate to following location and add GET methods to employee rest controller,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/restapi
+```
+
+Open and add getEmployeeById and getEmployeesByLastName methods,
 
 ```java
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -413,7 +444,7 @@ In the next chapter, we will learn how to generate reports using build-in Cucumb
 
 ### References
 
-For more information on `AssertJ` library, you may refer [https://assertj.github.io/doc/](https://assertj.github.io/doc/){:target="_blank"}
+[AssertJ](https://assertj.github.io/doc/){:target="_blank"}
 
 <hr>
 

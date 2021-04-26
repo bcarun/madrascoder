@@ -76,7 +76,7 @@ In this chapter, we will learn how to convert YES/NO in feature file to true/fal
 
 <p>In the feature file, we used the values <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code> for the field <code class="language-plaintext highlighter-rouge">remoteWorker</code>. From business perspective, they perfer <code class="language-plaintext highlighter-rouge">Yes</code>, <code class="language-plaintext highlighter-rouge">No</code> instead of <code class="language-plaintext highlighter-rouge">true</code>, <code class="language-plaintext highlighter-rouge">false</code>. Now the question is, how to make cucumber convert <code class="language-plaintext highlighter-rouge">Yes</code> and <code class="language-plaintext highlighter-rouge">No</code> to <code class="language-plaintext highlighter-rouge">true</code> and <code class="language-plaintext highlighter-rouge">false</code>.</p>
 
-<p>Similarly, for the <code class="language-plaintext highlighter-rouge">dateOfBirth</code> field, we have a validation in place to check the given date is in the past date. In order to validate this use case, we have used a future date 2021-05-26 (a future date as today 2021-04-18) and whenever a future date is provided, validation should fail. It will work as expected till 2021-05-26 and after that it not fail as expected. Hence, from testing perspective we need to use relative dates instead of real dates in our feature files to avoid these kinds of failures. One way to solve this problem is to use relative dates like ‘LocalDate+1’ for tomorrow, ‘LocalDate+2’ for day after tomorrow etc.</p>
+<p>Similarly, for the <code class="language-plaintext highlighter-rouge">dateOfBirth</code> field, we have a validation in place to check the given date is in the past date. In order to validate this use case, we have used a future date 2021-05-26 (a future date as today 2021-04-18) and whenever a future date is provided, validation should fail. It will work as expected till 2021-05-26 and after that it not fail as expected. Hence, from testing perspective we need to use relative dates instead of real dates in our feature files to avoid these kinds of failures. One way to solve this problem is to use relative dates like ‘LocalDate.now+1’ for tomorrow, ‘LocalDate.now+2’ for day after tomorrow etc.</p>
 
 <p>Following are the classes that require special treatment in Cucumber,</p>
 
@@ -88,6 +88,8 @@ In this chapter, we will learn how to convert YES/NO in feature file to true/fal
 </ol>
 
 <h3 id="step-1-create-convertors">Step 1: Create Convertors</h3>
+
+<p>We use Spring Convertor interface to create convertors for all the above classes to String and back.</p>
 
 <h4 id="11-yes-no-convertor">1.1 Yes No Convertor</h4>
 
@@ -366,7 +368,7 @@ In this chapter, we will learn how to convert YES/NO in feature file to true/fal
 
 </code></pre></div></div>
 
-<p>If you run the tests, everything will work as usual. Values YES/NO will be automatically converted to boolean and relative dates ‘LocalDate.now+1’ etc., will be transformed to a LocalDate value.</p>
+<p>If you run the tests, everything will work as usual. Values YES/NO will be automatically converted to boolean and relative dates ‘LocalDate.now+1’ etc., will be transformed to a LocalDate value based on the date and time the test is executed.</p>
 
 <hr />
 

@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 9
 title: Strategy to Handle Auto Generated Identifier 
 description: >
-  
+  In databases, we use auto increment columns for primary key. JPA/Hibernate uses the @Id annotation to deal with getting the next value when inserting the records in to the database. For testing, we should be able to set the identifier when we setup the data so that we can use the same identifier to perform some actions on the respective object. If you explicitly set the identifier before creating a resource, JPA/Hibernate checks if the record with the given id exists. If not exists, JPA/Hibernate ignores the supplier identifier and gets the next value from database. This behavior makes it hard to set up and use data for testing. Here, let us see how we can change the default behavior of JPA/Hibernate and make it use the identifier supplied and use auto generate only when no identifier is supplied.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter9/markus-spiske-yAlLIl4qtnc-unsplash.jpg
@@ -85,9 +85,16 @@ When you execute the above `Scenario`, JPA/Hibernate will check if a record with
 
 One way to solve this problem is to extend IdentityGenerator class and override `generate` method to use the 'id' supplied if available and auto generate a new 'id' only when the supplied 'id' is null.
 
-### Step 1: Extend IdentityGenerator.java 
+### Step 1: Extend JPA Identity Generator
 
-**Path:** src/main/java/com/madrascoder/cucumberbooksample/entity/AutoGenerateIdIfNullIdentityGenerator.java
+Navigate to the following location and create a custom identity generator class,
+
+```shell
+cd src/main/java/com/madrascoder/cucumberbooksample/entity
+touch AutoGenerateIdIfNullIdentityGenerator.java
+```
+
+Add the following code,
 
 ```java
 import java.io.Serializable;
@@ -107,7 +114,7 @@ public class AutoGenerateIdIfNullIdentityGenerator extends IdentityGenerator {
 }
 ```
 
-### Step 2: Use Custom Identity Generator in EmployeeEntity.java
+### Step 2: Use Custom Identity Generator in EmployeeEntity
 
 ```java
 import java.time.LocalDate;
@@ -145,13 +152,15 @@ public class EmployeeEntity {
 
 ```
 
-> Whatever we did now is what I call as 'Testable Architecture'.
+> Whatever we did now is what I call as 'Testable Architecture'. It is important to consider testing when writing code.
 
 <hr>
 
 ### Conclusion
 
 In this chapter, we created a custom identity generator to replace the default behavior of JPA/Hibernate. Now, if feature file supply an 'id', JPA/Hibernate will use that 'id' instead of ignoring and creating one from next sequence. This is very useful when implementing 'Update API' and 'Get APIs'.
+
+This custom identity generator is intended for testing purpose, hence make sure the caller doesn't set the id fields during the actual calls to avoid confusion with sequence generation and incorrect updates.
 
 In the next chapter, we will learn another technique on how we can replace true/false with YES/NO in feature files so that it is easier to read. We will also learn how to use relative dates instead of fixed dates which is not good for testing.
 

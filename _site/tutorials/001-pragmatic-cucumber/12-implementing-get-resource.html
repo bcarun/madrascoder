@@ -27,8 +27,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Use BDD to Implement and Test ‘GET APIs’" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="In this chapter, let us see how to create feature files for ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library." />
-<meta property="og:description" content="In this chapter, let us see how to create feature files for ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library." />
+<meta name="description" content="Previously, we learnt how to implement and test ‘Create API’, ‘Update API’. Here, let us learn how to use BDD to implement and test ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library." />
+<meta property="og:description" content="Previously, we learnt how to implement and test ‘Create API’, ‘Update API’. Here, let us learn how to use BDD to implement and test ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html" />
 <meta property="og:site_name" content="Madras Coder" />
@@ -37,7 +37,7 @@
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg" />
 <meta property="twitter:title" content="Use BDD to Implement and Test ‘GET APIs’" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg","headline":"Use BDD to Implement and Test ‘GET APIs’","description":"In this chapter, let us see how to create feature files for ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/12-implementing-get-resource.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg","headline":"Use BDD to Implement and Test ‘GET APIs’","description":"Previously, we learnt how to implement and test ‘Create API’, ‘Update API’. Here, let us learn how to use BDD to implement and test ‘GET APIs’. Also, let us see how we can compare the expected results with the actual results using AssertJ library.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -62,7 +62,7 @@
         <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter12/david-sinclair-1ZC_mM2wHnw-unsplash.jpg" title="Use BDD to Implement and Test 'GET APIs'" />
         <p></p>
         <h1>Use BDD to Implement and Test 'GET APIs'</h1>
-        <p>In this chapter, let us see how to create feature files for 'GET APIs'. Also, let us see how we can compare the expected results with the actual results using AssertJ library.
+        <p>Previously, we learnt how to implement and test 'Create API', 'Update API'. Here, let us learn how to use BDD to implement and test 'GET APIs'. Also, let us see how we can compare the expected results with the actual results using AssertJ library.
 </p>
         <hr>
         <p>Let’s create feature file, step definitions and an API for the following requirement/user story.</p>
@@ -73,7 +73,7 @@
 
 <p><strong>As a</strong> HR Staff,<br />
 <strong>I want to</strong> get employee details by last name,<br />
-<strong>So that</strong> I view all the employees with who has the given last name.</p>
+<strong>So that</strong> I view details of all the employees who has the given last name.</p>
 
 <hr />
 
@@ -88,7 +88,13 @@
 
 <h4 id="11-feature-file">1.1 Feature File</h4>
 
-<p>In the feature <code class="language-plaintext highlighter-rouge">Background</code>, we setup 3 employees with ids <strong>(111001, 111002, 111003)</strong>. Also, employee with id = <strong>‘111001’</strong> and <strong>‘111003’</strong> is set to have the same last name <strong>‘Green’</strong>. This is to test <strong>‘Get employees by last name’</strong> use case.</p>
+<p>Navigate to following location and create a feature file,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources/com/madrascoder/cucumberbooksample
+<span class="nb">touch </span>1110-get-employee.feature
+</code></pre></div></div>
+
+<p>Add the following feature,</p>
 
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Get Employee
 
@@ -131,7 +137,11 @@
 
 </code></pre></div></div>
 
-<p>If you look at the both the <code class="language-plaintext highlighter-rouge">Scenario</code>s, there is no <code class="language-plaintext highlighter-rouge">Given Step</code>. Yes, you can create a <code class="language-plaintext highlighter-rouge">Scenario</code> without a <code class="language-plaintext highlighter-rouge">Given Step</code>.</p>
+<p>In the feature <code class="language-plaintext highlighter-rouge">Background</code>, we setup 3 employees with ids <strong>(111001, 111002, 111003)</strong>. Also, employee with id = <strong>‘111001’</strong> and <strong>‘111003’</strong> is set to have the same last name <strong>‘Green’</strong>. This is to test <strong>‘Get employees by last name’</strong> use case.</p>
+
+<blockquote>
+  <p>If you look at the both the <code class="language-plaintext highlighter-rouge">Scenario</code>s, there is no <code class="language-plaintext highlighter-rouge">Given Step</code>. Yes, you can create a <code class="language-plaintext highlighter-rouge">Scenario</code> without a <code class="language-plaintext highlighter-rouge">Given Step</code>.</p>
+</blockquote>
 
 <h4 id="12-corresponding-step-definitions">1.2 Corresponding Step Definitions</h4>
 
@@ -223,7 +233,7 @@
 
 <p><strong>Note:</strong> In all the previous chapter, we assert the HTTP response code, but here in GET API Scenario, we do another assertion to check if the actual response payload matches with the expected response payload using AssertJ library.</p>
 
-<h4 id="13-modified-commonstepdefinitionsjava-to-match-get-api-response-code-assertion">1.3 Modified CommonStepDefinitions.java to match ‘Get API’ Response Code Assertion</h4>
+<h4 id="13-modified-common-step-definitions-to-match-get-api-response-code-assertion">1.3 Modified Common Step Definitions to match ‘Get API’ Response Code Assertion</h4>
 
 <p>Look at the the <code class="language-plaintext highlighter-rouge">Then Step</code>, it uses Cucumber Expressions <strong>alternate text</strong> to match both <code class="language-plaintext highlighter-rouge">save</code> and <code class="language-plaintext highlighter-rouge">get</code> words using <code class="language-plaintext highlighter-rouge">save/get</code>.</p>
 
@@ -267,9 +277,14 @@
 
 <h3 id="step-2-implement-get-apis">Step 2: Implement ‘Get APIs’</h3>
 
-<h4 id="21-add-find-method-to-employeerepositoryjava">2.1 Add find method to EmployeeRepository.java</h4>
+<h4 id="21-add-find-method-to-employee-repository">2.1 Add find method to Employee Repository</h4>
 
-<p><strong>Path:</strong> src/main/java/com/madrascoder/cucumberbooksample/repository/EmployeeRepository.java</p>
+<p>Navigate to following location and update the employee repository class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/repository
+</code></pre></div></div>
+
+<p>Open and add the findByLastName method to the class,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
@@ -286,7 +301,14 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h4 id="22-add-getbyid-and-getbylastname-methods-to-employeeservicejava">2.2 Add getById and getByLastName methods to EmployeeService.java</h4>
+<h4 id="22-add-getbyid-and-getbylastname-methods-to-employee-service">2.2 Add getById and getByLastName methods to Employee Service</h4>
+
+<p>Navigate to following class and add getById and getByLastName methods,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/service
+</code></pre></div></div>
+
+<p>Open add getById and getByLastName methods,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
@@ -348,7 +370,14 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h4 id="23-add-http-get-methods-to-employeerestcontrollerjava">2.3 Add HTTP GET methods to EmployeeRestController.java</h4>
+<h4 id="23-add-http-get-methods-to-employee-rest-controller">2.3 Add HTTP GET methods to Employee Rest Controller</h4>
+
+<p>Navigate to following location and add GET methods to employee rest controller,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/restapi
+</code></pre></div></div>
+
+<p>Open and add getEmployeeById and getEmployeesByLastName methods,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">http</span><span class="o">.</span><span class="na">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">;</span>
 
@@ -454,7 +483,7 @@ Scenario: Get employee by last name                             <span class="c">
 
 <h3 id="references">References</h3>
 
-<p>For more information on <code class="language-plaintext highlighter-rouge">AssertJ</code> library, you may refer <a href="https://assertj.github.io/doc/" target="_blank">https://assertj.github.io/doc/</a></p>
+<p><a href="https://assertj.github.io/doc/" target="_blank">AssertJ</a></p>
 
 <hr />
 

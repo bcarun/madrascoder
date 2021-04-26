@@ -29,7 +29,7 @@ Employee DTO has 2 fields,
 
 In the feature file, we used the values `true` or `false` for the field `remoteWorker`. From business perspective, they perfer `Yes`, `No` instead of `true`, `false`. Now the question is, how to make cucumber convert `Yes` and `No` to `true` and `false`.
 
-Similarly, for the `dateOfBirth` field, we have a validation in place to check the given date is in the past date. In order to validate this use case, we have used a future date 2021-05-26 (a future date as today 2021-04-18) and whenever a future date is provided, validation should fail. It will work as expected till 2021-05-26 and after that it not fail as expected. Hence, from testing perspective we need to use relative dates instead of real dates in our feature files to avoid these kinds of failures. One way to solve this problem is to use relative dates like 'LocalDate+1' for tomorrow, 'LocalDate+2' for day after tomorrow etc.
+Similarly, for the `dateOfBirth` field, we have a validation in place to check the given date is in the past date. In order to validate this use case, we have used a future date 2021-05-26 (a future date as today 2021-04-18) and whenever a future date is provided, validation should fail. It will work as expected till 2021-05-26 and after that it not fail as expected. Hence, from testing perspective we need to use relative dates instead of real dates in our feature files to avoid these kinds of failures. One way to solve this problem is to use relative dates like 'LocalDate.now+1' for tomorrow, 'LocalDate.now+2' for day after tomorrow etc.
 
 Following are the classes that require special treatment in Cucumber,
 
@@ -39,6 +39,8 @@ Following are the classes that require special treatment in Cucumber,
 4. LocalTime
 
 ### Step 1: Create Convertors 
+
+We use Spring Convertor interface to create convertors for all the above classes to String and back.
 
 #### 1.1 Yes No Convertor
 
@@ -325,7 +327,7 @@ Feature: Create Employee
 
 ```
 
-If you run the tests, everything will work as usual. Values YES/NO will be automatically converted to boolean and relative dates 'LocalDate.now+1' etc., will be transformed to a LocalDate value.
+If you run the tests, everything will work as usual. Values YES/NO will be automatically converted to boolean and relative dates 'LocalDate.now+1' etc., will be transformed to a LocalDate value based on the date and time the test is executed.
 
 <hr>
 

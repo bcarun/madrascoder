@@ -27,8 +27,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Use BDD to Implement and Test ‘Create API’" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="In this chapter let’s apply ‘Spreadsheet DataTable’ pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods." />
-<meta property="og:description" content="In this chapter let’s apply ‘Spreadsheet DataTable’ pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods." />
+<meta name="description" content="We learnt various patterns to represent features or product specifications. Here, let’s apply ‘Spreadsheet DataTable’ pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods." />
+<meta property="og:description" content="We learnt various patterns to represent features or product specifications. Here, let’s apply ‘Spreadsheet DataTable’ pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/04-implementing-create-resource.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/04-implementing-create-resource.html" />
 <meta property="og:site_name" content="Madras Coder" />
@@ -37,7 +37,7 @@
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg" />
 <meta property="twitter:title" content="Use BDD to Implement and Test ‘Create API’" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/04-implementing-create-resource.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg","headline":"Use BDD to Implement and Test ‘Create API’","description":"In this chapter let’s apply ‘Spreadsheet DataTable’ pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/04-implementing-create-resource.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg","headline":"Use BDD to Implement and Test ‘Create API’","description":"We learnt various patterns to represent features or product specifications. Here, let’s apply ‘Spreadsheet DataTable’ pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -62,7 +62,7 @@
         <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter4/kyle-glenn-YkOQ4So1TXM-unsplash.jpg" title="Use BDD to Implement and Test 'Create API'" />
         <p></p>
         <h1>Use BDD to Implement and Test 'Create API'</h1>
-        <p>In this chapter let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
+        <p>We learnt various patterns to represent features or product specifications. Here, let's apply 'Spreadsheet DataTable' pattern to test the API that is used to create a new employee in our HR Software. In this process, we will add few more maven dependencies to create and call the API. To be specific, we will use RestAssured library to call the REST API from the step definition methods.
 </p>
         <hr>
         <p>Let’s create feature file, step definitions and an API for the following requirement/user story.</p>
@@ -139,11 +139,18 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <h3 id="step-2-create-feature-file">Step 2: Create Feature File</h3>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/test/resources/com/madrascoder/cucumberbooksample/1100-create-employee.feature</code></p>
+<p>Navigate to following location and create a feature file,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources/com/madrascoder/cucumberbooksample
+<span class="nb">touch </span>1100-create-employee.feature
+</code></pre></div></div>
+
+<p>Add the following feature,</p>
 
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Create Employee
 
   <span class="kn">Scenario</span><span class="p">:</span> Create employee with basic details
+    
     <span class="nf">Given </span>user wants to create employee with following details
 
       <span class="p">|</span> <span class="nv">firstName</span> <span class="p">|</span> <span class="nv">lastName</span> <span class="p">|</span> <span class="nv">email</span>               <span class="p">|</span> <span class="nv">dateOfBirth</span> <span class="p">|</span> <span class="nv">jobTitle</span>                   <span class="p">|</span> <span class="nv">employeeNumber</span> <span class="p">|</span> <span class="nv">employeeStatus</span> <span class="p">|</span> <span class="nv">employmentType</span> <span class="p">|</span>
@@ -155,11 +162,17 @@ This is part of Spring Boot Dependencies, hence version is not needed
 </code></pre></div></div>
 <hr />
 
-<h3 id="step-3-create-datatransformer">Step 3: Create DataTransformer</h3>
+<h3 id="step-3-create-data-transformer-class">Step 3: Create Data Transformer Class</h3>
 
 <p>DataTransformer (The Magic Class) helps to convert DataTable to respective DTO or Collection of DTOs and vice versa.</p>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/test/com/madrascoder/cucumberbooksample/DataTransformer.java</code></p>
+<p>Navigate to following location and create a data transformer class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/com/madrascoder/cucumberbooksample
+<span class="nb">touch </span>DataTransformer.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.fasterxml.jackson.databind.ObjectMapper</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">io.cucumber.java.DefaultDataTableCellTransformer</span><span class="o">;</span>
@@ -191,9 +204,15 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <hr />
 
-<h3 id="step-4-create-employeestepdefinitionsjava">Step 4: Create EmployeeStepDefinitions.java</h3>
+<h3 id="step-4-create-employee-step-definitions">Step 4: Create Employee Step Definitions</h3>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions/EmployeeStepDefinitions.java</code></p>
+<p>Navigate to following location and create a step definitions class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
+<span class="nb">touch </span>EmployeeStepDefinitions.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">io</span><span class="o">.</span><span class="na">restassured</span><span class="o">.</span><span class="na">RestAssured</span><span class="o">.</span><span class="na">given</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
@@ -258,7 +277,13 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <h4 id="51-create-employee-class-dto-with-basic-attributes">5.1 Create Employee Class (DTO) with basic attributes,</h4>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/dto/Employee.java</code></p>
+<p>Navigate to following location and create Employee DTO class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/dto
+<span class="nb">touch </span>Employee.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">lombok.Getter</span><span class="o">;</span>
@@ -285,7 +310,13 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <h4 id="52-create-employeeentity-class-jpa-managed-object">5.2 Create EmployeeEntity Class (JPA Managed Object)</h4>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/entity/EmployeeEntity.java</code></p>
+<p>Navigate to following location and create Employee Entity class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/entity
+<span class="nb">touch </span>EmployeeEntity.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
@@ -321,7 +352,13 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <p>‘MapStruct’ library (dependency added earlier), this library uses AnnotationProcessor to generate the respective convertor method implementations for the interface and also declares the auto generated class as a Spring Bean.</p>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/mapper/EmployeeMapper.java</code></p>
+<p>Navigate to the following location and create EmployeeMapper class</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/mapper
+<span class="nb">touch </span>EmployeeMapper.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
@@ -359,11 +396,19 @@ This is part of Spring Boot Dependencies, hence version is not needed
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>Look for the auto generated class under compiler output directory target/generated-sources/annotations.</p>
+<p>Look for the auto generated class under compiler output directory, usually its target/generated-sources/annotations.</p>
+
+<p><strong>Note:</strong> Maven compiler plugin and the mapstruct annotation processor declared in <code class="language-plaintext highlighter-rouge">pom.xml</code> generates the <code class="language-plaintext highlighter-rouge">EmployeeMapperImpl.class</code>.</p>
 
 <h4 id="54-create-employeerepository-interface">5.4 Create EmployeeRepository Interface</h4>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/repository/EmployeeRepository.java</code></p>
+<p>Navigate to following location and create employee repository class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/repository
+<span class="nb">touch </span>EmployeeRepository.java
+</code></pre></div></div>
+
+<p>Add following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
@@ -376,7 +421,13 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <h4 id="55-create-employeeservice-class">5.5 Create EmployeeService Class</h4>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/service/EmployeeService.java</code></p>
+<p>Navigate to following location and create employee service class</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/service
+<span class="nb">touch </span>EmployeeService.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.entity.EmployeeEntity</span><span class="o">;</span>
@@ -415,7 +466,13 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <h4 id="56-create-controller-advice--respective-message-class-for-rest-api-error-handling">5.6 Create Controller Advice &amp; Respective Message Class for REST API Error Handling</h4>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/restapi/DefaultRestControllerAdvice.java</code></p>
+<p>Navigate to the following location and create a exception handler for REST API Controller,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/restapi
+<span class="nb">touch </span>DefaultRestControllerAdvice.java
+</code></pre></div></div>
+
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.EntityNotFoundException</span><span class="o">;</span>
@@ -478,7 +535,12 @@ This is part of Spring Boot Dependencies, hence version is not needed
 
 <h4 id="57-create-employeerestcontroller-class">5.7 Create EmployeeRestController Class</h4>
 
-<p>Path: <code class="language-plaintext highlighter-rouge">src/main/java/com/madrascoder/cucumberbooksample/restapi/EmployeeRestController.java</code></p>
+<p>Navigate to the following location and create rest controller class,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/main/java/com/madrascoder/cucumberbooksample/restapi
+<span class="nb">touch </span>EmployeeRestController.java
+</code></pre></div></div>
+<p>Add the following code,</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.dto.Employee</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.madrascoder.cucumberbooksample.service.EmployeeService</span><span class="o">;</span>
@@ -584,13 +646,13 @@ Connection: keep-alive
 
 <p>There is a lot we have learnt so far. This chapter is the first step towards doing BDD in a real projects. Every minute you spend reading and trying the steps so far will definitely save a lots of hours for you and your team when you start implementing BDD in your team.</p>
 
-<p>In the next chapter, lets learn how to create feature files to represent all validation use cases and test those validations. This is also a common use case when it comes to creating an API. Come on, lets learn that in next chapter.</p>
+<p>In the next chapter, lets learn how to create feature files to represent all validation use cases and test those validations. This is also a common use case when it comes to creating an API.</p>
 
 <hr />
 
 <h3 id="references">References</h3>
 
-<p>For more information on <code class="language-plaintext highlighter-rouge">MapStruct</code> you may refer <a href="https://mapstruct.org/" target="_blank">https://mapstruct.org/</a></p>
+<p><a href="https://mapstruct.org/" target="_blank">MapStruct</a></p>
 
 <hr />
 

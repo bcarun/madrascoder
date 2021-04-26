@@ -14,7 +14,7 @@ html body p { line-height: 1.6rem; }
 
 html nav, html main, html footer { padding: 0.5rem 5rem; }
 
-@media (max-width: 640px) { html nav, html main, html footer { padding: 0.5rem 1.5rem; } }
+@media (max-width: 640px) { html nav, html main, html footer { padding: 0.5rem 1rem; } }
 
 html a { text-decoration: none; }
 
@@ -80,7 +80,7 @@ body .article-content, body .tutorial-content { max-width: 960px; flex: 1; align
 
 body .article-content img, body .tutorial-content img { border-radius: 0.25rem; max-width: 100%; height: auto; }
 
-body .article-content .highlight, body .tutorial-content .highlight { padding-left: 0.25rem; overflow-x: scroll; overflow: auto; max-width: 95vw; }
+body .article-content .highlight, body .tutorial-content .highlight { padding-left: 0.25rem; padding-right: 0.25rem; overflow-x: scroll; overflow: auto; max-width: 95vw; }
 
 body .article-content blockquote, body .tutorial-content blockquote { background: #f9f9f9; border-left: 10px solid #ccc; margin: 1.5em 10px; padding: 0.5em 10px; quotes: "“" "”" "‘" "’"; font-style: italic; }
 

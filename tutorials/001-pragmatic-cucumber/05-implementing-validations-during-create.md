@@ -3,7 +3,7 @@ layout: tutorial
 chapter: 5
 title: Implementing BDD to Test Validation Use Cases
 description: >
-  In the last chapter, we used BDD to develop and test 'Create API'. In this chapter, let's go a little deeper and learn how to represent validation use cases in feature file and test the same.
+  We learnt how to use BDD and Cucumber to develop and test 'Create API'. Here, let's go a little deeper and learn how to represent validation use cases in feature file and test the same.
 
 category: tutorial
 image: assets/media/tutorials/001-pragmatic-cucumber/chapter5/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg
@@ -30,7 +30,7 @@ Let's imagine we have to perform the following validations before saving an empl
 
 ### Feature File for Validation Use Case
 
-In the previous chapters, we used `Scenario` in our feature files. Each `Scenario` is like one test case. In this case, we have to perform validations. For example, we have to test creating employee without **firstName** and expect the API to fail with 400 Bad Request. Next we have to test creating employee without **lastName** and expected the API to fail with 400 Bad Request. Likewise, we have test various validation use cases listed in the above said table. One of the best way to do this is by using `Scenario Outline` and `Examples`.
+In the previous chapters, we used `Scenario` in our feature files. Each `Scenario` is like one test case. In this case, we have to perform validations. For example, we have to test creating employee without **firstName** and expect the API to fail with 400 Bad Request. Next we have to test creating employee without **lastName** and expect the API to fail with 400 Bad Request. Likewise, we have test all validation use cases listed in the above said table. One of the best way to do this is by using `Scenario Outline` and `Examples`.
 
 Read the below stated feature file to see how `Scenario Outline` and `Examples` are used to represent validation test cases. 
 
@@ -40,6 +40,7 @@ Feature: Create Employee
   @smoketest
   Scenario: Create employee with basic details
     Given user wants to create employee with following details
+
       | firstName | lastName | email               | dateOfBirth | jobTitle                   | employeeNumber | employeeStatus | employmentType |
       | Effie     | Slee     | eslee@blueocean.com | 2014-03-01  | Physical Therapy Assistant | E101           | Active         | Full-Time      |
 
@@ -51,6 +52,7 @@ Feature: Create Employee
   Scenario Outline: Create employee <testCase> <expectedResult>
 
     Given user wants to create employee with following details
+
       | firstName   | lastName   | email   | dateOfBirth   | jobTitle                      | employeeNumber | employeeStatus | employmentType |
       | <firstName> | <lastName> | <email> | <dateOfBirth> | Budget/Accounting Analyst III | 160            | Active         | Full-Time      |
     
@@ -73,7 +75,7 @@ If you look at the feature file, there is one `Scenario` and one `Scenario Outli
 
 Now, lets compare 'Given Step', 'When Step' and 'Then Step' between `Scenario` and `Scenario Outline`.
 
-#### 'Given Step' Changes between Scenario and Scenario Outline
+#### 'Given Step' - Changes between Scenario and Scenario Outline
 
 **In Scenario,**
 
@@ -93,9 +95,9 @@ Given user wants to create employee with following details
 
 ```
 
-Fields firstName, lastName, email and dateOfBirth are the ones that need to be validated. Hence in `Scenario Outline`, the values are modified to be variables `<firstName>`, `<lastName>`, `<email>`, `<dateOfBirth>`. `Scenario Outline` will be executed once per example row in `Examples DataTable`. In our case, we have 6 rows in `Examples` DataTable, hence the `Scenario Outline` will be executed 6 times once per example row. Value for these placeholders or variables will be picked up from the example that is being executed.
+Fields firstName, lastName, email and dateOfBirth are the ones, that need to be validated. Hence in `Scenario Outline`, the values are modified to be variables `<firstName>`, `<lastName>`, `<email>`, `<dateOfBirth>`. `Scenario Outline` will be executed once per example row in `Examples DataTable`. In our case, we have 6 rows in `Examples` DataTable, hence the `Scenario Outline` will be executed 6 times once per example row. Value for these placeholders or variables will be picked up from the example that is being executed.
 
-#### When Step
+#### 'When Step' - Changes between Scenario and Scenario Outline
 
 **In Scenario,**
 
@@ -109,7 +111,7 @@ When user saves a new employee
 When user saves a new employee <testCase>
 ```
 
-Comparing the 'When Step', in `Scenario` and `Scenario Outline`, the difference is the `<testCase>` placeholder in `Scenario Outline`. Use of `<testCase>` variable in this step is to print the test case when executing the step. When the first example is executed, 'When Step' will be printed as stated below
+Comparing the 'When Step', in `Scenario` and `Scenario Outline`, the difference is the `<testCase>` placeholder in `Scenario Outline`. Use of `<testCase>` variable in this step is to print the test case when executing the step. When the first example in Scenario Outline is executed, 'When Step' will be printed as stated below
 
 ```shell
 When user saves a new employee without first name
@@ -127,7 +129,7 @@ For the above 'When Step' in both `Scenario` and `Scenario Outline`, we have onl
 
 If you look at the `@When` annotation, we used `(.*)` at the end. By using `(.*)`, we are asking Cucumber not to use any word after 'user saves a new employee' for matching the step definition. Anything that is stated inside a parenthesis is an optional text and it will not be used for matching the step in feature file with the step definition method. Hence we are able to use one step definition method for both of the 'When Step's in `Scenario` and `Scenario Outline`. We have used 'Cucumber Expressions' support to achieve this.
 
-#### Then Step
+#### 'Then Step' - Changes between Scenario and Scenario Outline
 
 One change you can notice easily in the `Then` step is, enclosing 'IS SUCCESSFUL' between single quotes as stated below.
 
@@ -141,7 +143,7 @@ Then the save 'IS SUCCESSFUL'
 Then the save '<expectedResult>'
 ```
 
-When you enclose words between Single Quote ('), it is considered as a String and the value in between single quotes can be captured as an argument in step definition. Here is the corresponding step definition.
+When you enclose words between Single Quote ( `'some word'` ), it is considered as a String and the value in between single quotes can be captured as an argument in step definition. Here is the corresponding step definition.
 
 ```java
 @Then("the save {string}")
@@ -157,7 +159,14 @@ When the method `theSave(String expectedResult)` is executed, expectedResult wil
 
 #### EmployeeStepDefinitions.java Changes
 
-Two methods, `userSavesANewEmployee` and `theSave` are the ones that you need to look in the below code.
+Look at the following methods,
+
+```java
+userSavesANewEmployee()
+theSave(String expectedResult)
+```
+
+In the below code,
 
 ```java
 import static io.restassured.RestAssured.given;
@@ -248,6 +257,8 @@ Let us make necessary changes to source code to implement the expected validatio
 
 #### Add Validation Annotations to Employee DTO Bean
 
+Look at the annotations added to the fields,
+
 ```java
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
@@ -284,9 +295,10 @@ public class Employee {
 }
 ```
 
-### Add MethodArgumentNotValidException Handler to DefaultRestControllerAdvice
+### Add Method Argument Not Valid Exception Handler
 
-Look at method having following annotation
+Look at method having following annotation and corresponding method,
+
 ```java
 @ExceptionHandler(MethodArgumentNotValidException.class)
 ```
@@ -485,9 +497,9 @@ In the next chapter, lets learn 2 ways to share state between step definitions.
 
 ### References
 
-For more information on `Cucumber Expressions` you may refer [https://cucumber.io/docs/cucumber/cucumber-expressions/](https://cucumber.io/docs/cucumber/cucumber-expressions/){:target="_blank"}
+[Cucumber Expressions](https://cucumber.io/docs/cucumber/cucumber-expressions/){:target="_blank"}
 
-For more information on `RestAssured` you may refer [https://rest-assured.io/](https://rest-assured.io/){:target="_blank"}
+[RestAssured](https://rest-assured.io/){:target="_blank"}
 
 <hr>
 

@@ -23,21 +23,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
     <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
     <!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Different patterns of creating Cucumber Feature files | Madras Coder</title>
+<title>Different Patterns for Creating Feature Files | Madras Coder</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Different patterns of creating Cucumber Feature files" />
+<meta property="og:title" content="Different Patterns for Creating Feature Files" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly." />
-<meta property="og:description" content="In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly." />
+<meta name="description" content="Feature files are specifications. A feature can be represented in different ways/patterns. Here, let us see different patterns for creating feature files, their pros and cons. You may learn all the patterns and use them accordingly." />
+<meta property="og:description" content="Feature files are specifications. A feature can be represented in different ways/patterns. Here, let us see different patterns for creating feature files, their pros and cons. You may learn all the patterns and use them accordingly." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.html" />
 <meta property="og:site_name" content="Madras Coder" />
 <meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg" />
-<meta property="twitter:title" content="Different patterns of creating Cucumber Feature files" />
+<meta property="twitter:title" content="Different Patterns for Creating Feature Files" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg","headline":"Different patterns of creating Cucumber Feature files","description":"In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/02-diff-ways-of-creating-feature-files.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg","headline":"Different Patterns for Creating Feature Files","description":"Feature files are specifications. A feature can be represented in different ways/patterns. Here, let us see different patterns for creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -59,16 +59,18 @@
     </ul>
 </nav>
     <main class="tutorial-content">
-        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg" title="Different patterns of creating Cucumber Feature files" />
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter2/chuttersnap-cJxxfSEbO8Y-unsplash.jpg" title="Different Patterns for Creating Feature Files" />
         <p></p>
-        <h1>Different patterns of creating Cucumber Feature files</h1>
-        <p>In this chapter, let us see different patterns of creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.
+        <h1>Different Patterns for Creating Feature Files</h1>
+        <p>Feature files are specifications. A feature can be represented in different ways/patterns. Here, let us see different patterns for creating feature files, their pros and cons. You may learn all the patterns and use them accordingly.
 </p>
         <hr>
-        <p>When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files <strong>sounded easy</strong>, but when I sat down to write feature files and step definitions it was difficult. Didn’t mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber. One of the reason why I felt difficult was,</p>
+        <p>When I read books like Cucumber For Java, Cucumber Cookbook, writing feature files <strong>sounded easy</strong>, but when I sat down to write feature files and step definitions it was difficult. Didn’t mean to say the books are not good, they are the best books for one to get started with BDD and Cucumber.</p>
+
+<p>One of the reason why I felt difficult was,</p>
 
 <blockquote>
-  <p>Creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development ended up having feature files that was hard to understand by product owner.</p>
+  <p>Creating feature files that are easy to read ended up having lots of step definition code and creating feature files to simplify development (less step definitions) ended up having feature files that was hard to understand by product owner.</p>
 </blockquote>
 
 <p><strong>Writing feature file is an art</strong>, it requires a lot of trial and error until the Software Engineer, Quality Analyst and Product Owner are all in same line of understanding.</p>
@@ -79,7 +81,7 @@
 
 <h3 id="sample-use-case">Sample Use Case</h3>
 
-<p>Imagine we are building a Calculator product and it has <strong>Addition</strong> feature. Now, let us take one scenario <strong>“Sum of numbers”</strong> and see different ways of writing a feature file for it. Assuming you have already read about Cucumber, Feature file etc., let me jump and show some <strong>patterns</strong> of feature file and corresponding step definitions code.</p>
+<p>Imagine we are building a Calculator product and it has <strong>Addition</strong> feature. Now, let us take one scenario <strong>“Sum of numbers”</strong> and see different ways of writing a feature file for it. Assuming you are already familiar about Cucumber, Feature file etc., let me jump and see some <strong>patterns</strong> for creating feature file and corresponding step definitions code.</p>
 
 <hr />
 
@@ -90,6 +92,7 @@
 <p><strong>Feature File</strong></p>
 
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Addition
+
   <span class="kn">Scenario</span><span class="p">:</span> Sum of two numbers
     <span class="nf">Given </span>first number is 10 and second number is 20
     <span class="nf">When </span>user executes sum function
@@ -136,6 +139,7 @@
 <p><strong>Feature File</strong></p>
 
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Addition
+
   <span class="kn">Scenario</span><span class="p">:</span> Sum of two numbers
     <span class="nf">Given </span>first number is 10
     <span class="nf">And </span>second number is 20
@@ -172,7 +176,7 @@
 
 <p><strong>Can this be improved?</strong> Yes.</p>
 
-<p>There are 2 methods (<code class="language-plaintext highlighter-rouge">firstNumberIs</code>, <code class="language-plaintext highlighter-rouge">secondNumberIs</code>) in the above step definition class file, one for each step in scenario. As stated above in the beginning of the chapter, we can replace 2 methods into 1 method (<code class="language-plaintext highlighter-rouge">firstOrSecondNumberIs</code>) by using Cucumber Expressions. Let’s see how its done in below code</p>
+<p>There are 2 methods (<code class="language-plaintext highlighter-rouge">firstNumberIs</code>, <code class="language-plaintext highlighter-rouge">secondNumberIs</code>) in the above step definition class file, one for each step in scenario. As stated in the beginning of the chapter, we can replace 2 methods into 1 method as (<code class="language-plaintext highlighter-rouge">firstOrSecondNumberIs</code>) by using Cucumber Expressions. Let’s see how its done in below code,</p>
 
 <p><strong>Corresponding Step Definitions Class - Type 2</strong></p>
 
@@ -219,17 +223,19 @@ And second number is 20
 
 <hr />
 
-<h3 id="pattern-3-list-datatable">Pattern 3: List DataTable</h3>
+<h3 id="pattern-3-one-step-get-all-inputs-as-list-datatable">Pattern 3: One Step Get all Inputs as List (DataTable)</h3>
 
 <p>In the below stated Feature file, inputs or list of numbers to calculate the <strong>sum</strong> are represented in a Grid separated using pipe symbol, this grid is called as DataTable in Cucumber.</p>
 
 <p><strong>Feature File</strong></p>
 
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Addition
+
   <span class="kn">Scenario</span><span class="p">:</span> Sum of two numbers
     <span class="nf">Given </span>user wants to sum the following numbers
       <span class="p">|</span> <span class="nv">10</span> <span class="p">|</span>
       <span class="p">|</span> <span class="n">20</span> <span class="p">|</span>
+
     <span class="nf">When </span>user executes sum function
     <span class="nf">Then </span>the sum is 30
 </code></pre></div></div>
@@ -256,7 +262,7 @@ And second number is 20
   <span class="c1">// ...</span>
 </code></pre></div></div>
 
-<p>Following step definition method converts the data into a DataTable object and from that we use <code class="language-plaintext highlighter-rouge">dataTable.asList(Integer.class)</code> to convert that to a List<Integer>.</Integer></p>
+<p>Following step definition method converts the data under the Given step into a DataTable object and from that we use <code class="language-plaintext highlighter-rouge">dataTable.asList(Integer.class)</code> to convert that to a List<Integer>.</Integer></p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">userWantsToSumTheFollowingNumbers</span><span class="o">(</span><span class="nc">DataTable</span> <span class="n">dataTable</span><span class="o">)</span>
 </code></pre></div></div>
@@ -439,13 +445,15 @@ And second number is 20
 
 <h3 id="conclusion">Conclusion</h3>
 
-<p>Now that you learnt creating Feature file and corresponding step definition, there is one important concept to understand. Here it is,</p>
+<p>Now that you learnt various patterns for creating Feature file and corresponding step definition, there is one important concept to understand. Here it is,</p>
 
 <blockquote>
   <p>Feature files are executable specifications</p>
 </blockquote>
 
-<p>There are 2 pieces to the puzzle, one is <strong>specification</strong> and other is <strong>making it executable</strong>. As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.</p>
+<p>There are 2 important things in the above said point, one is <strong>specification</strong> and other is <strong>making it executable</strong>. In this context, feature files are specifications of the product and step definitions are the executable ones.</p>
+
+<p>As stated earlier, if execution (step definition code) is simplified, readability of feature file becomes hard and if readability of feature file is simplified, step definition code for execution becomes hard to maintain. The solution to art of creating and maintaining feature files is by finding a balance between readability and step definition code maintenance. This can be achieved by making developer and product owner work together to create feature files.</p>
 
 <p><strong>In the next chapter,</strong> we will see how we can represent a Java Object as DataTable and convert a DataTable into a Java Object in step definitions.</p>
 
@@ -453,11 +461,9 @@ And second number is 20
 
 <h3 id="references">References</h3>
 
-<p>For more information on Cucumber Expressions you may refer<br />
-<a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">https://cucumber.io/docs/cucumber/cucumber-expressions/</a></p>
+<p><a href="https://cucumber.io/docs/cucumber/cucumber-expressions/" target="_blank">Cucumber Expressions</a></p>
 
-<p>For more information on DataTable, you may refer<br />
-<a href="https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable" target="_blank">https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable</a></p>
+<p><a href="https://cucumber.io/docs/cucumber/api/?sbsearch=DataTable" target="_blank">Cucumber DataTable</a></p>
 
 <hr />
 

@@ -23,21 +23,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
     <link type="application/atom+xml" rel="alternate" href="https://www.madrascoder.com/feed.xml" title="Madras Coder" />
     <!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Getting Started with Cucumber, Java and Spring Boot | Madras Coder</title>
+<title>Setup and Run Java Spring Boot Project with Cucumber | Madras Coder</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Getting Started with Cucumber, Java and Spring Boot" />
+<meta property="og:title" content="Setup and Run Java Spring Boot Project with Cucumber" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="In this chapter, let us setup a Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go." />
-<meta property="og:description" content="In this chapter, let us setup a Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go." />
+<meta name="description" content="In this chapter, let us setup a Java, Spring Boot project with Cucumber, create a simple feature file, implement the step definitions for the Given, When, Then steps in that feature file and run it. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go." />
+<meta property="og:description" content="In this chapter, let us setup a Java, Spring Boot project with Cucumber, create a simple feature file, implement the step definitions for the Given, When, Then steps in that feature file and run it. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go." />
 <link rel="canonical" href="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/01-getting-started.html" />
 <meta property="og:url" content="https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/01-getting-started.html" />
 <meta property="og:site_name" content="Madras Coder" />
 <meta property="og:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg" />
-<meta property="twitter:title" content="Getting Started with Cucumber, Java and Spring Boot" />
+<meta property="twitter:title" content="Setup and Run Java Spring Boot Project with Cucumber" />
 <script type="application/ld+json">
-{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/01-getting-started.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg","headline":"Getting Started with Cucumber, Java and Spring Boot","description":"In this chapter, let us setup a Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.madrascoder.com/tutorials/001-pragmatic-cucumber/01-getting-started.html","image":"https://www.madrascoder.com/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg","headline":"Setup and Run Java Spring Boot Project with Cucumber","description":"In this chapter, let us setup a Java, Spring Boot project with Cucumber, create a simple feature file, implement the step definitions for the Given, When, Then steps in that feature file and run it. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -59,10 +59,10 @@
     </ul>
 </nav>
     <main class="tutorial-content">
-        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg" title="Getting Started with Cucumber, Java and Spring Boot" />
+        <img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/braden-collum-9HI8UJMSdZA-unsplash.jpg" title="Setup and Run Java Spring Boot Project with Cucumber" />
         <p></p>
-        <h1>Getting Started with Cucumber, Java and Spring Boot</h1>
-        <p>In this chapter, let us setup a Spring Boot + Cucumber project and run a simple feature file. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.
+        <h1>Setup and Run Java Spring Boot Project with Cucumber</h1>
+        <p>In this chapter, let us setup a Java, Spring Boot project with Cucumber, create a simple feature file, implement the step definitions for the Given, When, Then steps in that feature file and run it. Just follow along the chapter and try doing all the steps. This will give some familiarity to Cucumber and Behavior Driven Development (BDD). We will learn the concepts as we go.
 </p>
         <hr>
         <h3 id="1-prerequisites">1. Prerequisites</h3>
@@ -81,23 +81,23 @@
 <p>There are 2 ways you can create a Spring Boot project.</p>
 
 <ol>
-  <li>Using Spring Initializer website <a href="https://start.spring.io/" target="_blank">https://start.spring.io/</a></li>
+  <li>Using Spring Initializer website <a href="https://start.spring.io/" target="_blank">Spring Initializer</a></li>
   <li>Use Spring Initializer in your IDE</li>
 </ol>
 
-<p>In this chapter, we will use the option 1 (Using Spring Initializer website). Click open Spring Initializer website link and choose Maven Project, Java Language, Spring Boot version, Java version and all dependencies for this chapter and other chapters in this book as per below image.</p>
+<p>In this chapter, let us use the option 1 (Using Spring Initializer website). Click the <a href="https://start.spring.io/" target="_blank">Spring initializer</a> link to open Spring Initializer website and choose Maven Project, Java Language, Spring Boot version, Java version and all dependencies stated in the below image.</p>
 
 <p><img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/spring-initializer.png" alt="Spring Initializer" /></p>
 
 <p>After choosing Java version, Spring Boot version and above said dependencies, click on <code class="language-plaintext highlighter-rouge">Generate</code> button.</p>
 
-<p>Spring Initializer will trigger a zip file download, you may unzip it and import the project into you favorite IDE.</p>
+<p>Spring Initializer will trigger a zip file download, you may unzip it and import/open the project into you favorite IDE.</p>
 
 <hr />
 
 <h3 id="3-add-maven-dependencies">3. Add Maven Dependencies</h3>
 
-<p>Add the following Cucumber dependencies to pom.xml file</p>
+<p>Add the following Cucumber dependencies to pom.xml file.</p>
 
 <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!--
 Java implementation of Cucumber BDD framework
@@ -112,7 +112,7 @@ https://github.com/cucumber/cucumber-jvm
 
 <span class="c">&lt;!--
 Library to use JUnit Platform to execute Cucumber Scenarios
-This also helps IDE's to discover Cucumber tests and run
+This also helps IDE to discover and run Cucumber tests
 https://github.com/cucumber/cucumber-jvm/tree/main/junit-platform-engine
 --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
@@ -149,7 +149,7 @@ state between cucumber step execution
 
 <h3 id="4-setup-cucumber-spring-context-configuration">4. Setup Cucumber Spring Context Configuration</h3>
 
-<p>Create a class to declare spring context configuration</p>
+<p>Navigate to following location and create a class to declare the Cucumber Spring Context Configuration annotation.</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample/
 <span class="nb">touch </span>CucumberSpringContextConfiguration.java
@@ -166,6 +166,8 @@ state between cucumber step execution
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CucumberSpringContextConfiguration</span> <span class="o">{}</span>
 
 </code></pre></div></div>
+
+<p>This configures the application context that Cucumber should use. In this case, it is implicit, test will use Spring Boot application main class automatically.</p>
 
 <hr />
 
@@ -188,7 +190,7 @@ state between cucumber step execution
 
 </code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">RunCucumberTest</code> class helps trigger Cucumber test. Also, it helps IDE to automatically recognize this class as a Test Class. You may right click to run all Cucumber tests using this class.</p>
+<p><code class="language-plaintext highlighter-rouge">RunCucumberTest</code> class helps IDE to discover and run Cucumber feature files and step definitions in the respective package. You may right click to run all Cucumber tests using this class.</p>
 
 <p>This is automatically run by maven as well.</p>
 
@@ -196,7 +198,7 @@ state between cucumber step execution
 
 <h3 id="6-configure-cucumber-plugin-using-junit-properties">6. Configure Cucumber Plugin Using JUnit Properties</h3>
 
-<p>Navigate to following location and create a new class,</p>
+<p>Navigate to following location and create a new properties file,</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources
 <span class="nb">touch </span>junit-platform.properties
@@ -214,21 +216,23 @@ state between cucumber step execution
 </span><span class="py">cucumber.plugin</span><span class="p">=</span><span class="s">pretty,html:target/classes/static/features/index.html</span>
 </code></pre></div></div>
 
-<p>For other available Cucumber properties, you may refer to <a href="https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options" target="_blank">https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options</a></p>
+<p>For other available Cucumber properties, you may refer to <a href="https://cucumber.io/docs/cucumber/api/?sbsearch=Properties#options" target="_blank">Cucumber Properties</a></p>
 
 <hr />
 
-<h3 id="7-lets-create-our-first-feature-file">7. Let’s create our first feature file</h3>
+<h3 id="7-lets-create-our-first-feature-file">7. Let’s Create our First Feature File</h3>
 
-<p>Navigate to following location to create our first feature file,</p>
+<p><em>In this chapter and the next one, we will use a feature file that is not something we do in a day to day work. This is just to make you understand the concepts. In later chapters we will create feature files for ‘HR Software’. These will be more realistic and similar to what we do in our daily work. So please hold on.</em></p>
+
+<p>Navigate to following location and Create a file named <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code>,</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources/com/madrascoder/cucumberbooksample
 <span class="nb">touch </span>1000-sum-of-numbers.feature
 </code></pre></div></div>
 
-<p><strong>Note:</strong> Remember, you have to create <strong>multiple directories</strong> and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is <code class="language-plaintext highlighter-rouge">src/test/resources</code> directory and <strong>not</strong> <code class="language-plaintext highlighter-rouge">src/test/java</code>.</p>
+<p><strong>Important Note:</strong> Remember, you have to create <strong>multiple directories</strong> and not one directory as com.madrascoder.cucumberbooksample like what you do for package. This is <code class="language-plaintext highlighter-rouge">src/test/resources</code> directory and <strong>not</strong> <code class="language-plaintext highlighter-rouge">src/test/java</code> so don’t create directories like how you create package in Java.</p>
 
-<p>Create a file named <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code> with the following feature.</p>
+<p>Add the following Gherkin or feature to it,</p>
 
 <div class="language-cucumber highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Feature</span><span class="p">:</span> Addition
   <span class="kn">Scenario</span><span class="p">:</span> Sum of two numbers
@@ -244,21 +248,23 @@ state between cucumber step execution
 
 <p><strong>Feature:</strong> Every feature file contains a feature of the software product. A feature may contain one or more Scenarios.</p>
 
-<p><strong>Scenario:</strong> It is nothing but a representation of test case or behavior of the software using Given, When, Then Gherkin words.</p>
+<p><strong>Scenario:</strong> It is nothing but a representation of test case or behavior of the software using <code class="language-plaintext highlighter-rouge">Given</code>, <code class="language-plaintext highlighter-rouge">When</code>, <code class="language-plaintext highlighter-rouge">Then</code> Gherkin words. You may also use <code class="language-plaintext highlighter-rouge">And</code> and <code class="language-plaintext highlighter-rouge">But</code> as Gherkin words. Imagine these as reserved words of the feature file.</p>
 
-<p><strong>Given, When, And, Then:</strong> These are the steps in the test case or scenario. Each Given/When/And/Then step will have a corresponding Java method in a class called <code class="language-plaintext highlighter-rouge">*StepDefinitions.java</code>. Name of the class can be anything but the methods should be annotated with <code class="language-plaintext highlighter-rouge">@Given</code> or <code class="language-plaintext highlighter-rouge">@And</code> or <code class="language-plaintext highlighter-rouge">@When</code> or <code class="language-plaintext highlighter-rouge">@Then</code>. When a feature file or scenario is run, Cucumber finds the matching step definition method for each step and executes the same. StepDefinition methods are annotated with <code class="language-plaintext highlighter-rouge">@Given/@When/@Then</code> annotations. In a nutshell, if the pattern of the step matches with the value of the <code class="language-plaintext highlighter-rouge">@Given/@When/@Then</code> annotation, corresponding method is executed. Hence, there can be only one matching method per step in feature file.</p>
+<p><strong>Given, When, And, Then:</strong> These are the steps in the test case or scenario. Each Given/When/And/But/Then step in feature file will have a corresponding Java method in a class called <code class="language-plaintext highlighter-rouge">*StepDefinitions.java</code>. Name of the class can be anything but the methods should be annotated with <code class="language-plaintext highlighter-rouge">@Given</code> or <code class="language-plaintext highlighter-rouge">@And</code> or <code class="language-plaintext highlighter-rouge">@When</code> or <code class="language-plaintext highlighter-rouge">@Then</code>. StepDefinition methods are annotated with <code class="language-plaintext highlighter-rouge">@Given/@When/@Then</code> annotations. When a feature file or scenario is run, Cucumber finds the matching step definition method for each step and executes the same.</p>
+
+<p>In a nutshell, if the pattern of the step matches with the value of the <code class="language-plaintext highlighter-rouge">@Given/@When/@Then</code> annotation, corresponding method is executed. Hence, there can be only one matching method per step in feature file.</p>
 
 <blockquote>
-  <p>By now, your mind may be thinking that creating one method per step may need a lot of code and it sounds crazy. But, don’t worry there are smart ways to create one step definition method and reuse it for multiple steps using something called Cucumber Expressions. We will learn all those in the coming chapters.</p>
+  <p>By now, your mind may be thinking that creating one method per step may need a lot of code and it sounds crazy. But, don’t worry there are smart ways to create one step definition method and reuse it for multiple steps using Cucumber Expressions. We will learn how to use Cucumber Expressions in the coming chapters.</p>
 </blockquote>
 
 <hr />
 
 <h3 id="8-create-step-definitions">8. Create Step Definitions</h3>
 
-<p>Let’s create the step definitions file for 1000-sum-of-numbers.feature</p>
+<p>Let’s create the step definitions file for <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code></p>
 
-<p>Navigate to following location,</p>
+<p>Navigate to following location and create class for adding step definition methods,</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/java/com/madrascoder/cucumberbooksample/stepdefinitions
 <span class="nb">touch </span>AdditionStepDefinitions.java
@@ -303,9 +309,7 @@ state between cucumber step execution
 
 <p>Annotations <code class="language-plaintext highlighter-rouge">@Given</code>, <code class="language-plaintext highlighter-rouge">@And</code>, <code class="language-plaintext highlighter-rouge">@When</code>, <code class="language-plaintext highlighter-rouge">@Then</code> are synonymous, they can be used interchangeably. Important part is the value of these annotation. These values corresponds to the steps in feature file. You may have noticed <code class="language-plaintext highlighter-rouge">{int}</code> in annotation values. We will learn more about expressions <code class="language-plaintext highlighter-rouge">{int}</code>, <code class="language-plaintext highlighter-rouge">{string}</code> etc., in future chapters. For now, imagine the text at location of <code class="language-plaintext highlighter-rouge">{int}</code> in feature file will be automatically converted to <code class="language-plaintext highlighter-rouge">int</code> and supplied as argument to the corresponding method.</p>
 
-<h3 id="conclusion">Conclusion</h3>
-
-<p>In this chapter, we create a Spring Boot application, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.</p>
+<p>Compare the steps that starts with Given, When, Then in feature file with the methods in the step definitions class file. This is how the feature file and Java code is connected.</p>
 
 <hr />
 
@@ -354,10 +358,12 @@ state between cucumber step execution
 
 <p>There are multiple ways to trigger/run Cucumber tests, here is the list</p>
 
-<p>You may do <code class="language-plaintext highlighter-rouge">mvn verify</code> from your terminal</p>
+<p>You may do <code class="language-plaintext highlighter-rouge">mvn verify</code> from your terminal or command prompt as stated below.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  cucumber-book-sample mvn clean verify
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>cucumber-book-sample 
+mvn clean verify
 ...
+
 2021-04-12 20:46:51.552  INFO 55910 <span class="nt">---</span> <span class="o">[</span>           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port<span class="o">(</span>s<span class="o">)</span>: 59841 <span class="o">(</span>http<span class="o">)</span> with context path <span class="s1">''</span>
 2021-04-12 20:46:51.560  INFO 55910 <span class="nt">---</span> <span class="o">[</span>           main] c.m.c.CucumberSpringContextConfiguration : Started CucumberSpringContextConfiguration <span class="k">in </span>3.771 seconds <span class="o">(</span>JVM running <span class="k">for </span>5.486<span class="o">)</span>
 
@@ -372,23 +378,29 @@ Scenario: Sum of two numbers      <span class="c"># com/madrascoder/cucumberbook
 
 <p><strong>[OR]</strong></p>
 
-<p>You may right click on <code class="language-plaintext highlighter-rouge">RunCucumberTest.java</code> and choose Run/Debug in intellij</p>
+<p>You may right click on <code class="language-plaintext highlighter-rouge">RunCucumberTest.java</code> and choose Run/Debug in IntelliJ</p>
 
 <p><img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/run-cucumber-test.png" alt="RunCucumberTest.java" /></p>
 
 <p><strong>[OR]</strong></p>
 
-<p>You may right click on <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code> under resources and choose Run in intellij</p>
+<p>You may right click on <code class="language-plaintext highlighter-rouge">1000-sum-of-numbers.feature</code> under resources and choose Run in IntelliJ</p>
 
 <p><img src="/assets/media/tutorials/001-pragmatic-cucumber/chapter1/run-feature-file.png" alt="RunCucumberTest.java" /></p>
 
 <hr />
 
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this chapter, we created a Java, Spring Boot project, added Cucumber dependencies, created necessary configuration to bootstrap Spring Boot Test context configuration, created a class to run Cucumber tests, created feature file, create step definitions and finally run the test using various ways. In the next chapter, we will learn different ways of creating feature files and corresponding step definitions.</p>
+
+<hr />
+
 <h3 id="references">References</h3>
 
-<p>To read more about Gherkin, you may refer <a href="https://cucumber.io/docs/gherkin/reference/" target="_blank">https://cucumber.io/docs/gherkin/reference/</a></p>
+<p><a href="https://cucumber.io/docs/gherkin/reference/" target="_blank">Gherkin</a></p>
 
-<p>Using Cucumber Plugin in intellij IDE, you may refer <a href="https://www.jetbrains.com/help/idea/cucumber-support.html" target="_blank">https://www.jetbrains.com/help/idea/cucumber-support.html</a></p>
+<p><a href="https://www.jetbrains.com/help/idea/cucumber-support.html" target="_blank">IntelliJ Cucumber Plugin</a></p>
 
 <hr />
 

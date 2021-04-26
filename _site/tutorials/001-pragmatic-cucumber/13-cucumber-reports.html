@@ -67,9 +67,13 @@
         <hr>
         <h3 id="1-html-report">1. HTML Report</h3>
 
-<p>HTML Report is my favorite report of all the available as its the one report that shows the DataTable. We can generate HTML report, package it along with the application jar and expose as URL. This report not only serve as a executable specification but also a living documentation to share the behavior of the system.</p>
+<p>HTML Report is my favorite report of all the available as its the one report that shows the DataTable. We can generate HTML report, package it along with the application jar and expose as URL. This report not only serve as a executable specification but also a living documentation of the product as anyone can access the report to understand the behavior of the system.</p>
 
-<p><strong>Path:</strong> src/test/resources/junit-platform.properties</p>
+<p>Navigate to following location and create properties,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>src/test/resources
+<span class="nb">touch </span>junit-platform.properties
+</code></pre></div></div>
 
 <p>To enable HTML report, add <code class="language-plaintext highlighter-rouge">html:target/classes/static/features/index.html</code> to Cucumber plugin property as stated below.</p>
 
